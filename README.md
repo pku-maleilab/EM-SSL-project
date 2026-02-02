@@ -93,7 +93,12 @@ EM-SSL supports a wide range of EM analysis scenarios, including:
 
 ## Citation
 
-*Under review.*
+**Under review**
+
+```
+Unifying the Electron Microscopy Multiverse through a Large-scale Foundation Model. 
+Liuyuan He, Ruohua Shi, Wenyao Wang, Guanchen Fang, Yu Cai, Lei Ma*.
+```
 
 ---
 
