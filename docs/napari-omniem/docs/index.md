@@ -10,8 +10,8 @@ Napari-OmniEM supports both [in-memory](user-guide/in-memory.md) and [on-disk (m
 
 
 <div class="text-center">
-<a href="getting-started/" class="btn btn-primary" role="button">Getting Started</a>
-<a href="user-guide/" class="btn btn-primary" role="button">User Guide</a>
+<a href="user-guide/installation" class="btn btn-primary" role="button">Installation</a>
+<a href="user-guide/getting-started" class="btn btn-primary" role="button">Getting Started</a>
 <a href="model-zoo/" class="btn btn-primary" role="button">Model Zoo</a>
 </div>
 
