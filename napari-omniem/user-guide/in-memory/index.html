@@ -167,12 +167,234 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#in-memory-inference" class="nav-link">In-memory inference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#quick-start-minimal-steps" class="nav-link">Quick Start (Minimal Steps)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-1-select-data" class="nav-link">Step 1: Select data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-2-select-task-and-solution" class="nav-link">Step 2: Select task and solution</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-3-advanced-settings-for-sliding-window-inference" class="nav-link">Step 3 advanced settings for sliding window inference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-4-run-inference" class="nav-link">Step 4: Run inference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tips-common-pitfalls" class="nav-link">Tips &amp; Common Pitfalls</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related Pages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-</div>
+<h1 id="in-memory-inference">In-memory inference</h1>
+<p>In-memory inference is performed directly within the main <strong>Napari-OmniEM</strong> panel and operates on image data loaded as napari image layers. All computation is executed in memory, making this mode ideal for <strong>interactive exploration, debugging, and small-to-medium EM datasets</strong> that fit into GPU/CPU memory.</p>
+<h2 id="quick-start-minimal-steps">Quick Start (Minimal Steps)</h2>
+<ol>
+<li>
+<p>Open napari and load an EM image or volume.</p>
+</li>
+<li>
+<p>Open <strong>Plugins → OmniEM</strong>.</p>
+</li>
+<li>
+<p>Click <strong>🔄 Refresh / Register</strong> to detect loaded data.</p>
+</li>
+<li>
+<p>Select <strong>Data</strong>, <strong>Task</strong>, and <strong>Solution</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Run</strong> → confirm → view results in napari.</p>
+</li>
+</ol>
+<p>For more control and advanced settings, see the detailed steps below.</p>
+<h2 id="step-1-select-data">Step 1: Select data</h2>
+<ul>
+<li>
+<p>Load image data into napari via <em>File → Open File(s)</em>.</p>
+<ul>
+<li>The data will appear as one or more <strong>image layers</strong>.</li>
+</ul>
+</li>
+<li>
+<p>Click the 🔄 <strong>Refresh / Register</strong> button in the <em>Napari-OmniEM</em> panel to register the currently loaded image layers.</p>
+</li>
+<li>
+<p>Select the target image from the <strong>Data</strong> dropdown list.</p>
+</li>
+<li>
+<p>If the selected data is a <strong>3D volume</strong>, specify the <strong>z-dimension</strong>:</p>
+<ul>
+<li>
+<p>By default, the axis with the <strong>minimum side length</strong> is automatically chosen.</p>
+</li>
+<li>
+<p>You can override this if your data uses a different axis convention.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="step-2-select-task-and-solution">Step 2: Select task and solution</h2>
+<ul>
+<li>
+<p>Choose a <strong>Task</strong> corresponding to the intended processing goal (e.g., segmentation, restoration).</p>
+</li>
+<li>
+<p>Select a compatible <strong>Solution</strong> from the <strong>Solution</strong> list.</p>
+<ul>
+<li>
+<p>Only solutions that are compatible with the selected data (dimensionality, modality, and task) will be shown.</p>
+</li>
+<li>
+<p>For detailed descriptions of available tasks and solutions, refer to the <a href="../../model-zoo/">Model Zoo</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Terminology note
+- <strong>Task</strong>: defines <em>what</em> problem is being solved.
+- <strong>Solution</strong>: a concrete model + configuration that solves a task.</p>
+</blockquote>
+<p>This terminology is consistent across <strong>in-memory</strong> and <strong>local inference</strong> modes.</p>
+<h2 id="step-3-advanced-settings-for-sliding-window-inference">Step 3 advanced settings for sliding window inference</h2>
+<ul>
+<li>
+<p>In-memory inference uses the same sliding window mechanism as local inference.</p>
+</li>
+<li>
+<p>Adjust sliding window hyperparameters (e.g., input size, overlap, batch size) as needed.</p>
+</li>
+<li>For detailed explanations and recommended values, see:<ul>
+<li><a href="../sw/">Sliding Window Parameters</a></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>If you are unsure, the default parameters are generally safe for first-time use.</p>
+</blockquote>
+<h2 id="step-4-run-inference">Step 4: Run inference</h2>
+<ul>
+<li>
+<p>Click the <strong>Run</strong> button to open the inference dialog.</p>
+</li>
+<li>
+<p>Review:</p>
+<ul>
+<li>
+<p>Estimated number of batches</p>
+</li>
+<li>
+<p>Region-of-interest (ROI) size</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Click <strong>Run</strong> in the dialog to start inference.</p>
+</li>
+<li>
+<p>Once inference finishes, close the dialog to view results directly in napari as new layers.</p>
+</li>
+</ul>
+<h2 id="tips-common-pitfalls">Tips &amp; Common Pitfalls</h2>
+<h3 id="memory-usage">Memory usage</h3>
+<ul>
+<li>
+<p>In-memory inference loads data and intermediate results into memory.</p>
+</li>
+<li>
+<p>For large 3D volumes, GPU memory can be exhausted quickly.</p>
+</li>
+<li>
+<p>If you encounter out-of-memory errors:</p>
+<ul>
+<li>
+<p>Reduce batch size (even 1 is acceptable)</p>
+</li>
+<li>
+<p>Reduce input window size</p>
+</li>
+<li>
+<p>Consider using <strong>Local Inference</strong> instead</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="batch-size">Batch size</h3>
+<ul>
+<li>
+<p>Batch size primarily affects memory usage, not output quality.</p>
+</li>
+<li>
+<p>Small batch sizes are recommended for large EM data.</p>
+</li>
+</ul>
+<h3 id="refreshregister-button">Refresh/Register button</h3>
+<ul>
+<li>
+<p>Always click 🔄 Refresh / Register after:</p>
+<ul>
+<li>
+<p>Loading new data</p>
+</li>
+<li>
+<p>Removing image layers</p>
+</li>
+<li>
+<p>Renaming layers</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Failure to do so may result in missing or outdated data selections.</p>
+</li>
+</ul>
+<h3 id="when-to-use-local-inference-instead">When to use Local Inference instead</h3>
+<p>Use <a href="../local/">Local Inference</a> if:</p>
+<ul>
+<li>
+<p>The dataset is too large to fit into memory</p>
+</li>
+<li>
+<p>You want multi-GPU parallel inference</p>
+</li>
+<li>
+<p>You want to save results directly to disk (e.g., TIFF, Zarr, Dask)</p>
+</li>
+</ul>
+<h2 id="related-pages">Related Pages</h2>
+<ul>
+<li>
+<p><a href="../local/">Local Inference</a></p>
+</li>
+<li>
+<p><a href="../sw/">Sliding Window Parameters</a></p>
+</li>
+<li>
+<p><a href="../manage/">Task and Solution Manage</a></p>
+</li>
+<li>
+<p><a href="../../model-zoo/">Model Zoo</a></p>
+</li>
+</ul></div>
             </div>
         </div>
 
