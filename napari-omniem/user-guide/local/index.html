@@ -167,12 +167,149 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#local-inference" class="nav-link">Local Inference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#quick-start-minimal-steps" class="nav-link">Quick Start (Minimal Steps)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-0-open-local-inference-panel" class="nav-link">Step 0: Open Local Inference Panel</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-1-select-data" class="nav-link">Step 1: Select Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-2-select-task-and-solution" class="nav-link">Step 2: Select Task and Solution</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-3-advanced-settings-sliding-window-devices" class="nav-link">Step 3: Advanced Settings (Sliding Window &amp; Devices)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-4-run-inference" class="nav-link">Step 4: Run Inference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#step-5-save-output" class="nav-link">Step 5: Save Output</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tips-common-pitfalls" class="nav-link">Tips &amp; Common Pitfalls</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related Pages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="local-inference">Local Inference</h1>
+<p>Local (on-disk) inference is activated by clicking the 📁 button in the main <strong>Napari-OmniEM</strong> panel. In this mode, data are loaded from local files using <code>dask.array</code>, and intermediate results are currently stored as temporary <strong>HDF5</strong> files (this is the current implementation; more efficient backends are planned).</p>
+<p>Compared with in-memory inference, local inference:
+- Enables <strong>multi-GPU parallel inference</strong> when multiple GPUs are available
+- Requires approximately <strong>5–10× the original data size</strong> to store temporary files
+- Supports saving outputs in <strong>multiple formats</strong>, with optional visualization in napari
+- Does <strong>not</strong> currently support the restoration→segmentation pipeline in a single run<br />
+  (restored images must be saved and reloaded for subsequent segmentation)</p>
+<hr />
+<h2 id="quick-start-minimal-steps">Quick Start (Minimal Steps)</h2>
+<ol>
+<li>Open napari and launch <strong>Plugins → OmniEM</strong>.</li>
+<li>Click 📁 to open the <strong>Local Inference</strong> panel.</li>
+<li>Select input <strong>Data</strong>, <strong>Task</strong>, and <strong>Solution</strong>.</li>
+<li>Click <strong>Run</strong>, confirm the settings, and start inference.</li>
+<li>View results in napari or save them to disk.</li>
+</ol>
+<p>For advanced configuration, see the detailed steps below.</p>
+<hr />
+<h2 id="step-0-open-local-inference-panel">Step 0: Open Local Inference Panel</h2>
+<ul>
+<li>Click the 📁 icon in the main <strong>Napari-OmniEM</strong> panel.</li>
+<li>This option is enabled only when a compatible GPU is available.</li>
+</ul>
+<hr />
+<h2 id="step-1-select-data">Step 1: Select Data</h2>
+<ul>
+<li>Click <strong>Browse File</strong> to select a local image or volume.</li>
+<li>Supported formats are those compatible with <code>dask.array</code>.</li>
+<li>Only <strong>grayscale images</strong> (no color channels) are accepted.</li>
+<li>If the data are 3D, specify the <strong>z-dimension</strong>:<ul>
+<li>By default, the axis with the <strong>minimum side length</strong> is selected.</li>
+<li>Override this if your data use a different axis convention.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="step-2-select-task-and-solution">Step 2: Select Task and Solution</h2>
+<ul>
+<li>Task and solution selection is the same as in <strong>in-memory inference</strong>.</li>
+<li>Only solutions compatible with the selected data will be shown.</li>
+</ul>
+<hr />
+<h2 id="step-3-advanced-settings-sliding-window-devices">Step 3: Advanced Settings (Sliding Window &amp; Devices)</h2>
+<p>In addition to standard sliding window parameters, local inference provides two extra options:</p>
+<ul>
+<li>
+<p><strong>Device selection</strong></p>
+<ul>
+<li>GPU-only inference</li>
+<li>Multiple GPUs can be selected</li>
+<li>At least one GPU must be chosen</li>
+</ul>
+</li>
+<li>
+<p><strong>Temporary folder</strong></p>
+</li>
+<li>Specify the directory used to store temporary on-disk files during inference</li>
+</ul>
+<p>For details on sliding window parameters, see the <a href="../sw/">Sliding Window Parameters</a> page.</p>
+<hr />
+<h2 id="step-4-run-inference">Step 4: Run Inference</h2>
+<p>Before starting inference, the dialog displays:
+- <strong>Estimated number of batches</strong>
+- <strong>Region of interest (ROI) size</strong></p>
+<p>Steps:
+- Click <strong>Run</strong> to start inference.
+- When inference finishes, <strong>Run</strong> changes to <strong>Redo</strong>, allowing you to rerun with modified settings.</p>
+<hr />
+<h2 id="step-5-save-output">Step 5: Save Output</h2>
+<p>Supported output options include:
+1. <strong>Open in napari</strong><br />
+   - Both input data and results can be loaded<br />
+   - Use with caution for very large datasets
+2. <strong>Standard file formats</strong>
+   - TIFF
+   - PNG (2D results only)
+   - NumPy (<code>.npy</code>)
+3. <strong>Chunked storage formats</strong>
+   - Zarr
+   - NumPyStack</p>
+<hr />
+<h2 id="tips-common-pitfalls">Tips &amp; Common Pitfalls</h2>
+<ul>
+<li>Ensure sufficient disk space for <strong>temporary files</strong> (5–10× input size).</li>
+<li>For very large volumes, prefer smaller batch sizes to reduce peak memory usage.</li>
+<li>Clean up temporary folders before inference if disk space is limited.</li>
+<li>Temporary files are be removed automatically after inference.</li>
+</ul>
+<hr />
+<h2 id="related-pages">Related Pages</h2>
+<ul>
+<li><a href="../in-memory/">In-memory Inference</a></li>
+<li><a href="../sw/">Sliding Window Parameters</a></li>
+<li><a href="../manage/">Task and Solution Management</a></li>
+<li><a href="../../model-zoo/">Model Zoo</a></li>
+</ul></div>
             </div>
         </div>
 
