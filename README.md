@@ -67,7 +67,7 @@ It provides transferable, multi-scale representations suitable for a wide range 
 - Custom tasks with task-specific OmniEM models
 
 **Status**
-- [ ] Online documentation
+- [ ] [Online documentation](https://pku-maleilab.github.io/EM-SSL-project/napari-omniem/) under active development.
 - [ ] GitHub repository
 - [ ] Napari plugin page
 - [ ] Web-based inference server
