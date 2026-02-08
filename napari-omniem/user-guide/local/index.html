@@ -215,12 +215,21 @@
 
 <h1 id="local-inference">Local Inference</h1>
 <p>Local (on-disk) inference is activated by clicking the 📁 button in the main <strong>Napari-OmniEM</strong> panel. In this mode, data are loaded from local files using <code>dask.array</code>, and intermediate results are currently stored as temporary <strong>HDF5</strong> files (this is the current implementation; more efficient backends are planned).</p>
-<p>Compared with in-memory inference, local inference:
-- Enables <strong>multi-GPU parallel inference</strong> when multiple GPUs are available
-- Requires approximately <strong>5–10× the original data size</strong> to store temporary files
-- Supports saving outputs in <strong>multiple formats</strong>, with optional visualization in napari
-- Does <strong>not</strong> currently support the restoration→segmentation pipeline in a single run<br />
-  (restored images must be saved and reloaded for subsequent segmentation)</p>
+<p>Compared with in-memory inference, local inference:</p>
+<ul>
+<li>
+<p>Enables <strong>multi-GPU parallel inference</strong> when multiple GPUs are available</p>
+</li>
+<li>
+<p>Requires approximately <strong>5–10× the original data size</strong> to store temporary files</p>
+</li>
+<li>
+<p>Supports saving outputs in <strong>multiple formats</strong>, with optional visualization in napari</p>
+</li>
+<li>
+<p>Does <strong>not</strong> currently support the restoration→segmentation pipeline in a single run (restored images must be saved and reloaded for subsequent segmentation)</p>
+</li>
+</ul>
 <hr />
 <h2 id="quick-start-minimal-steps">Quick Start (Minimal Steps)</h2>
 <ol>
@@ -276,24 +285,48 @@
 <hr />
 <h2 id="step-4-run-inference">Step 4: Run Inference</h2>
 <p>Before starting inference, the dialog displays:
-- <strong>Estimated number of batches</strong>
-- <strong>Region of interest (ROI) size</strong></p>
+    - <strong>Estimated number of batches</strong></p>
+<pre><code>- **Region of interest (ROI) size**
+</code></pre>
 <p>Steps:
-- Click <strong>Run</strong> to start inference.
-- When inference finishes, <strong>Run</strong> changes to <strong>Redo</strong>, allowing you to rerun with modified settings.</p>
+    - Click <strong>Run</strong> to start inference.</p>
+<pre><code>- When inference finishes, **Run** changes to **Redo**, allowing you to rerun with modified settings.
+</code></pre>
 <hr />
 <h2 id="step-5-save-output">Step 5: Save Output</h2>
-<p>Supported output options include:
-1. <strong>Open in napari</strong><br />
-   - Both input data and results can be loaded<br />
-   - Use with caution for very large datasets
-2. <strong>Standard file formats</strong>
-   - TIFF
-   - PNG (2D results only)
-   - NumPy (<code>.npy</code>)
-3. <strong>Chunked storage formats</strong>
-   - Zarr
-   - NumPyStack</p>
+<p>Supported output options include:</p>
+<ol>
+<li>
+<p><strong>Open in napari</strong>  </p>
+</li>
+<li>
+<p>Both input data and results can be loaded  </p>
+</li>
+<li>
+<p>Use with caution for very large datasets</p>
+</li>
+<li>
+<p><strong>Standard file formats</strong></p>
+</li>
+<li>
+<p>TIFF</p>
+</li>
+<li>
+<p>PNG (2D results only)</p>
+</li>
+<li>
+<p>NumPy (<code>.npy</code>)</p>
+</li>
+<li>
+<p><strong>Chunked storage formats</strong></p>
+</li>
+<li>
+<p>Zarr</p>
+</li>
+<li>
+<p>NumPyStack</p>
+</li>
+</ol>
 <hr />
 <h2 id="tips-common-pitfalls">Tips &amp; Common Pitfalls</h2>
 <ul>
