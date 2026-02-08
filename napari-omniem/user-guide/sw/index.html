@@ -167,12 +167,97 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#sliding-window-parameters" class="nav-link">Sliding Window Parameters</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#input-xy-size" class="nav-link">Input XY Size</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#batch-size" class="nav-link">Batch Size</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#overlap" class="nav-link">Overlap</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#practical-tips" class="nav-link">Practical Tips</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#notes" class="nav-link">Notes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="sliding-window-parameters">Sliding Window Parameters</h1>
+<p>Sliding window inference is used to process large 2D images or 3D volumes that cannot be forwarded through the model in a single pass. Napari-OmniEM applies window-based tiling with overlap and seamless merging to ensure both efficiency and output quality.</p>
+<p>This page describes the key parameters that control sliding window inference and provides practical recommendations.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>During inference, the input image or volume is divided into overlapping tiles (windows). Each tile is processed independently by the model, and the results are merged to produce the final output.</p>
+<p>Sliding window inference is used in:
+- In-memory inference
+- Local (out-of-core) inference</p>
+<hr />
+<h2 id="input-xy-size">Input XY Size</h2>
+<p><strong>Description</strong><br />
+Defines the spatial size (in pixels) of each sliding window in the XY plane.</p>
+<p><strong>Effect</strong>
+- Larger windows provide more spatial context and typically yield better prediction quality.
+- Smaller windows reduce GPU memory usage but may degrade boundary consistency.</p>
+<p><strong>Recommendation</strong>
+- Use the <strong>largest size that fits in GPU memory</strong>.</p>
+<hr />
+<h2 id="batch-size">Batch Size</h2>
+<p><strong>Description</strong><br />
+Number of sliding windows processed simultaneously in a single forward pass.</p>
+<p><strong>Effect</strong>
+- Larger batch sizes increase throughput.
+- Smaller batch sizes reduce GPU memory usage.</p>
+<p><strong>Recommendation</strong>
+- Set to <strong>1</strong> when GPU memory is limited.
+- Increase gradually if memory allows.</p>
+<hr />
+<h2 id="overlap">Overlap</h2>
+<p><strong>Description</strong><br />
+Fractional overlap between adjacent sliding windows along each spatial dimension.</p>
+<p><strong>Effect</strong>
+- Higher overlap improves boundary smoothness and reduces stitching artifacts.
+- Lower overlap improves inference speed.</p>
+<p><strong>Valid Range</strong>
+- <code>0.0</code> – <code>0.5</code></p>
+<p><strong>Recommendation</strong>
+- <code>0.1</code> is recommended for most inference tasks.
+- Increase to <code>0.25</code> for boundary-sensitive tasks (e.g., segmentation).</p>
+<hr />
+<h2 id="practical-tips">Practical Tips</h2>
+<ul>
+<li>Prefer <strong>larger XY sizes</strong> over larger batch sizes for better prediction quality.</li>
+<li>Keep <strong>overlap ≥ 0.1</strong> to avoid visible stitching artifacts.</li>
+<li>If out-of-memory (OOM) errors occur:<ol>
+<li>Reduce batch size</li>
+<li>Reduce XY size</li>
+<li>Reduce overlap (last resort)</li>
+</ol>
+</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<blockquote>
+<p>This page is under active development and will be updated with more information on memory usage under different parameter settings.</p>
+</blockquote></div>
             </div>
         </div>
 
