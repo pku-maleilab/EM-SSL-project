@@ -167,12 +167,350 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#task-and-solution-management" class="nav-link">Task and Solution Management</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#managing-tasks" class="nav-link">Managing Tasks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#managing-solutions" class="nav-link">Managing Solutions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#best-practices" class="nav-link">Best Practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#notes_1" class="nav-link">Notes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="task-and-solution-management">Task and Solution Management</h1>
+<p>Napari-OmniEM allows users to manage tasks and solutions (models + configurations) directly from the main interface.</p>
+<p>Task and solution management is accessed via:</p>
+<ul>
+<li>Click the ⚙️ <strong>Settings</strong> button in the main <strong>Napari-OmniEM</strong> panel</li>
+<li>Open the <strong>Tasks and Models</strong> tab</li>
+</ul>
+<p>This page describes how to add, import, enable, disable, export, and remove tasks and solutions.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>In Napari-OmniEM:</p>
+<ul>
+<li>A <strong>Task</strong> defines the problem type (e.g., restoration, segmentation).</li>
+<li>A <strong>Solution</strong> defines a concrete implementation (model + configuration) for a task.</li>
+</ul>
+<p>Tasks may contain multiple solutions.<br />
+Solutions are always associated with exactly one task.</p>
+<p><img alt="" src="../imgs/manage-panel.png" /></p>
+<hr />
+<h2 id="managing-tasks">Managing Tasks</h2>
+<h3 id="add-a-new-task">Add a New Task</h3>
+<p>To create a new task:</p>
+<ul>
+<li>Click <strong><code>New Task</code></strong> on the left side of the first row in the <em>Manage</em> panel.</li>
+</ul>
+<h4 id="required-parameters">Required Parameters</h4>
+<p>When creating a task, the following fields must be provided:</p>
+<ul>
+<li>
+<p><strong>Task Type</strong>  </p>
+<ul>
+<li>
+<p><code>Image Restoration</code>  </p>
+</li>
+<li>
+<p><code>Segmentation</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Full Name</strong><br />
+  The complete task name displayed in the Napari-OmniEM GUI selection menu.</p>
+</li>
+<li>
+<p><strong>Short Name</strong><br />
+  A concise identifier used internally by Napari-OmniEM to store task-related information in local configuration files.</p>
+</li>
+</ul>
+<h4 id="additional-requirements-for-segmentation-tasks">Additional Requirements for Segmentation Tasks</h4>
+<p>If the selected task type is <strong>Segmentation</strong>, additional information about output channels (labels) must be specified.</p>
+<p>Please define each label individually and provide its semantic meaning.</p>
+<p>For example:</p>
+<p><img alt="" src="../imgs/new-task-example.png" /></p>
+<p>Each label corresponds to one output channel of the model and defines its biological or structural meaning.</p>
+<h4 id="validation-rules">Validation Rules</h4>
+<ul>
+<li>
+<p>The <strong>Full Name</strong> must be unique within Napari-OmniEM.</p>
+</li>
+<li>
+<p>The <strong>Short Name</strong> must also be unique.</p>
+</li>
+<li>
+<p>Existing names cannot be reused. Please provide new identifiers if a conflict occurs.</p>
+</li>
+</ul>
+<hr />
+<h3 id="import-task">Import Task</h3>
+<p>To import an existing task:</p>
+<ul>
+<li>
+<p>Click <strong><code>Import Task</code></strong> on the right side of the first row in the <em>Manage</em> panel.</p>
+</li>
+<li>
+<p>Select a <code>.yaml</code> file from your local system.</p>
+</li>
+</ul>
+<p>Napari-OmniEM will load the task definition from the selected YAML file and register it in the system.</p>
+<h4 id="recommended-usage">Recommended Usage</h4>
+<p>For clarity and compatibility, we strongly recommend importing only YAML files that were generated using the <strong><code>Dump Task</code></strong> function within this panel.</p>
+<p>Using externally modified or manually created YAML files may lead to:</p>
+<ul>
+<li>
+<p>Schema incompatibility</p>
+</li>
+<li>
+<p>Missing required fields</p>
+</li>
+<li>
+<p>Version mismatch issues</p>
+</li>
+</ul>
+<p>To ensure reproducibility and structural consistency, use:</p>
+<p><code>Dump Task</code> → transfer/share YAML → <code>Import Task</code></p>
+<hr />
+<h3 id="enable-disable-task">Enable / Disable Task</h3>
+<p>To change the activation status of a task:</p>
+<ol>
+<li>
+<p>Select the target task from the task list (second row of the <em>Manage</em> panel).</p>
+</li>
+<li>
+<p>After selection, the <strong><code>Enable Task</code></strong> and <strong><code>Disable Task</code></strong> buttons will appear in the last row of the panel.</p>
+</li>
+</ol>
+<h4 id="button-behavior">Button Behavior</h4>
+<p>The availability of the buttons depends on the current status of the selected task:</p>
+<ul>
+<li>
+<p>If the task is <strong>active</strong>:</p>
+<ul>
+<li>
+<p><code>Disable Task</code> is enabled.</p>
+</li>
+<li>
+<p><code>Enable Task</code> is disabled.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>If the task is <strong>disabled</strong>:</p>
+<ul>
+<li>
+<p><code>Enable Task</code> is enabled.</p>
+</li>
+<li>
+<p><code>Disable Task</code> is disabled.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>This design prevents redundant operations.</p>
+<h4 id="effect-of-disabling-a-task">Effect of Disabling a Task</h4>
+<ul>
+<li>
+<p>Disabled tasks will <strong>not appear</strong> in:</p>
+<ul>
+<li>
+<p>In-memory inference GUI selections</p>
+</li>
+<li>
+<p>Local inference GUI selections</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Associated solutions remain stored but are not accessible until the task is re-enabled.</p>
+</li>
+</ul>
+<hr />
+<h3 id="export-dump-task">Export (Dump) Task</h3>
+<p>To export a task configuration:</p>
+<ol>
+<li>
+<p>Select the target task from the task list (second row of the <em>Tasks and Models</em> panel).</p>
+</li>
+<li>
+<p>Click the <strong><code>Dump Task</code></strong> button (appears after task selection).</p>
+</li>
+<li>
+<p>Choose the destination directory and specify the filename for the exported <code>.yaml</code> file.</p>
+</li>
+</ol>
+<p>Napari-OmniEM will export the complete task definition, including all associated solutions, into a YAML configuration file.</p>
+<h4 id="important-notes-on-model-weights">Important Notes on Model Weights</h4>
+<ul>
+<li>
+<p>The <strong>model weight file paths</strong> stored in each solution are exported exactly as they are currently defined.</p>
+</li>
+<li>
+<p>The export process does <strong>not</strong> copy or relocate weight files.</p>
+</li>
+<li>
+<p>Only the file paths are written into the YAML file.</p>
+</li>
+</ul>
+<p>If the weight files are later moved to a different location, the corresponding path must be updated manually in the YAML file:</p>
+<ul>
+<li>Modify the <code>weights</code> field inside each solution entry.</li>
+</ul>
+<p>Example structure:</p>
+<pre><code class="language-yaml">solution:
+  - name: ExampleSolution
+    weights: /path/to/model_weights.pth
+    ... more configure items ...
+</code></pre>
+<hr />
+<h2 id="managing-solutions">Managing Solutions</h2>
+<h3 id="add-a-new-solution">Add a New Solution</h3>
+<p>To create a new solution:</p>
+<ul>
+<li>
+<p>Click the <strong><code>New Solution</code></strong> button at the bottom of the <em>Manage</em> panel.</p>
+</li>
+<li>
+<p>A dialog window will open for configuration of the new solution.</p>
+</li>
+</ul>
+<h4 id="required-metadata">Required Metadata</h4>
+<p><img alt="" src="../imgs/new-solution-example.png" /></p>
+<p>The following fields must be specified:</p>
+<ul>
+<li>
+<p><strong>Solution Name</strong><br />
+  The name displayed in the GUI selection menu.<br />
+  It is also stored in the task YAML file.</p>
+</li>
+<li>
+<p><strong>img_z</strong> and <strong>Accept 2D / 3D Data (Checkboxes)</strong><br />
+  The <code>img_z</code> parameter determines the acceptable input data pattern:</p>
+<ul>
+<li>
+<p>If <code>img_z == 1</code>:</p>
+<ul>
+<li>
+<p>The solution can accept both 2D and 3D data.</p>
+</li>
+<li>
+<p>The 3D option may be manually disabled if slice-to-slice consistency is a concern.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>If <code>img_z &gt; 1</code>:</p>
+<ul>
+<li>
+<p>The solution accepts <strong>3D data only</strong>.</p>
+</li>
+<li>
+<p>The 2D/3D selection checkboxes cannot be modified.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Backbone Type</strong>  </p>
+<p>Currently, the only supported option is:
+- <code>EMDINOv1-ViTL</code></p>
+</li>
+<li>
+<p><strong>Weights File</strong><br />
+  Path to the trained model weights file.</p>
+</li>
+<li>
+<p><strong>Note</strong><br />
+  Free-text field describing:</p>
+<ul>
+<li>
+<p>Model variation</p>
+</li>
+<li>
+<p>Fine-tuning details</p>
+</li>
+<li>
+<p>Training dataset</p>
+</li>
+<li>
+<p>Any other relevant remarks</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>This field is stored in the task YAML file.</p>
+<h4 id="import-and-validation">Import and Validation</h4>
+<p>After clicking the <strong><code>OK</code></strong> button:</p>
+<ul>
+<li>
+<p>Napari-OmniEM attempts to load the specified weights file using the provided metadata.</p>
+</li>
+<li>
+<p>The import process may take several seconds.</p>
+</li>
+<li>
+<p>If validation fails (e.g., incompatible weights or invalid configuration), the creation process is aborted and the solution is not added.</p>
+</li>
+</ul>
+<h4 id="important">Important</h4>
+<ul>
+<li>
+<p>Metadata cannot be modified after the solution is successfully added.</p>
+</li>
+<li>
+<p>To change metadata, the solution must be removed and recreated.</p>
+</li>
+</ul>
+<hr />
+<h3 id="remove-solution">Remove Solution</h3>
+<p>To remove an existing solution:</p>
+<ol>
+<li>Select the target solution from the solution list in the <em>Manage</em> panel.</li>
+<li>Click the <strong><code>Remove Solution</code></strong> button located in the last row of the panel.</li>
+<li>Confirm the removal action when prompted.</li>
+</ol>
+<p>The selected solution will be removed from the task configuration.</p>
+<h4 id="notes">Notes</h4>
+<ul>
+<li>Removing a solution deletes it from the task YAML configuration.</li>
+<li>The associated model weight file is <strong>not</strong> deleted from disk.</li>
+<li>This action cannot be undone unless the solution configuration was previously exported.</li>
+</ul>
+<hr />
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li>Use descriptive task and solution names.</li>
+<li>Export tasks before major updates.</li>
+<li>Keep model weights organized in a dedicated directory.</li>
+</ul>
+<hr />
+<h2 id="notes_1">Notes</h2>
+<blockquote>
+<p><code>Remove Task</code> is currently under development and will be available in a future release of Napari-OmniEM.</p>
+<p>This page is under active development and will be updated with detailed configuration examples and schema documentation.</p>
+</blockquote></div>
             </div>
         </div>
 
