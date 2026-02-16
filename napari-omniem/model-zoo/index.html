@@ -77,6 +77,18 @@
 <li>
     <a href="./" class="dropdown-item active" aria-current="page">Overview</a>
 </li>
+                                    
+<li>
+    <a href="superresolution/" class="dropdown-item">Superresolution</a>
+</li>
+                                    
+<li>
+    <a href="denoise/" class="dropdown-item">Denoise</a>
+</li>
+                                    
+<li>
+    <a href="mito/" class="dropdown-item">Mitochondria Segmentation</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -116,7 +128,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../more/" class="nav-link">
+                                <a rel="next" href="superresolution/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -167,12 +179,95 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#model-zoo" class="nav-link">Model Zoo</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#omniem-architecture" class="nav-link">OmniEM Architecture</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#task-types" class="nav-link">Task Types</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#dimensionality-support" class="nav-link">Dimensionality Support</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#data-type-configuration" class="nav-link">Data Type Configuration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#available-models" class="nav-link">Available Models</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="model-zoo">Model Zoo</h1>
+<p>All models in <strong>Napari-OmniEM</strong> share the same core architecture: <strong>OmniEM</strong>.</p>
+<h2 id="omniem-architecture">OmniEM Architecture</h2>
+<p><img alt="OmniEM Architecture" src="imgs/omniem_architecture.png" /></p>
+<p>OmniEM is a unified framework designed to support multiple electron microscopy (EM) tasks within a consistent architectural paradigm.</p>
+<p>Model behavior is determined by:</p>
+<ul>
+<li><strong>Task type</strong></li>
+<li><strong>Input dimensionality configuration</strong></li>
+</ul>
+<hr />
+<h2 id="task-types">Task Types</h2>
+<p>Models are categorized by <code>tasktype</code>:</p>
+<ul>
+<li>
+<p>Image Restoration<br />
+  (e.g., super-resolution, denoising)</p>
+</li>
+<li>
+<p>Image Segmentation</p>
+</li>
+</ul>
+<hr />
+<h2 id="dimensionality-support">Dimensionality Support</h2>
+<p>OmniEM models can operate in either <strong>2D</strong> or <strong>3D</strong> mode.</p>
+<h3 id="2d-models">2D Models</h3>
+<ul>
+<li><code>img_z = 1</code></li>
+<li>Accept:</li>
+<li>2D input</li>
+<li>3D input (automatically reshaped into slice-wise 2D inference)</li>
+<li>3D reshaping can be disabled by the user if inter-slice consistency is a concern.</li>
+</ul>
+<h3 id="3d-models">3D Models</h3>
+<ul>
+<li><code>img_z &gt; 1</code></li>
+<li>Accept:</li>
+<li>3D input only</li>
+<li>Require minimum Z-dimension ≥ <code>img_z</code></li>
+<li>No 2D inference allowed</li>
+</ul>
+<hr />
+<h2 id="data-type-configuration">Data Type Configuration</h2>
+<p>The <code>datatypes</code> field defines acceptable input dimensionality:</p>
+<ul>
+<li>2D data</li>
+<li>3D data</li>
+</ul>
+<hr />
+<h2 id="available-models">Available Models</h2>
+<h3 id="image-restoration">Image Restoration</h3>
+<ul>
+<li><a href="superresolution/">Super-resolution</a></li>
+<li><a href="denoise/">Denoise</a></li>
+</ul>
+<h3 id="image-segmentation">Image Segmentation</h3>
+<ul>
+<li><a href="mito/">Mitochondria Segmentation</a> (2D &amp; 3D variants)</li>
+</ul></div>
             </div>
         </div>
 
