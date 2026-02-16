@@ -18,6 +18,10 @@ Napari-OmniEM supports both [in-memory](user-guide/in-memory.md) and [on-disk (m
 ![demo](imgs/demo.gif)
 ---
 
+### TODO
+- [ ] support full-image inference in in-memory mode without sliding window processing.
+- [ ] share OmniEM models in memory across different solutions to reduce redundant memory usage.
+
 ### Related Projects
 - **EM-SSL Project**: https://github.com/pku-maleilab/EM-SSL-project
 <!-- - **Napari-OmniEM GitHub**: https://github.com/heliy/napari-omniem   -->

@@ -14,6 +14,9 @@ nav:
     - Task/solution Management: user-guide/manage.md
   - Model Zoo:
     - Overview: model-zoo/index.md
+    - Superresolution: model-zoo/superresolution.md
+    - Denoise: model-zoo/denoise.md
+    - Mitochondria Segmentation: model-zoo/mito.md
   - About:
     - More links: more.md
     - Release Notes: release-notes.md
