@@ -65,3 +65,11 @@ The `datatypes` field defines acceptable input dimensionality:
 
 ### Image Segmentation
 - [Mitochondria Segmentation](mito.md) (2D & 3D variants)
+
+## Training and Fine-tuning OmniEM
+
+If you would like to train or fine-tune **OmniEM** on your own dataset, please refer to the official training repository.
+
+👉 *The training repository will be publicly released soon.*
+
+> Note: Models trained externally must export compatible weight files and configuration metadata to be imported into Napari-OmniEM.

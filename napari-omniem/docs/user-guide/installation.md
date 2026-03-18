@@ -6,7 +6,7 @@ This guide walks you through installing **Napari-OmniEM** from a downloaded arch
 
 ## Step 1: Download Napari-OmniEM
 
-Download the `napari-omniem.zip` archive from the given google driver folder  xz and extract it to a local directory:
+Download the `napari-omniem.zip` archive from the given google driver folder or [temporarily open link](https://drive.google.com/file/d/1d_2wXburEBflDdHMVmS81T_rx23lK0LP/view) and extract it to a local directory:
 
 ```bash
 unzip napari-omniem.zip

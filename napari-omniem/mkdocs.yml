@@ -17,6 +17,8 @@ nav:
     - Superresolution: model-zoo/superresolution.md
     - Denoise: model-zoo/denoise.md
     - Mitochondria Segmentation: model-zoo/mito.md
+  - User Cases:
+    - Multi-task: cases/multi-task.md
   - About:
     - More links: more.md
     - Release Notes: release-notes.md
