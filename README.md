@@ -100,15 +100,14 @@ EM-SSL ships its functionality as focused Python packages:
 
 The **[`omniem`](https://github.com/pku-maleilab/omniem-package)** package is the GUI-free Python core API of EM-SSL. It exposes the EM-DINO encoder and the OmniEM models behind one public API (CLI + Python), and underpins both `omniem-train` and `napari-omniem`. Two capabilities cover the full surface:
 
-- **Encoder features (EM-DINO).** `EMEncoder.load(...)` turns a 2D image or 3D volume into transferable representations (global `cls`, local `patch`, and optional `inner`-block features) for representation learning and custom downstream models.
-- **Model inference (OmniEM).** `OmniEM.load(...)` + `model.predict(...)` runs unified dense prediction: segmentation (`image2label`) and restoration / denoising / super-resolution (`image2image`), on both 2D and 3D EM data.
+- **Encoder features (EM-DINO).** `EMEncoder.load(...)` + `enc.run(...)` turns a 2D image or 3D volume into transferable representations (global `cls`, local `patch`, and optional `inner`-block features) for representation learning and custom downstream models.
+- **Model inference (OmniEM).** `OmniEM.load(...)` + `model.run(...)` runs unified dense prediction: segmentation (`image2label`) and restoration / denoising / super-resolution (`image2image`), on both 2D and 3D EM data.
 
 ```python
 from omniem import OmniEM
 
 model = OmniEM.load("model.yaml", backbone="backbone_emdino_v1.pt", head="head.pt")
-logits = model.predict(image, axes="yx")
-labels = model.apply_output(logits, axes="yx", dtype="uint8")
+labels = model.run(image, axes="yx", dtype="uint8")   # raw grayscale image -> label map
 ```
 
 These primitives support the core EM analysis scenarios:
