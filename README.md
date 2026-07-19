@@ -16,9 +16,9 @@ Electron microscopy enables nanoscale investigation of biological structures, ye
 - **[Dataset](#dataset)**: a curated, standardized large-scale EM corpus (**EM-5M**, with more datasets planned)
 - **[Models](#models)**: an EM-specific image foundation model (**[EM-DINO](https://github.com/pku-maleilab/omniem-package/tree/main#get-the-example-inputs-configs-and-weights)**, self-supervised) and **[OmniEM](https://github.com/pku-maleilab/omniem-package/tree/main#get-the-example-inputs-configs-and-weights)**, a U-shaped network for restoration and segmentation across 2D and 3D EM tasks
 - **[Packages](#packages)**: a unified **[`omniem`](https://github.com/pku-maleilab/omniem-package)** core inference API (EM-DINO features + OmniEM dense prediction) plus an **[`omniem-train`](https://github.com/pku-maleilab/omniem-train)** training / fine-tuning tool
-- **[GUI Software](#gui-software)**: an end-to-end interactive analysis workflow through the **[`napari-omniem`](https://github.com/pku-maleilab/napari-omniem)** plugin
+- **[GUI Software](#gui-software)**: an end-to-end interactive analysis workflow through the **[Napari-OmniEM](https://github.com/pku-maleilab/napari-omniem)** plugin
 
-What ties these components together is one shared interface: the `omniem` package offers a single API for OmniEM prediction and EM-DINO feature extraction, reused by both `omniem-train` and `napari-omniem`. We hope this common foundation makes pretrained inference, feature extraction, fine-tuning, deployment of user-trained models, and future preprocessing workflows a little easier to build on, and helps with the extensibility and reproducibility of the system.
+What ties these components together is one shared interface: the `omniem` package offers a single API for OmniEM prediction and EM-DINO feature extraction, reused by both `omniem-train` and Napari-OmniEM. We hope this common foundation makes pretrained inference, feature extraction, fine-tuning, deployment of user-trained models, and future preprocessing workflows a little easier to build on, and helps with the extensibility and reproducibility of the system.
 
 ---
 
@@ -80,7 +80,7 @@ EM-SSL ships its functionality as focused Python packages:
 
 ### GUI Software
 
-**[napari-omniem](https://github.com/pku-maleilab/napari-omniem)** integrates EM-DINO and OmniEM into a [Napari](https://napari.org) plugin for interactive EM analysis and deployment.
+**[Napari-OmniEM](https://github.com/pku-maleilab/napari-omniem)** integrates EM-DINO and OmniEM into a [Napari](https://napari.org) plugin for interactive EM analysis and deployment.
 
 **Features**
 - OmniEM-based image restoration and segmentation
@@ -90,7 +90,7 @@ EM-SSL ships its functionality as focused Python packages:
 
 **Status**
 - [ ] [Online documentation](https://pku-maleilab.github.io/EM-SSL-project/napari-omniem/) under active development.
-- [ ] GitHub repository
+- [x] GitHub repository
 - [ ] Napari plugin page
 - [ ] Web-based inference server
 
@@ -98,7 +98,7 @@ EM-SSL ships its functionality as focused Python packages:
 
 ## Core API
 
-The **[`omniem`](https://github.com/pku-maleilab/omniem-package)** package is the GUI-free Python core API of EM-SSL. It exposes the EM-DINO encoder and the OmniEM models behind one public API (CLI + Python), and underpins both `omniem-train` and `napari-omniem`. Two capabilities cover the full surface:
+The **[`omniem`](https://github.com/pku-maleilab/omniem-package)** package is the GUI-free Python core API of EM-SSL. It exposes the EM-DINO encoder and the OmniEM models behind one public API (CLI + Python), and underpins both `omniem-train` and Napari-OmniEM. Two capabilities cover the full surface:
 
 - **Encoder features (EM-DINO).** `EMEncoder.load(...)` + `enc.run(...)` turns a 2D image or 3D volume into transferable representations (global `cls`, local `patch`, and optional `inner`-block features) for representation learning and custom downstream models.
 - **Model inference (OmniEM).** `OmniEM.load(...)` + `model.run(...)` runs unified dense prediction: segmentation (`image2label`) and restoration / denoising / super-resolution (`image2image`), on both 2D and 3D EM data.
@@ -124,6 +124,7 @@ See the [`omniem` documentation](https://github.com/pku-maleilab/omniem-package)
 
 ## Release History
 
+- [x] **2026-07-19**: Napari-OmniEM repository opened
 - [x] **2026-06-24**: Released EM-DINO / OmniEM models, the `omniem` core API and packages, and refactored this README
 - [x] **2026-01-28**: Main repository opened
 
