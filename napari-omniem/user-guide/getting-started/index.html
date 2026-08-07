@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -199,6 +207,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quick-inference-example" class="nav-link">Quick inference example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next Steps</a>
               <ul class="nav flex-column">
               </ul>
@@ -214,44 +226,62 @@
 <p>This guide provides a quick introduction to <strong>Napari-OmniEM</strong> and helps you get up and running with your first inference task.</p>
 <hr />
 <h2 id="installation">Installation</h2>
-<p>Currently, Napari-OmniEM is supported <strong>only via source installation</strong>.<br />
-Please follow the instructions in the <a href="../installation/">Installation Guide</a>.</p>
+<p>Napari-OmniEM is installed from source. Please follow the <a href="../installation/">Installation Guide</a>.</p>
 <hr />
 <h2 id="launch-napari-and-omniem">Launch Napari and OmniEM</h2>
-<h3 id="launch-napari-from-the-command-line">Launch <code>napari</code> from the command line</h3>
 <pre><code class="language-bash">napari
 </code></pre>
 <h3 id="enable-the-omniem-plugin">Enable the OmniEM plugin</h3>
 <p>In the napari menu bar, open <strong>Plugins</strong> and select <strong>OmniEM</strong>.</p>
 <p><img alt="select omniem" src="../imgs/plugins-omniem.png" /></p>
 <h3 id="load-sample-em-data">Load sample EM data</h3>
-<p>Napari-OmniEM provides built-in sample electron microscopy datasets for quick testing.</p>
-<ul>
-<li>Load sample files directly from the OmniEM panel:</li>
-</ul>
-<p><img alt="alt text" src="../imgs/file-sample.png" /></p>
-<ul>
-<li>Alternatively, load your own data via <em>File</em> → <em>Open File(s)</em> in the napari menu.</li>
-</ul>
+<p>Napari-OmniEM bundles example electron microscopy datasets for quick testing. Open <strong>File → Open Sample → OmniEM → EM</strong>; this single command loads three datasets, including <strong>MitoEM (2D)</strong>, <strong>AxonEM (3D)</strong>, and <strong>GlyMuscle (3D)</strong>.</p>
+<p><img alt="Open Sample menu" src="../imgs/file-sample.png" /></p>
+<p>Alternatively, load your own data via <strong>File → Open File(s)</strong>.</p>
 <h3 id="interface-overview">Interface overview</h3>
-<p>After loading the plugin and EM data, click the 🔄 <strong>Refresh/Register</strong> button in the <em>Napari-OmniEM</em> panel to register the currently loaded data.</p>
-<p>Once registered and selected a data, the napari interface should appear similar to the following:</p>
-<p><img alt="alt text" src="../imgs/overview-inferface.png" /></p>
-<h2 id="next-steps">Next Steps</h2>
-<p>Continue with the detailed user guides to explore OmniEM features:</p>
+<p>The Napari-OmniEM panel has a toolbar with four buttons:</p>
 <ul>
+<li><strong>🔄 Synchronize Data</strong>: rescan the open napari layers. Layers now sync
+  automatically, so this is a manual fallback, not a required step.</li>
+<li><strong>📁 Local File Inference</strong>: on-disk inference for large volumes (enabled only
+  when a CUDA GPU is available).</li>
+<li><strong>⚙️ Preferences</strong>: inference defaults and task/model management.</li>
+<li><strong>🧰 More Tools</strong>: the <a href="../tools/">Tools workbench</a>.</li>
+</ul>
+<p>Select a loaded image and the interface should appear similar to the following:</p>
+<!-- 📷 RESHOOT (v0.3): the Napari-OmniEM panel with a sample loaded, showing the
+     four-button toolbar (🔄 📁 ⚙️ 🧰) at the top -->
+<p><img alt="Interface overview" src="../imgs/overview-inferface.png" /></p>
+<h2 id="quick-inference-example">Quick inference example</h2>
+<p>Run mitochondria segmentation on the bundled <strong>MitoEM (2D)</strong> sample with in-memory inference:</p>
+<ol>
+<li>Select the <strong>MitoEM (2D)</strong> layer in the <strong>Data</strong> dropdown.</li>
 <li>
-<p><a href="../in-memory/">In-memory Inference</a></p>
+<p>Set <strong>Task</strong> to <strong>Mitochondria Segmentation</strong> and <strong>Solution</strong> to <strong>ViT-L-2D</strong>. The panel shows the read-only Background / Mitochondria label mapping. There is nothing else to set.</p>
+<p><!-- 📷 CAPTURE: the panel with MitoEM(2D) selected, Task = Mitochondria
+     Segmentation, Solution = ViT-L-2D, and the read-only label mapping -->
+<!-- <img alt="Task and solution selected" src="imgs/quickstart-mito-select.png" /> --></p>
 </li>
 <li>
-<p><a href="../local/">Local Inference</a></p>
+<p>Click <strong>Run model</strong>, review the estimated GPU memory, and start the run.</p>
+<p><!-- 📷 CAPTURE: the pre-inference Run dialog showing the estimated GPU-memory range -->
+<!-- <img alt="Run dialog with memory estimate" src="imgs/quickstart-mito-run.png" /> --></p>
 </li>
 <li>
-<p><a href="../sw/">Sliding Window Parameters</a></p>
+<p>The result appears as a new <strong>Labels</strong> layer, with <code>0</code> = Background and <code>1</code> = Mitochondria.</p>
+<p><!-- 📷 CAPTURE: the MitoEM(2D) sample with the predicted mitochondria mask overlaid -->
+<!-- <img alt="Mitochondria segmentation result" src="imgs/quickstart-mito-result.png" /> --></p>
 </li>
-<li>
-<p><a href="../manage/">Task and Solution Manage</a></p>
-</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<p>Continue with the detailed user guides:</p>
+<ul>
+<li><a href="../infer/#in-memory-inference">In-memory Inference</a>. The full workflow, output options, and Full Volume mode.</li>
+<li><a href="../infer/#local-on-disk-inference">Local Inference</a>. On-disk, multi-GPU inference for large volumes.</li>
+<li><a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>. Tune tile size, overlap, batch size, and blending.</li>
+<li><a href="../manage/">Task &amp; Solution Management</a>. Create, share, and manage tasks; add your <a href="../custom-models/">own models</a>.</li>
+<li><a href="../../model-zoo/">Model Zoo</a>. The built-in models.</li>
+<li>Worked examples: <a href="../../cases/multi-task/">Multi-task</a> and <a href="../../cases/import-models/">Importing Fine-tuned Models</a>.</li>
 </ul></div>
             </div>
         </div>

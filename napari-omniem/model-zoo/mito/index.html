@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -224,7 +232,7 @@
 
 <h1 id="mitochondria-segmentation">Mitochondria Segmentation</h1>
 <h2 id="task-type">Task Type</h2>
-<p>Segmentation</p>
+<p>Image-to-Label</p>
 <h2 id="overview">Overview</h2>
 <p>The <strong>Mitochondria Segmentation</strong> model performs pixel-wise classification of mitochondria in electron microscopy (EM) images.<br />
 It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(22)00494-X">CEM-Mitolab dataset</a>) and 3D volumetric-input model (trained on <a href="https://mitoem.grand-challenge.org/">MitoEM dataset</a>).</p>
@@ -237,14 +245,13 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 <h2 id="available-solutions">Available Solutions</h2>
 <h3 id="1-vit-l-2d">1. ViT-L-2D</h3>
 <h4 id="configuration">Configuration</h4>
-<pre><code class="language-yaml">- name: &quot;ViT-L-2D&quot;
-  note: &quot;trained on CEM-MitoLab, no 3D fusion&quot;
-  datatypes:
-    - 2
-    - 3
+<p>The task heads run on the shared <code>4246a479</code> backbone (<em>EMDINOv1-ViTL</em>):</p>
+<pre><code class="language-yaml">- name: ViT-L-2D
+  datatypes: [2, 3]
   img_z: 1
-  backbone_config: null
-  weights: &quot;weights/mito-seg/905953_model_199.pt&quot;
+  weights_head: head_mito-seg-ViT-L-2D.pt
+  backbone_tag: 4246a479
+  head_tag: 7c18ec1e
 </code></pre>
 <h4 id="characteristics">Characteristics</h4>
 <ul>
@@ -268,13 +275,12 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 <hr />
 <h3 id="2-vit-l-3d">2. ViT-L-3D</h3>
 <h4 id="configuration_1">Configuration</h4>
-<pre><code class="language-yaml">- name: &quot;ViT-L-3D&quot;
-  note: &quot;trained on MitoEM, with 3D fusion, available when z_dim &gt;= 16&quot;
-  datatypes:
-    - 3
+<pre><code class="language-yaml">- name: ViT-L-3D
+  datatypes: [3]
   img_z: 16
-  backbone_config: null
-  weights: &quot;weights/mito-seg/909906_model_239.pt&quot;
+  weights_head: head_mito-seg-ViT-L-3D.pt
+  backbone_tag: 4246a479
+  head_tag: 2c5f8505
 </code></pre>
 <h4 id="characteristics_1">Characteristics</h4>
 <ul>
@@ -283,6 +289,11 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 <li>Requires:</li>
 <li>Z-dimension ≥ 16</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Full Volume and the 3D model</p>
+<p>With the ViT-L-3D model, <strong>Full Volume</strong> inference may produce boundary gaps
+between input blocks. Use sliding-window (tiled) mode to largely avoid this.</p>
+</div>
 <hr />
 <h2 id="output">Output</h2>
 <p>The model produces a segmentation mask with:</p>
@@ -304,6 +315,10 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 </tr>
 </tbody>
 </table>
+<!-- 📷 CAPTURE: an EM slice with the predicted mitochondria mask overlaid (e.g.
+     MitoEM(2D) with ViT-L-2D, or AxonEM(3D) with ViT-L-3D) -->
+<!-- ![Mitochondria segmentation overlay](imgs/example-mito.png) -->
+
 <hr />
 <h2 id="model-selection-guidance">Model Selection Guidance</h2>
 <table>

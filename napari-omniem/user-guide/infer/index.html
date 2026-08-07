@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Inference - Napari-OmniEM</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Napari-OmniEM</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">User Guide</a>
+</li>
+                                    
+<li>
+    <a href="../getting-started/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../installation/" class="dropdown-item">Installation</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Inference</a>
+</li>
+                                    
+<li>
+    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../preferences/" class="dropdown-item">Preferences</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Model Zoo</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../model-zoo/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../model-zoo/superresolution/" class="dropdown-item">Superresolution</a>
+</li>
+                                    
+<li>
+    <a href="../../model-zoo/denoise/" class="dropdown-item">Denoise</a>
+</li>
+                                    
+<li>
+    <a href="../../model-zoo/mito/" class="dropdown-item">Mitochondria Segmentation</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Cases</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
+</li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">About</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../more/" class="dropdown-item">More links</a>
+</li>
+                                    
+<li>
+    <a href="../../release-notes/" class="dropdown-item">Release Notes</a>
+</li>
+                                    
+<li>
+    <a href="../../license/" class="dropdown-item">License</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../installation/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../manage/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                              <button id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme" class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                <span class="d-lg-none ms-2">Toggle theme</span>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="true">
+                                    <i class="fa-solid fa-sun fa-fw"></i>
+                                    <span class="ms-2">Light</span>
+                                    <i class="fa-solid fa-check ms-auto"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                    <i class="fa-solid fa-moon fa-fw"></i>
+                                    <span class="ms-2">Dark</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                    <span class="ms-2">Auto</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#inference" class="nav-link">Inference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#in-memory-inference" class="nav-link">In-memory inference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#local-on-disk-inference" class="nav-link">Local (on-disk) inference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tips-common-pitfalls" class="nav-link">Tips &amp; common pitfalls</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related Pages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="inference">Inference</h1>
+<p>Napari-OmniEM offers two ways to run a model:</p>
+<ul>
+<li><strong>In-memory</strong> (main panel): the quickest way to run a model, best for
+  interactive exploration and small-to-medium data that fits in memory.</li>
+<li><strong>Local (on-disk)</strong> (📁 wizard): streams large volumes from disk with bounded
+  memory and multi-GPU support.</li>
+</ul>
+<p>Task and solution selection and the sliding-window parameters are the same in
+both. Memory and scratch-disk guidance for either mode is in
+<a href="#tips-common-pitfalls">Tips &amp; common pitfalls</a> below.</p>
+<hr />
+<h2 id="in-memory-inference">In-memory inference</h2>
+<p>In-memory inference runs directly in the main <strong>Napari-OmniEM</strong> panel on data
+loaded as napari image layers. It is the quickest way to run a model and is best
+for <strong>interactive exploration, debugging, and small-to-medium EM datasets</strong>.</p>
+<div class="admonition info">
+<p class="admonition-title">Everything stays in memory</p>
+<p>The input volume, the intermediate tiles, and the result all live in GPU/CPU
+memory at once, so this mode is bounded by how much memory you have. For
+volumes too large to hold in memory, use <a href="#local-on-disk-inference">Local inference</a>
+instead.</p>
+</div>
+<p>You can run in one of <strong>two modes</strong>:</p>
+<ul>
+<li><strong>Sliding window</strong> (default): the volume is split into overlapping tiles, each
+  is run through the model, and the tiles are stitched back together. Uses less
+  GPU memory and handles larger inputs.</li>
+<li><strong>Full Volume</strong>: the whole image is fed to the model in a single forward pass.
+  Avoids stitching seams but needs more GPU memory. See
+  <a href="#full-volume-mode">Full Volume mode</a> below.</li>
+</ul>
+<h3 id="select-data">Select data</h3>
+<ul>
+<li>
+<p>Load image data into napari via <em>File → Open File(s)</em>.</p>
+<ul>
+<li>The data will appear as one or more <strong>image layers</strong>.</li>
+</ul>
+</li>
+<li>
+<p>Loaded layers are detected automatically. If one is missing (rarely), click
+  <strong>🔄 Synchronize Data</strong> to rescan.</p>
+</li>
+<li>
+<p>Select the target image from the <strong>Data</strong> dropdown list.</p>
+</li>
+<li>
+<p>If the selected data is a <strong>3D volume</strong>, specify the <strong>z-dimension</strong>:</p>
+<ul>
+<li>
+<p>By default, the axis with the <strong>minimum side length</strong> is automatically chosen.</p>
+</li>
+<li>
+<p>You can override this if your data uses a different axis convention.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="select-task-and-solution">Select task and solution</h3>
+<ul>
+<li>
+<p>Choose a <strong>Task</strong> corresponding to the intended processing goal, an
+  <strong>Image-to-Image</strong> task (e.g. denoising, super-resolution) or an
+  <strong>Image-to-Label</strong> task (e.g. mitochondria segmentation).</p>
+</li>
+<li>
+<p>Select a compatible <strong>Solution</strong> from the <strong>Solution</strong> list.</p>
+<ul>
+<li>The list is <strong>filtered automatically</strong> by the selected data: only solutions
+  whose dimensionality and modality match the chosen layer appear, so you
+  cannot pick a model that does not fit your data.</li>
+</ul>
+</li>
+<li>
+<p>Not sure which to choose? Click the <strong>💡</strong> button next to the <strong>Task</strong> or
+  <strong>Solution</strong> dropdown to show its details. For fuller descriptions of the
+  built-in models, see the <a href="../../model-zoo/">Model Zoo</a>.</p>
+</li>
+</ul>
+<blockquote>
+<p>Terminology note
+- <strong>Task</strong>: defines <em>what</em> problem is being solved.
+- <strong>Solution</strong>: a concrete model + configuration that solves a task.</p>
+</blockquote>
+<p>This terminology is consistent across in-memory and local inference.</p>
+<!-- 📷 CAPTURE: the Napari-OmniEM panel with a sample loaded (e.g. MitoEM(2D)),
+     showing the Data / Task / Solution dropdowns filled in and the Run model button -->
+<!-- ![Panel with data, task, and solution selected](imgs/panel-inmem-selected.png) -->
+
+<h4 id="output-options-by-task-type">Output options by task type</h4>
+<p>The panel shows different output controls depending on the task type:</p>
+<ul>
+<li><strong>Image-to-Image</strong>: a single <strong>Scale (×)</strong> control (range 1.0–8.0, step 0.5).
+  The ratio is applied to the in-plane (X/Y) axes together; the Z axis is never
+  scaled. <code>1.0</code> keeps the size; restoration never downscales. The panel shows the
+  resulting output shape live. (Some models are trained for modest scaling, the
+  super-resolution model recommends staying <strong>below 3.0×</strong>.)</li>
+<li><strong>Image-to-Label</strong>: a read-only table of the label → value mapping that the
+  output mask will use. Nothing to set here.</li>
+</ul>
+<!-- 📷 CAPTURE: the Image-to-Image Scale (×) control (e.g. Super-resolution on the
+     GlyMuscle(3D) sample, scale 2.0) with the live output-shape readout -->
+<!-- ![Scale control for Image-to-Image](imgs/inmem-scale-control.png) -->
+
+<h3 id="advanced-settings">Advanced settings</h3>
+<p>The <strong>Advanced</strong> section holds per-run overrides. Defaults come from
+<a href="../preferences/">Preferences</a>; if unsure, the defaults are safe for a first run.</p>
+<ul>
+<li><strong>Full Volume</strong>: switches to Full Volume mode; see the <a href="#full-volume-mode">next
+  section</a>.</li>
+</ul>
+<p><strong>Sliding-window only</strong> (these grey out under Full Volume):</p>
+<ul>
+<li><strong>Overlap</strong>, <strong>Batch Size</strong>, <strong>XY Input Size</strong>: tiling controls; see
+  <a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>.</li>
+<li><strong>Blend mode</strong>: how overlapping tiles are combined (<strong>constant</strong> or
+  <strong>gaussian</strong>).</li>
+</ul>
+<p><strong>Both modes:</strong></p>
+<ul>
+<li><strong>Normalization source</strong>: <strong>scan-data</strong> (statistics measured over the whole
+  volume) or <strong>model</strong> (the model's built-in statistics).</li>
+</ul>
+<h3 id="full-volume-mode">Full Volume mode</h3>
+<p>Tick <strong>Full Volume</strong> to feed the whole image to the model in a single forward pass
+instead of tiling. This <strong>avoids sliding-window stitching seams</strong> and works for
+both Image-to-Image and Image-to-Label tasks, but it uses more GPU memory. The
+sliding-window controls (overlap, batch, XY, blend) grey out; the normalization
+selector still applies.</p>
+<!-- 📷 CAPTURE: the Advanced section expanded with Full Volume ticked (note the
+     greyed-out overlap/batch/XY/blend controls); Blend mode + Normalization source visible -->
+<!-- ![Advanced settings with Full Volume enabled](imgs/inmem-advanced-fullvolume.png) -->
+
+<p>If the input is not square, you'll be asked to run at the height or the width as
+the square size; the original aspect ratio is restored and output-scaled
+afterward, the image is <strong>not</strong> cropped.</p>
+<div class="admonition warning">
+<p class="admonition-title">Full Volume with the 3D mitochondria model</p>
+<p>The ViT-L-3D model may produce boundary gaps between blocks under Full Volume;
+prefer sliding-window mode for it. See the <a href="../../model-zoo/mito/">model card</a>.</p>
+</div>
+<h3 id="run-inference">Run inference</h3>
+<ul>
+<li>Click <strong>Run model</strong> to open the inference dialog. It shows the device, the work
+  to be done (batch count or the padded input/output shape), and the <strong>estimated
+  GPU memory range</strong> for the run.</li>
+</ul>
+<!-- 📷 CAPTURE: the pre-inference Run dialog showing the device, batch/shape info,
+     and the estimated GPU-memory range (before starting the run) -->
+<!-- ![Pre-inference memory-estimate dialog](imgs/inmem-run-dialog.png) -->
+
+<ul>
+<li>
+<p>Start the run from the dialog. When it finishes, the <strong>OK</strong> button becomes
+  <strong>Redo</strong> so you can re-run with changed settings; the result appears in napari as
+  a new layer.</p>
+</li>
+<li>
+<p>For Image-to-Image results, you can rescale output intensity back to the input's
+  range with the <a href="../tools/">Post-process → Image-to-Image</a> tool.</p>
+</li>
+</ul>
+<hr />
+<h2 id="local-on-disk-inference">Local (on-disk) inference</h2>
+<p>Local (on-disk) inference is activated by clicking the 📁 button in the main
+<strong>Napari-OmniEM</strong> panel. Data are loaded from local files using <code>dask.array</code>, and
+intermediate results are stored as temporary <strong>HDF5</strong> files (more efficient
+backends are planned). It is a step-by-step wizard: Input Data → Task → Advanced
+settings → Run → Output.</p>
+<h3 id="open-the-panel">Open the panel</h3>
+<ul>
+<li>Click the 📁 icon in the main <strong>Napari-OmniEM</strong> panel.</li>
+<li>This option is enabled only when a compatible GPU is available.</li>
+</ul>
+<h3 id="step-1-select-data">Step 1: Select data</h3>
+<!-- 📷 CAPTURE: the Local Inference wizard, Step 1 (Input Data) - Browse File +
+     Show Image, channel-mode and z-dimension selectors (e.g. the AxonEM(3D) sample) -->
+<!-- ![Local wizard: Input Data page](imgs/local-step1-data.png) -->
+
+<ul>
+<li>Click <strong>Browse File</strong> to select a local image or volume. Common image formats
+  read by <a href="https://image.dask.org/">dask-image</a> are supported, such as <strong>TIFF</strong>
+  (including multi-page stacks, which load as a 3D volume), <strong>PNG</strong>, and <strong>JPEG</strong>.
+  The data must be <strong>2D</strong> <code>(H, W)</code>, <strong>3D</strong> <code>(Z, H, W)</code>, or a colour variant
+  <code>(H, W, C)</code> / <code>(Z, H, W, C)</code>; other shapes are rejected.</li>
+<li>The model works on <strong>single-channel</strong> data. If you load a <strong>colour or
+  multi-channel</strong> image, a <strong>Channel</strong> selector appears so you can reduce it to one
+  channel:<ul>
+<li><strong>Convert to grayscale (weighted)</strong> (default): combine the colour channels
+  into one grayscale channel.</li>
+<li><strong>Extract single channel</strong>: keep one channel, chosen by its <strong>0-based
+  index</strong>.</li>
+</ul>
+</li>
+<li>If the data are 3D, specify the <strong>z-dimension</strong>:<ul>
+<li>By default, the axis with the <strong>minimum side length</strong> is selected.</li>
+<li>Override this if your data use a different axis convention.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Everything streams from disk</p>
+<p>Every input (2D, colour, or 3D) is processed as a streamed 3D volume with
+bounded memory, so even large 2D images run here without loading whole.</p>
+</div>
+<h3 id="step-2-select-task-and-solution">Step 2: Select task and solution</h3>
+<ul>
+<li>Task and solution selection is the same as in in-memory inference.</li>
+<li>Only solutions compatible with the selected data will be shown.</li>
+</ul>
+<h3 id="step-3-advanced-settings-sliding-window-devices">Step 3: Advanced settings (sliding window &amp; devices)</h3>
+<p>In addition to the standard sliding-window parameters, local inference provides:</p>
+<ul>
+<li>
+<p><strong>Device selection</strong></p>
+<ul>
+<li>GPU-only inference; at least one GPU must be chosen.</li>
+<li>Multiple GPUs can be selected for parallel inference. <strong>Each selected GPU
+  holds a full model replica</strong> (backbone + head), the shared backbone is not
+  deduplicated across GPUs, so more GPUs means proportionally more VRAM.</li>
+</ul>
+</li>
+<li>
+<p><strong>Normalization source</strong>: <strong>scan-data</strong> (whole-volume statistics), <strong>model</strong>
+  (built-in statistics), or <strong>manual</strong> (enter mean/std yourself). Manual is offered
+  only here, in the on-disk wizard.</p>
+</li>
+<li>
+<p><strong>Temporary folder</strong>: where the scratch file is written during inference.</p>
+</li>
+</ul>
+<!-- 📷 CAPTURE: the wizard Step 3 (Advanced computation settings) - device
+     checkboxes (multi-GPU), batch/overlap/XY, blend, the Normalization source radios
+     including manual, and the temp-folder Change button -->
+<!-- ![Local wizard: Advanced settings page](imgs/local-step3-settings.png) -->
+
+<p>For details on sliding-window parameters, see the
+<a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a> page.</p>
+<h3 id="step-4-run-inference">Step 4: Run inference</h3>
+<p>A persistent banner shows the <strong>estimated GPU memory</strong> for the run (with the
+multi-GPU note above). Then:</p>
+<!-- 📷 CAPTURE: the wizard Step 4 (Inference) - the persistent required-memory
+     banner with the multi-GPU caveat, and the run / stop / clear buttons -->
+<!-- ![Local wizard: Inference page with memory banner](imgs/local-step4-run.png) -->
+
+<ul>
+<li>Click <strong>Run</strong> to start inference.</li>
+<li>When inference finishes, <strong>Run</strong> changes to <strong>Redo</strong>, so you can rerun with
+  modified settings.</li>
+</ul>
+<h3 id="step-5-save-output">Step 5: Save output</h3>
+<p>Supported output options include:</p>
+<ol>
+<li>
+<p><strong>Open in napari</strong></p>
+</li>
+<li>
+<p>Both input data and results can be loaded</p>
+</li>
+<li>
+<p>Use with caution for very large datasets</p>
+</li>
+<li>
+<p><strong>Standard file formats</strong></p>
+</li>
+<li>
+<p>TIFF</p>
+</li>
+<li>
+<p>PNG (2D results only)</p>
+</li>
+<li>
+<p>NumPy (<code>.npy</code>)</p>
+</li>
+<li>
+<p><strong>Chunked storage formats</strong></p>
+</li>
+<li>
+<p>Zarr</p>
+</li>
+<li>
+<p>NumPyStack</p>
+</li>
+</ol>
+<!-- 📷 CAPTURE: the wizard Output page - the Results / Image open buttons and the
+     TIF / PNG / NumPy / Zarr / NumPyStack save buttons -->
+<!-- ![Local wizard: Output page save options](imgs/local-step5-output.png) -->
+
+<h3 id="how-local-inference-differs">How local inference differs</h3>
+<p>Compared with in-memory inference, local inference:</p>
+<ul>
+<li>
+<p>Enables <strong>multi-GPU parallel inference</strong> when multiple GPUs are available.</p>
+</li>
+<li>
+<p>Writes a scratch file whose size is driven by the <strong>output</strong>: the pre-flight
+  banner shows the estimate. Upscaling (Image-to-Image with Scale &gt; 1) raises it
+  substantially.</p>
+</li>
+<li>
+<p>Supports saving outputs in <strong>multiple formats</strong>, with optional visualization in
+  napari.</p>
+</li>
+<li>
+<p>Does <strong>not</strong> chain an Image-to-Image result into an Image-to-Label run in a
+  single pass, save the first result and reload it for the second.</p>
+</li>
+<li>
+<p>Does <strong>not</strong> offer Full Volume mode (that is an in-memory option).</p>
+</li>
+</ul>
+<hr />
+<h2 id="tips-common-pitfalls">Tips &amp; common pitfalls</h2>
+<p>Shared guidance for both modes. For what each tiling control does, see
+<a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>.</p>
+<h3 id="what-uses-memory">What uses memory</h3>
+<p>The input volume, the model, the intermediate tiles, and the result are held at
+once. In-memory mode keeps all of it in RAM/VRAM; local mode streams the volume
+from disk and holds only a bounded working set. A higher <strong>Scale (×)</strong>, a larger
+<strong>XY input size</strong>, or <strong>Full Volume</strong> mode all raise the peak.</p>
+<h3 id="if-you-run-out-of-memory">If you run out of memory</h3>
+<p>Try these in order:</p>
+<ul>
+<li>Reduce <strong>Batch Size</strong> (even <code>1</code> is acceptable).</li>
+<li>Reduce the <strong>XY input size</strong>.</li>
+<li>Lower the <strong>Scale (×)</strong>, or turn <strong>Full Volume</strong> off (in-memory).</li>
+<li>Switch to <a href="#local-on-disk-inference">local inference</a>, which streams from disk.</li>
+</ul>
+<h3 id="balancing-performance-and-memory">Balancing performance and memory</h3>
+<p>Most controls trade memory for speed or quality, so pick the largest settings your
+hardware allows:</p>
+<ul>
+<li>A larger <strong>Batch Size</strong> raises throughput but uses more memory; it does not
+  change output quality.</li>
+<li>A larger <strong>XY input size</strong> gives the model more context (often better results)
+  at a higher memory cost.</li>
+<li><strong>Full Volume</strong> avoids stitching seams but needs the most memory; sliding window
+  trades a small seam risk for a much smaller footprint.</li>
+</ul>
+<p>Start from the defaults, then raise one setting at a time until you approach your
+memory limit.</p>
+<h3 id="shared-backbone">Shared backbone</h3>
+<p>Models that use the same backbone keep one resident copy of it, so switching
+between such solutions does not reload the encoder and keeps GPU use low. See
+<a href="../manage/">Task &amp; Solution Management</a>.</p>
+<h3 id="memory-warnings">Memory warnings</h3>
+<p>Before each run the plugin estimates the memory it will need and checks it against
+the free GPU/CPU memory and your configured limits. If the run may not fit you are
+warned and can adjust settings or <strong>Proceed anyway</strong> at your own risk; see the
+memory limits in <a href="../preferences/#gpu-and-cpu-memory-limits">Preferences</a>.</p>
+<h3 id="scratch-disk-local-inference">Scratch disk (local inference)</h3>
+<p>On-disk inference writes an output-sized scratch HDF5 file. Size the disk from the
+pre-flight banner, not a fixed rule of thumb; upscaling raises the requirement
+substantially.</p>
+<div class="admonition note">
+<p class="admonition-title">Temporary files are cleaned up on close</p>
+<p>An on-disk result is backed by a scratch HDF5 file so the whole volume never
+sits in RAM. <strong>Closing the Local Inference window deletes that window's scratch
+automatically</strong>; results you opened into napari are in-memory copies and are
+kept. Use <strong>🧰 → Memory Management → Clear temporal data</strong> only to remove
+leftovers from an interrupted run.</p>
+</div>
+<hr />
+<h2 id="related-pages">Related Pages</h2>
+<ul>
+<li><a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a></li>
+<li><a href="../manage/">Task &amp; Solution Management</a></li>
+<li><a href="../tools/">Tools Workbench</a></li>
+<li><a href="../../model-zoo/">Model Zoo</a></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

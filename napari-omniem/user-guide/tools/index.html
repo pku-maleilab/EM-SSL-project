@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Local Inference - Napari-OmniEM</title>
+        <title>Tools Workbench - Napari-OmniEM</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -132,12 +140,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../in-memory/" class="nav-link">
+                                <a rel="prev" href="../custom-models/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../sw/" class="nav-link">
+                                <a rel="next" href="../preferences/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -189,41 +197,29 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#local-inference" class="nav-link">Local Inference</a>
+            <li class="nav-item" data-bs-level="1"><a href="#tools-workbench" class="nav-link">Tools Workbench (🧰)</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#quick-start-minimal-steps" class="nav-link">Quick Start (Minimal Steps)</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-0-open-local-inference-panel" class="nav-link">Step 0: Open Local Inference Panel</a>
+            <li class="nav-item" data-bs-level="2"><a href="#memory-management" class="nav-link">Memory Management</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-1-select-data" class="nav-link">Step 1: Select Data</a>
+            <li class="nav-item" data-bs-level="2"><a href="#file-management" class="nav-link">File Management</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-2-select-task-and-solution" class="nav-link">Step 2: Select Task and Solution</a>
+            <li class="nav-item" data-bs-level="2"><a href="#pre-process" class="nav-link">Pre-process</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-3-advanced-settings-sliding-window-devices" class="nav-link">Step 3: Advanced Settings (Sliding Window &amp; Devices)</a>
+            <li class="nav-item" data-bs-level="2"><a href="#post-process" class="nav-link">Post-process</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-4-run-inference" class="nav-link">Step 4: Run Inference</a>
+            <li class="nav-item" data-bs-level="2"><a href="#logs" class="nav-link">Logs</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-5-save-output" class="nav-link">Step 5: Save Output</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#tips-common-pitfalls" class="nav-link">Tips &amp; Common Pitfalls</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related Pages</a>
+            <li class="nav-item" data-bs-level="2"><a href="#more" class="nav-link">More</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -234,136 +230,95 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="local-inference">Local Inference</h1>
-<p>Local (on-disk) inference is activated by clicking the 📁 button in the main <strong>Napari-OmniEM</strong> panel. In this mode, data are loaded from local files using <code>dask.array</code>, and intermediate results are currently stored as temporary <strong>HDF5</strong> files (this is the current implementation; more efficient backends are planned).</p>
-<p>Compared with in-memory inference, local inference:</p>
+<h1 id="tools-workbench">Tools Workbench (🧰)</h1>
+<p>The <strong>🧰 More Tools</strong> button on the OmniEM toolbar opens a workbench of utilities
+that sit alongside the main inference panel. It has six tabs.</p>
+<!-- 📷 CAPTURE: the Tools dialog showing the six tab headers (Memory Management,
+     File Management, Pre-process, Post-process, Logs, More) -->
+<!-- ![Tools workbench tabs](imgs/tools-tabs.png) -->
+
+<hr />
+<h2 id="memory-management">Memory Management</h2>
+<p>Load, measure, and free models, and watch live GPU/host memory. A readout shows
+which backbone is resident and its reference count, which heads are loaded, and
+current GPU allocated / reserved / free and host RAM. Each action reports how much
+memory it freed.</p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Preload</strong></td>
+<td>Load the selected solution now so the first run is fast.</td>
+</tr>
+<tr>
+<td><strong>Profile this solution</strong></td>
+<td>Measure this solution's real memory use. <strong>Not a passive inspection</strong>: it may evict currently loaded models and run GPU forward passes to take the measurement.</td>
+</tr>
+<tr>
+<td><strong>Remove</strong></td>
+<td>Unload the selected solution's head from memory.</td>
+</tr>
+<tr>
+<td><strong>Remove backbone</strong></td>
+<td>Free a shared backbone from memory (only when nothing references it). It stays registered; see <a href="../custom-models/#backbones">Backbones</a>.</td>
+</tr>
+<tr>
+<td><strong>Clear all models</strong></td>
+<td>Unload every head and backbone.</td>
+</tr>
+<tr>
+<td><strong>Clear temporal data</strong></td>
+<td>Delete on-disk inference scratch files (see the warning below).</td>
+</tr>
+<tr>
+<td><strong>Refresh</strong></td>
+<td>Update the memory readout.</td>
+</tr>
+</tbody>
+</table>
+<!-- 📷 CAPTURE: the Memory Management tab - the live readout (backbone/refcount,
+     heads loaded, GPU alloc/reserved/free, host RAM) and the action buttons -->
+<!-- ![Memory Management tab](imgs/tools-memory.png) -->
+
+<div class="admonition warning">
+<p class="admonition-title">Clear temporal data affects open results</p>
+<p>On-disk inference results stay backed by their scratch file while you view
+them. <strong>Clear temporal data</strong> deletes those files immediately, which can make
+still-open result layers unreadable. Save anything you need first.</p>
+</div>
+<hr />
+<h2 id="file-management">File Management</h2>
+<p>Split a combined checkpoint into a backbone + head pair, or merge a backbone and a
+head back into one combined file, without adding a solution. Useful for preparing
+weights to share. See also <a href="../custom-models/">Importing Your Own Models</a>.</p>
+<hr />
+<h2 id="pre-process">Pre-process</h2>
+<p>Reserved for input pre-processing tools. <em>Coming soon.</em></p>
+<hr />
+<h2 id="post-process">Post-process</h2>
 <ul>
-<li>
-<p>Enables <strong>multi-GPU parallel inference</strong> when multiple GPUs are available</p>
-</li>
-<li>
-<p>Requires approximately <strong>5–10× the original data size</strong> to store temporary files</p>
-</li>
-<li>
-<p>Supports saving outputs in <strong>multiple formats</strong>, with optional visualization in napari</p>
-</li>
-<li>
-<p>Does <strong>not</strong> currently support the restoration→segmentation pipeline in a single run (restored images must be saved and reloaded for subsequent segmentation)</p>
-</li>
+<li><strong>Image-to-Image</strong>: rescale a model output's intensity back to the input's
+  range. Pick the original image (the intensity reference) and the model output;
+  optionally replace the output layer in place. This is the recommended finishing
+  step after an Image-to-Image run.</li>
+<li><strong>Image-to-Label</strong>: reserved for label post-processing. <em>Coming soon.</em></li>
 </ul>
+<!-- 📷 CAPTURE: the Post-process > Image-to-Image tab - original-image and
+     model-output dropdowns, "Replace output layer" checkbox, Restore original intensity button -->
+<!-- ![Post-process Image-to-Image tab](imgs/tools-postprocess-i2i.png) -->
+
 <hr />
-<h2 id="quick-start-minimal-steps">Quick Start (Minimal Steps)</h2>
-<ol>
-<li>Open napari and launch <strong>Plugins → OmniEM</strong>.</li>
-<li>Click 📁 to open the <strong>Local Inference</strong> panel.</li>
-<li>Select input <strong>Data</strong>, <strong>Task</strong>, and <strong>Solution</strong>.</li>
-<li>Click <strong>Run</strong>, confirm the settings, and start inference.</li>
-<li>View results in napari or save them to disk.</li>
-</ol>
-<p>For advanced configuration, see the detailed steps below.</p>
+<h2 id="logs">Logs</h2>
+<p>View the plugin log without leaving napari. Filter by number of lines, by date,
+and by keyword; <strong>Clear Log</strong> empties the log file after confirmation.</p>
 <hr />
-<h2 id="step-0-open-local-inference-panel">Step 0: Open Local Inference Panel</h2>
-<ul>
-<li>Click the 📁 icon in the main <strong>Napari-OmniEM</strong> panel.</li>
-<li>This option is enabled only when a compatible GPU is available.</li>
-</ul>
-<hr />
-<h2 id="step-1-select-data">Step 1: Select Data</h2>
-<ul>
-<li>Click <strong>Browse File</strong> to select a local image or volume.</li>
-<li>Supported formats are those compatible with <code>dask.array</code>.</li>
-<li>Only <strong>grayscale images</strong> (no color channels) are accepted.</li>
-<li>If the data are 3D, specify the <strong>z-dimension</strong>:<ul>
-<li>By default, the axis with the <strong>minimum side length</strong> is selected.</li>
-<li>Override this if your data use a different axis convention.</li>
-</ul>
-</li>
-</ul>
-<hr />
-<h2 id="step-2-select-task-and-solution">Step 2: Select Task and Solution</h2>
-<ul>
-<li>Task and solution selection is the same as in <strong>in-memory inference</strong>.</li>
-<li>Only solutions compatible with the selected data will be shown.</li>
-</ul>
-<hr />
-<h2 id="step-3-advanced-settings-sliding-window-devices">Step 3: Advanced Settings (Sliding Window &amp; Devices)</h2>
-<p>In addition to standard sliding window parameters, local inference provides two extra options:</p>
-<ul>
-<li>
-<p><strong>Device selection</strong></p>
-<ul>
-<li>GPU-only inference</li>
-<li>Multiple GPUs can be selected</li>
-<li>At least one GPU must be chosen</li>
-</ul>
-</li>
-<li>
-<p><strong>Temporary folder</strong></p>
-</li>
-<li>Specify the directory used to store temporary on-disk files during inference</li>
-</ul>
-<p>For details on sliding window parameters, see the <a href="../sw/">Sliding Window Parameters</a> page.</p>
-<hr />
-<h2 id="step-4-run-inference">Step 4: Run Inference</h2>
-<p>Before starting inference, the dialog displays:
-    - <strong>Estimated number of batches</strong></p>
-<pre><code>- **Region of interest (ROI) size**
-</code></pre>
-<p>Steps:
-    - Click <strong>Run</strong> to start inference.</p>
-<pre><code>- When inference finishes, **Run** changes to **Redo**, allowing you to rerun with modified settings.
-</code></pre>
-<hr />
-<h2 id="step-5-save-output">Step 5: Save Output</h2>
-<p>Supported output options include:</p>
-<ol>
-<li>
-<p><strong>Open in napari</strong>  </p>
-</li>
-<li>
-<p>Both input data and results can be loaded  </p>
-</li>
-<li>
-<p>Use with caution for very large datasets</p>
-</li>
-<li>
-<p><strong>Standard file formats</strong></p>
-</li>
-<li>
-<p>TIFF</p>
-</li>
-<li>
-<p>PNG (2D results only)</p>
-</li>
-<li>
-<p>NumPy (<code>.npy</code>)</p>
-</li>
-<li>
-<p><strong>Chunked storage formats</strong></p>
-</li>
-<li>
-<p>Zarr</p>
-</li>
-<li>
-<p>NumPyStack</p>
-</li>
-</ol>
-<hr />
-<h2 id="tips-common-pitfalls">Tips &amp; Common Pitfalls</h2>
-<ul>
-<li>Ensure sufficient disk space for <strong>temporary files</strong> (5–10× input size).</li>
-<li>For very large volumes, prefer smaller batch sizes to reduce peak memory usage.</li>
-<li>Clean up temporary folders before inference if disk space is limited.</li>
-<li>Temporary files are be removed automatically after inference.</li>
-</ul>
-<hr />
-<h2 id="related-pages">Related Pages</h2>
-<ul>
-<li><a href="../in-memory/">In-memory Inference</a></li>
-<li><a href="../sw/">Sliding Window Parameters</a></li>
-<li><a href="../manage/">Task and Solution Management</a></li>
-<li><a href="../../model-zoo/">Model Zoo</a></li>
-</ul></div>
+<h2 id="more">More</h2>
+<p>Documentation and project links, and how to cite the work.</p></div>
             </div>
         </div>
 

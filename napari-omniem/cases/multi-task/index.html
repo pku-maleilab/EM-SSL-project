@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="./" class="dropdown-item active" aria-current="page">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -137,7 +145,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../more/" class="nav-link">
+                                <a rel="next" href="../import-models/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -223,34 +231,42 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="multi-task-inference-super-resolution-segmentation">Multi-Task Inference: Super-Resolution + Segmentation</h1>
+<div class="admonition note">
+<p class="admonition-title">Screenshots</p>
+<p>Screenshots on this page show the v0.2 interface and are pending update.</p>
+</div>
 <p>One advantage of Napari-OmniEM is the ability to chain multiple models for analysis. This page demonstrates how applying super-resolution before segmentation can yield better mitochondria segmentation results compared to direct segmentation on the original data (Figure 5 in the manuscript).</p>
 <p>The experiment uses the downsampled glycolytic muscle EM dataset from <a href="">MitoLab</a>. The downsampled data is available as sample data in Napari-OmniEM. This page walks through two workflows:</p>
 <ol>
-<li><strong>Direct segmentation</strong> — segment mitochondria directly in the downsampled data.</li>
-<li><strong>Super-resolution + segmentation</strong> — upsample the data first, then segment.</li>
+<li><strong>Direct segmentation</strong>: segment mitochondria directly in the downsampled data.</li>
+<li><strong>Super-resolution + segmentation</strong>: upsample the data first, then segment.</li>
 </ol>
 <hr />
 <h2 id="data">Data</h2>
-<p>Click <strong>File</strong> → <strong>Open Sample</strong> → <strong>EM (OmniEM)</strong> to load the glycolytic muscle sample data.</p>
+<p>Click <strong>File → Open Sample → OmniEM → EM</strong> to load the bundled sample data (this loads three datasets; use the <strong>GlyMuscle (3D)</strong> layer here).</p>
 <p><img alt="" src="../imgs/file-GlyMuscle.png" /></p>
 <p>Open the OmniEM panel and select the data in the <strong>Data</strong> dropdown. Set the z-dimension to <code>0</code>. Then open the <strong>Image Properties</strong> panel to verify the data size: <code>[302, 168, 336]</code>.</p>
 <p><img alt="" src="../imgs/panel-GlyMuscle-default.png" /></p>
 <hr />
 <h2 id="direct-mitochondria-segmentation">Direct Mitochondria Segmentation</h2>
-<p>Select <strong>Mitochondria Segmentation</strong> in the <strong>Task</strong> dropdown. We recommend the <code>ViT-L-2D</code> solution for its better generalization. Adjust the hyperparameters as needed — for example, set the output name to <code>raw-seg</code> to identify the result, and reduce the batch size to <code>1</code> to reduce memory usage.</p>
+<p>Select <strong>Mitochondria Segmentation</strong> in the <strong>Task</strong> dropdown. We recommend the <code>ViT-L-2D</code> solution for its better generalization. Adjust the hyperparameters as needed, for example, set the output name to <code>raw-seg</code> to identify the result, and reduce the batch size to <code>1</code> to reduce memory usage.</p>
 <p><img alt="" src="../imgs/panel-GlyMuscle-rawseg.png" /></p>
 <p>Click <strong>Run model</strong> and wait for the results.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-raw-seg.png" /></p>
 <hr />
 <h2 id="super-resolution">Super-Resolution</h2>
-<p>Select <strong>Super-resolution</strong> in the <strong>Task</strong> dropdown. Set the upscaling parameters under <strong>Upscaling to</strong>: set dim1 from <code>168</code> to <code>336</code>, and dim2 from <code>336</code> to <code>672</code>. (dim0 cannot be changed as it represents the z-axis.)</p>
+<p>Select <strong>Super-resolution</strong> in the <strong>Task</strong> dropdown. Set the <strong>Scale (×)</strong> control to <code>2.0</code>, this doubles both in-plane axes (168 → 336 and 336 → 672); the z-axis is never scaled. The panel shows the resulting output shape.</p>
+<!-- 📷 RESHOOT (v0.3): the Super-resolution panel using the single Scale (×)
+     control set to 2.0 (the old per-axis "Upscaling to" fields are gone) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-superreso.png" /></p>
 <p>Click <strong>Run model</strong> to start super-resolution inference. After inference completes, we recommend removing unused data layers and switching to <strong>Grid</strong> view mode to compare results side by side.</p>
 <p><img alt="" src="../imgs/action-grid-mode.png" /></p>
 <p><img alt="" src="../imgs/allview-GlyMucle-superreso.png" /></p>
 <hr />
 <h2 id="mitochondria-segmentation-on-super-resolved-data">Mitochondria Segmentation on Super-Resolved Data</h2>
-<p>To use the super-resolved output, click the <strong>🔄 Refresh / Register</strong> button at the top of the OmniEM panel, then select the super-resolution image in the <strong>Data</strong> dropdown. Select <strong>Mitochondria Segmentation</strong> as the task. For better results, increase the <strong>XY Input size</strong> to a larger value (e.g., <code>448</code>) to better fit the increased data resolution.</p>
+<p>Select the new super-resolution image in the <strong>Data</strong> dropdown (layers sync automatically; use <strong>🔄 Synchronize Data</strong> only if it is missing). Select <strong>Mitochondria Segmentation</strong> as the task. For better results, increase the <strong>XY Input size</strong> to a larger value (e.g., <code>448</code>) to better fit the increased data resolution.</p>
+<!-- 📷 RESHOOT (v0.3): segmenting the super-resolved layer - Task set to
+     Mitochondria Segmentation, XY Input size 448 (no manual Refresh needed) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-segonsuper.png" /></p>
 <p>Click <strong>Run model</strong> and wait for the segmentation results.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-super-seg.png" /></p>
@@ -262,10 +278,10 @@
 <hr />
 <h2 id="related-links">Related Links</h2>
 <ul>
-<li><a href="../../user-guide/in-memory/">In-memory Inference</a></li>
-<li><a href="../../user-guide/sw/">Sliding Window Parameters</a></li>
-<li><a href="../../model-zoo/superresolution/">Model Zoo — Super-resolution</a></li>
-<li><a href="../../model-zoo/mito/">Model Zoo — Mitochondria Segmentation</a></li>
+<li><a href="../../user-guide/infer/#in-memory-inference">In-memory Inference</a></li>
+<li><a href="../../user-guide/preferences/#sliding-window-parameters">Sliding Window Parameters</a></li>
+<li><a href="../../model-zoo/superresolution/">Model Zoo: Super-resolution</a></li>
+<li><a href="../../model-zoo/mito/">Model Zoo: Mitochondria Segmentation</a></li>
 </ul></div>
             </div>
         </div>

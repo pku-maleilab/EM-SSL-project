@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../user-guide/in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../user-guide/local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../user-guide/sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -188,12 +196,70 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#release-notes" class="nav-link">Release Notes</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#030" class="nav-link">0.3.0</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#020" class="nav-link">0.2.0</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#010" class="nav-link">0.1.0</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="release-notes">Release Notes</h1>
+<h2 id="030">0.3.0</h2>
+<ul>
+<li><strong>Foundation-model core.</strong> The model lives in the published
+  <a href="https://github.com/pku-maleilab/omniem-package"><code>omniem</code></a> package (EM-DINO ViT-L
+  backbone); the plugin is a thin, parity-verified bridge around it.</li>
+<li><strong>Custom tasks and models.</strong> Add your own <strong>Image-to-Image</strong> and
+  <strong>Image-to-Label</strong> tasks through Preferences (⚙️) and import fine-tuned OmniEM
+  checkpoints (full or head-only).</li>
+<li><strong>Shared backbone + per-task heads.</strong> Weights are stored as one shared ViT-L
+  backbone plus small per-task head files; full checkpoints are split
+  automatically on import, and a backbone-management panel lets you inspect,
+  rename, add, and remove backbones.</li>
+<li><strong>Multi-GPU sliding-window inference</strong> with pre-inference GPU-memory estimates
+  and out-of-memory-safe execution.</li>
+<li><strong>Full Volume mode, expanded.</strong> The single-pass, seam-free mode introduced in
+  0.2.0 now covers both task types and integrates the pre-inference memory
+  estimates.</li>
+<li><strong>On-disk (large-volume) inference</strong> that streams to disk with bounded RAM.</li>
+<li><strong>Image-to-Image post-processing</strong>: rescale model output to the input's
+  intensity range.</li>
+<li><strong>GUI improvements</strong>: reorganized Preferences and Tools dialogs, a single resize
+  <strong>Scale (×)</strong> control for Image-to-Image output, and friendlier window sizing.</li>
+</ul>
+<h2 id="020">0.2.0</h2>
+<ul>
+<li><strong>Full Volume inference</strong>: single-pass, tile-artifact-free mode for in-memory
+  data.</li>
+<li><strong>Post-processing tools (🧰)</strong> with intensity rescaling.</li>
+<li><strong>Logging</strong> to <code>~/.napari-omniem/napari_omniem.log</code> and a View Logs button.</li>
+<li>Config-schema validation, atomic config writes, and tooltips throughout.</li>
+</ul>
+<h2 id="010">0.1.0</h2>
+<p>Initial release.</p>
+<ul>
+<li>In-memory and on-disk (large-volume) inference.</li>
+<li>Sliding-window tiled inference built on MONAI.</li>
+<li>OmniEM model with the EMDINOv1-ViT-L backbone.</li>
+<li>Built-in tasks: denoising, super-resolution, mitochondria segmentation.</li>
+<li>napari contributions: widget, <code>.tif</code>/<code>.tiff</code> reader, <code>.npy</code> writer, and EM
+  sample data.</li>
+</ul></div>
             </div>
         </div>
 

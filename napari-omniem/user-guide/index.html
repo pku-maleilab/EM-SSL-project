@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -195,7 +203,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#inference-workflows" class="nav-link">Inference Workflows</a>
+            <li class="nav-item" data-bs-level="2"><a href="#models-and-inference" class="nav-link">Models and Inference</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -203,7 +211,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#notes" class="nav-link">Notes</a>
+            <li class="nav-item" data-bs-level="2"><a href="#worked-examples" class="nav-link">Worked Examples</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -215,48 +223,74 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="user-guide">User Guide</h1>
-<p>Welcome to the <strong>Napari-OmniEM User Guide</strong>.<br />
-This guide provides step-by-step instructions for installation, inference workflows, and task/solution management.</p>
+<p>Welcome to the <strong>Napari-OmniEM User Guide</strong>. This guide provides step-by-step instructions for installation, inference workflows, and task/solution management.</p>
 <hr />
 <h2 id="quick-start">Quick Start</h2>
 <ul>
 <li>
-<p><a href="getting-started/">Getting Started</a><br />
-  Basic concepts, GUI overview, and first-time usage workflow.</p>
-</li>
-<li>
 <p><a href="installation/">Installation</a><br />
   Environment setup, dependency requirements, and plugin installation steps.</p>
 </li>
+<li>
+<p><a href="getting-started/">Getting Started</a><br />
+  Basic concepts, GUI overview, and first-time usage workflow.</p>
+</li>
 </ul>
 <hr />
-<h2 id="inference-workflows">Inference Workflows</h2>
-<ul>
-<li>
-<p><a href="in-memory/">In-memory Inference</a><br />
-  Run full-volume inference directly in memory.</p>
-</li>
-<li>
-<p><a href="local/">Local Inference</a><br />
-  Perform inference using locally stored data and model weights.</p>
-</li>
-<li>
-<p><a href="sw/">Sliding Window Parameters</a><br />
-  Configure sliding window inference parameters, overlap strategy, and boundary handling.</p>
-</li>
-</ul>
+<h2 id="models-and-inference">Models and Inference</h2>
+<p>See the <a href="../model-zoo/">Model Zoo</a> for the built-in models; this section covers how to run them.</p>
+<p>Napari-OmniEM offers three inference modes. The table compares them; follow the links for step-by-step guides.</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Best for</th>
+<th>Memory</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="infer/#in-memory-inference">In-memory (tiled)</a></strong></td>
+<td>Small-to-medium volumes that fit in RAM</td>
+<td>Whole volume in memory</td>
+<td>Sliding-window tiles; the default.</td>
+</tr>
+<tr>
+<td><strong><a href="infer/#full-volume-mode">Full Volume</a></strong></td>
+<td>Small volumes, or avoiding tile seams</td>
+<td>Highest GPU use</td>
+<td>Single pass; avoids sliding-window stitching seams.</td>
+</tr>
+<tr>
+<td><strong><a href="infer/#local-on-disk-inference">On-disk (local)</a></strong></td>
+<td>Large volumes, multi-GPU</td>
+<td>Bounded RAM + scratch disk</td>
+<td>Streams via a temporary file; requires a CUDA GPU.</td>
+</tr>
+</tbody>
+</table>
+<p>See also <a href="preferences/#sliding-window-parameters">Sliding Window Parameters</a> for tile size, overlap, batch size,
+and blending.</p>
 <hr />
 <h2 id="task-and-solution-management">Task and Solution Management</h2>
 <ul>
-<li><a href="manage/">Task and Solution Manage</a><br />
-  Add, import, enable/disable, export (dump) tasks, and manage solutions.</li>
+<li><a href="manage/">Task &amp; Solution Management</a><br />
+  Create, enable/disable, delete, and share tasks; manage solutions.</li>
+<li><a href="custom-models/">Importing Your Own Models</a><br />
+  Add fine-tuned OmniEM models to a task; inspect and manage shared backbones.</li>
+<li><a href="preferences/">Preferences</a><br />
+  Inference defaults, weights folder, memory limits.</li>
+<li><a href="tools/">Tools Workbench</a><br />
+  Memory management, weight split/merge, post-processing, logs.</li>
 </ul>
 <hr />
-<h2 id="notes">Notes</h2>
+<h2 id="worked-examples">Worked Examples</h2>
 <ul>
-<li>Disabled tasks do not appear in inference GUI selections.</li>
-<li>Model weights are referenced by path and are not copied automatically.</li>
-<li>Solution metadata cannot be modified after creation.</li>
+<li><a href="../cases/multi-task/">Multi-task</a><br />
+  Chain super-resolution and mitochondria segmentation on one sample.</li>
+<li><a href="../cases/import-models/">Importing Fine-tuned Models</a><br />
+  Load your own trained OmniEM heads into a task.</li>
 </ul></div>
             </div>
         </div>

@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -137,7 +145,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../in-memory/" class="nav-link">
+                                <a rel="next" href="../infer/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -191,31 +199,23 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#installation" class="nav-link">Installation</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#step-1-download-napari-omniem" class="nav-link">Step 1: Download Napari-OmniEM</a>
+            <li class="nav-item" data-bs-level="2"><a href="#1-clone-the-repository" class="nav-link">1. Clone the repository</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-2-create-a-conda-environment" class="nav-link">Step 2: Create a Conda Environment</a>
+            <li class="nav-item" data-bs-level="2"><a href="#2-create-the-environment-and-install-the-plugin" class="nav-link">2. Create the environment and install the plugin</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-3-install-pytorch-with-cuda-support" class="nav-link">Step 3: Install PyTorch with CUDA Support</a>
+            <li class="nav-item" data-bs-level="2"><a href="#3-download-the-pre-trained-weights" class="nav-link">3. Download the pre-trained weights</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-4-install-napari" class="nav-link">Step 4: Install Napari</a>
+            <li class="nav-item" data-bs-level="2"><a href="#4-launch" class="nav-link">4. Launch</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-5-install-napari-omniem" class="nav-link">Step 5: Install Napari-OmniEM</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-6-launch-napari" class="nav-link">Step 6: Launch Napari</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link"></a>
+            <li class="nav-item" data-bs-level="2"><a href="#troubleshooting" class="nav-link">Troubleshooting</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -231,45 +231,70 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="installation">Installation</h1>
-<p>This guide walks you through installing <strong>Napari-OmniEM</strong> from a downloaded archive and preparing the runtime environment.</p>
+<p>Napari-OmniEM is installed from source: clone the repository, create an environment, install the plugin, then download the pre-trained weights.</p>
 <hr />
-<h2 id="step-1-download-napari-omniem">Step 1: Download Napari-OmniEM</h2>
-<p>Download the <code>napari-omniem.zip</code> archive from the given google driver folder or <a href="https://drive.google.com/file/d/1d_2wXburEBflDdHMVmS81T_rx23lK0LP/view">temporarily open link</a> and extract it to a local directory:</p>
-<pre><code class="language-bash">unzip napari-omniem.zip
+<h2 id="1-clone-the-repository">1. Clone the repository</h2>
+<p>The code, configs, and example data are on GitHub:</p>
+<pre><code class="language-bash">git clone https://github.com/pku-maleilab/napari-omniem.git
 cd napari-omniem
 </code></pre>
-<h2 id="step-2-create-a-conda-environment">Step 2: Create a Conda Environment</h2>
-<p>We recommend using <code>conda</code> to manage dependencies.</p>
-<pre><code class="language-bash">conda create -n napari-omniem python=3.11 -y
+<h2 id="2-create-the-environment-and-install-the-plugin">2. Create the environment and install the plugin</h2>
+<p>Run these from the repository root (the <code>napari-omniem/</code> directory you just cloned into):</p>
+<pre><code class="language-bash"># Create a new conda environment (Python 3.11 required)
+conda create -n napari-omniem python=3.11
 conda activate napari-omniem
+
+# Install PyTorch first. Choose the command for your platform (CUDA version
+# or CPU) from the official selector: https://pytorch.org/get-started/locally/
+# Example (CUDA 11.8):
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# CPU-only alternative:
+# pip install torch torchvision torchaudio
+
+# Install the plugin in editable mode from the repository root.
+# Editable mode is required: the plugin loads weights from the
+# weights_split/ folder relative to the cloned repository (step 3).
+# This also pulls omniem from PyPI (a normal dependency).
+pip install -e .
 </code></pre>
-<h2 id="step-3-install-pytorch-with-cuda-support">Step 3: Install PyTorch with CUDA Support</h2>
-<p>Install PyTorch with the appropriate CUDA version for your system.</p>
-<pre><code class="language-bash"># Example: CUDA 11.8
-pip install torch torchvision torchaudio \
-  --index-url https://download.pytorch.org/whl/cu118
+<h2 id="3-download-the-pre-trained-weights">3. Download the pre-trained weights</h2>
+<p>The model weights are distributed separately. Download the <strong><code>weights_split</code></strong> folder from <a href="https://drive.google.com/drive/folders/1GE5dNh_Alb7046rQ8-6WN9_UWv_IF7U5?usp=sharing">Google Drive</a>. Place its contents into a <code>weights_split/</code> folder at the <strong>root of the cloned repository</strong>, so the layout is:</p>
+<pre><code>napari-omniem/            # the cloned repository root
+├── pyproject.toml        # (already present) editable-install target
+├── README.md             # (already present)
+├── src/                  # (already present) the plugin source
+└── weights_split/        # (you create this) place the downloaded files here
+    ├── backbone_4246a479.pt            # shared ViT-L backbone (~1.2 GB)
+    ├── head_denoise-emdiffuse-l.pt
+    ├── head_superreso-emdiffuse-l.pt
+    ├── head_mito-seg-ViT-L-2D.pt
+    └── head_mito-seg-ViT-L-3D.pt
 </code></pre>
-<p>Visit <a href="https://pytorch.org/">PyTorch</a> to find the correct installation command for your GPU and CUDA version.
-If you do not have a GPU, install the CPU-only version instead.</p>
-<h2 id="step-4-install-napari">Step 4: Install Napari</h2>
-<p>Install napari and its GUI dependencies</p>
-<pre><code class="language-bash">pip install napari[all]
-</code></pre>
-<h2 id="step-5-install-napari-omniem">Step 5: Install Napari-OmniEM</h2>
-<p>Install the plugin in editable (development) mode:</p>
-<pre><code class="language-bash">pip install -e .
-</code></pre>
-<p>This makes the plugin immediately available in napari.</p>
-<h2 id="step-6-launch-napari">Step 6: Launch Napari</h2>
-<p>Start napari from the command line:</p>
+<p><code>weights_split/</code> sits <strong>next to</strong> <code>pyproject.toml</code>, <code>src/</code>, and <code>README.md</code> at the repository root, not inside <code>src/</code>. If those files are its siblings, it is in the right place.</p>
+<p>You can change this folder later from <strong>Preferences → Settings → Weights storage folder</strong>: saving a new location offers to move your existing managed weights there. See the <a href="../preferences/">Preferences reference</a> and <a href="../custom-models/#backbones">Backbones</a>.</p>
+<h2 id="4-launch">4. Launch</h2>
 <pre><code class="language-bash">napari
 </code></pre>
-<p>Once napari is running, you should be able to find OmniEM in the plugin menu.</p>
-<h2 id="_1"><img alt="Location of OmniEM in Plugins" src="../imgs/plugins-omniem.png" /></h2>
+<p>Once napari is running, open <strong>Plugins</strong> and select <strong>OmniEM</strong>.</p>
+<p><img alt="Location of OmniEM in Plugins" src="../imgs/plugins-omniem.png" /></p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><strong>PyQt6 conflict.</strong> This plugin uses PyQt5. If PyQt6 was pulled into the
+environment by a previous install and napari fails to start with a Qt binding
+error, remove it and reinstall:</p>
+<pre><code class="language-bash">pip uninstall -y PyQt6 PyQt6-Qt6 PyQt6-sip || true
+</code></pre>
+<p><strong>Linux / Wayland.</strong> If the napari window fails to open (blank window or an
+<code>xcb</code>/OpenGL platform error), pin the Qt platform once for this environment, then
+plain <code>napari</code> works:</p>
+<pre><code class="language-bash">conda env config vars set QT_API=pyqt5 QT_QPA_PLATFORM=xcb PYOPENGL_PLATFORM=glx
+conda activate napari-omniem   # re-activate to apply
+</code></pre>
 <h2 id="notes">Notes</h2>
 <ul>
-<li>Ensure that your GPU drivers and CUDA runtime are properly installed before installing PyTorch with CUDA support.</li>
-<li>For large-volume inference, sufficient GPU memory and disk space are required.</li>
+<li>Ensure your GPU drivers and CUDA runtime are installed before installing PyTorch
+  with CUDA support.</li>
+<li>Large-volume inference needs sufficient GPU memory and disk space.</li>
 <li>Multi-GPU inference is supported when multiple CUDA devices are available.</li>
 </ul></div>
             </div>

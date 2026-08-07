@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Parameters for Sliding Window - Napari-OmniEM</title>
+        <title>Import Models - Napari-OmniEM</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -38,35 +38,39 @@
                                 <a href="../.." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../" class="dropdown-item">User Guide</a>
+    <a href="../../user-guide/" class="dropdown-item">User Guide</a>
 </li>
                                     
 <li>
-    <a href="../getting-started/" class="dropdown-item">Getting Started</a>
+    <a href="../../user-guide/getting-started/" class="dropdown-item">Getting Started</a>
 </li>
                                     
 <li>
-    <a href="../installation/" class="dropdown-item">Installation</a>
+    <a href="../../user-guide/installation/" class="dropdown-item">Installation</a>
 </li>
                                     
 <li>
-    <a href="../in-memory/" class="dropdown-item">In-memory Inference</a>
+    <a href="../../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
-    <a href="../local/" class="dropdown-item">Local Inference</a>
+    <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Parameters for Sliding Window</a>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -92,11 +96,15 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Cases</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Cases</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
+    <a href="../multi-task/" class="dropdown-item">Multi-task</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Import Models</a>
 </li>
                                 </ul>
                             </li>
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -132,12 +140,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../local/" class="nav-link">
+                                <a rel="prev" href="../multi-task/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../manage/" class="nav-link">
+                                <a rel="next" href="../../more/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -189,33 +197,25 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#sliding-window-parameters" class="nav-link">Sliding Window Parameters</a>
+            <li class="nav-item" data-bs-level="1"><a href="#importing-fine-tuned-models" class="nav-link">Importing Fine-tuned Models</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#input-xy-size" class="nav-link">Input XY Size</a>
+            <li class="nav-item" data-bs-level="2"><a href="#what-training-produces" class="nav-link">What training produces</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#batch-size" class="nav-link">Batch Size</a>
+            <li class="nav-item" data-bs-level="2"><a href="#example-1-4-super-resolution-image-to-image" class="nav-link">Example 1: 4× super-resolution (Image-to-Image)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#overlap" class="nav-link">Overlap</a>
+            <li class="nav-item" data-bs-level="2"><a href="#example-2-mitochondria-segmentation-image-to-label" class="nav-link">Example 2: mitochondria segmentation (Image-to-Label)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#practical-tips" class="nav-link">Practical Tips</a>
+            <li class="nav-item" data-bs-level="2"><a href="#after-importing" class="nav-link">After importing</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#modifying-default-sliding-window-settings" class="nav-link">Modifying Default Sliding Window Settings</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#notes" class="nav-link">Notes</a>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">References</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -226,88 +226,144 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="sliding-window-parameters">Sliding Window Parameters</h1>
-<p>Sliding window inference is used to process large 2D images or 3D volumes that cannot be forwarded through the model in a single pass. Napari-OmniEM applies window-based tiling with overlap and seamless merging to ensure both efficiency and output quality.</p>
-<p>This page describes the key parameters that control sliding window inference and provides practical recommendations.</p>
-<hr />
-<h2 id="overview">Overview</h2>
-<p>During inference, the input image or volume is divided into overlapping tiles (windows). Each tile is processed independently by the model, and the results are merged to produce the final output.</p>
-<p>Sliding window inference is used in:
-- In-memory inference
-- Local (out-of-core) inference</p>
-<hr />
-<h2 id="input-xy-size">Input XY Size</h2>
-<p><strong>Description</strong><br />
-Defines the spatial size (in pixels) of each sliding window in the XY plane.</p>
-<p><strong>Effect</strong>
-- Larger windows provide more spatial context and typically yield better prediction quality.
-- Smaller windows reduce GPU memory usage but may degrade boundary consistency.</p>
-<p><strong>Recommendation</strong>
-- Use the <strong>largest size that fits in GPU memory</strong>.</p>
-<hr />
-<h2 id="batch-size">Batch Size</h2>
-<p><strong>Description</strong><br />
-Number of sliding windows processed simultaneously in a single forward pass.</p>
-<p><strong>Effect</strong>
-- Larger batch sizes increase throughput.
-- Smaller batch sizes reduce GPU memory usage.</p>
-<p><strong>Recommendation</strong>
-- Set to <strong>1</strong> when GPU memory is limited.
-- Increase gradually if memory allows.</p>
-<hr />
-<h2 id="overlap">Overlap</h2>
-<p><strong>Description</strong><br />
-Fractional overlap between adjacent sliding windows along each spatial dimension.</p>
-<p><strong>Effect</strong>
-- Higher overlap improves boundary smoothness and reduces stitching artifacts.
-- Lower overlap improves inference speed.</p>
-<p><strong>Valid Range</strong>
-- <code>0.0</code> – <code>0.5</code></p>
-<p><strong>Recommendation</strong>
-- <code>0.1</code> is recommended for most inference tasks.
-- Increase to <code>0.25</code> for boundary-sensitive tasks (e.g., segmentation).</p>
-<hr />
-<h2 id="practical-tips">Practical Tips</h2>
+<h1 id="importing-fine-tuned-models">Importing Fine-tuned Models</h1>
+<p>You can train your own OmniEM heads with the
+<a href="https://github.com/pku-maleilab/omniem-train">omniem-train</a> repository and load them
+into Napari-OmniEM through <strong>Add Solution</strong>. This page walks through two worked
+examples from that repository's <code>examples/</code> folder:</p>
 <ul>
-<li>Prefer <strong>larger XY sizes</strong> over larger batch sizes for better prediction quality.</li>
-<li>Keep <strong>overlap ≥ 0.1</strong> to avoid visible stitching artifacts.</li>
-<li>If out-of-memory (OOM) errors occur:<ol>
-<li>Reduce batch size</li>
-<li>Reduce XY size</li>
-<li>Reduce overlap (last resort)</li>
+<li><strong>EMPIAR-11831</strong>: a 4× super-resolution head (<strong>Image-to-Image</strong>).</li>
+<li><strong>ME2-Beta</strong>: a mitochondria segmentation head (<strong>Image-to-Label</strong>), in 2D and
+  3D variants.</li>
+</ul>
+<p>For the general Add Solution reference, see
+<a href="../../user-guide/custom-models/">Importing Your Own Models</a>.</p>
+<hr />
+<h2 id="what-training-produces">What training produces</h2>
+<p>After you run a training example (<code>omniem-train train … infer</code>), the run's
+<code>output_dir</code> holds everything you need to import:</p>
+<pre><code class="language-text">outputs/&lt;run&gt;/
+  model.yaml              # the model-config file you select in Add Solution
+  weights/
+    backbone.pt           # the shared EM-DINO ViT-L backbone
+    head_best.pt          # the trained head (best validation score)
+    head_e&lt;NNN&gt;.pt        # per-epoch heads
+</code></pre>
+<p>Both examples <strong>freeze the backbone</strong> (<code>train.train_encoder: false</code>), so the
+backbone is the same EM-DINO ViT-L that Napari-OmniEM already ships as
+<strong>EMDINOv1-ViTL</strong> (tag <code>4246a479</code>). That means you import only the head, using the
+<strong>Head-only</strong> strategy, and pair it with the existing backbone.</p>
+<div class="admonition tip">
+<p class="admonition-title">If the head-only importer doesn't recognize the backbone</p>
+<p>Use the <strong>Full-scale</strong> strategy on the run's combined checkpoint instead, it
+splits the file into a backbone + head and registers the backbone for you. See
+<a href="../../user-guide/custom-models/">Importing Your Own Models</a>.</p>
+</div>
+<hr />
+<h2 id="example-1-4-super-resolution-image-to-image">Example 1: 4× super-resolution (Image-to-Image)</h2>
+<p>Source: <code>omniem-train/examples/EMPIAR-11831</code> (SBF-SEM tobacco tissue). The head
+restores detail lost to 4× downsampling. Its <code>model.yaml</code>:</p>
+<pre><code class="language-yaml">arch: omniemv1
+encoder: emdinov1
+img_z: 1
+out_channels: 1          # one grayscale map
+kernel3d_z: null
+task_type: image2image
+resize4emdino: true
+</code></pre>
+<p><strong>Import it:</strong></p>
+<ol>
+<li>Open <strong>Preferences (⚙️) → Tasks and Models → Solutions</strong> and select (or create)
+   an <strong>Image-to-Image</strong> task.</li>
+<li>Click <strong>Add Solution</strong>, then <strong>Select model config</strong> and pick the run's
+   <code>model.yaml</code>.</li>
+<li>Choose the <strong>Head-only</strong> strategy, select <code>weights/head_best.pt</code>, and pair it
+   with <strong>EMDINOv1-ViTL</strong>.</li>
+<li>Confirm. The head is copied into the managed weights folder and the solution
+   appears in the task.</li>
 </ol>
-</li>
-</ul>
+<!-- 📷 CAPTURE: the Add Solution dialog for the EMPIAR-11831 model.yaml -
+     Image-to-Image, Head-only strategy, head_best.pt selected -->
+<!-- ![Import the super-resolution head](imgs/import-sr-dialog.png) -->
+
+<p><strong>Use it:</strong> run it like any Image-to-Image solution (see
+<a href="../../user-guide/infer/#in-memory-inference">In-memory Inference</a>). This head is trained for 4×, so
+set the <strong>Scale (×)</strong> control to <code>4.0</code> for its intended factor.</p>
+<!-- 📷 CAPTURE: a result from the imported SR head - low-res input vs restored
+     output on an EMPIAR-11831 test tile -->
+<!-- ![Super-resolution result from the imported head](imgs/import-sr-result.png) -->
+
 <hr />
-<h2 id="modifying-default-sliding-window-settings">Modifying Default Sliding Window Settings</h2>
-<p>The default sliding window parameters can be modified from the main <strong>Napari-OmniEM</strong> panel.</p>
-<ul>
-<li>Click the ⚙️ <strong>Settings</strong> button in the panel.</li>
-<li>A new dialog window will appear.</li>
-<li>
-<p>In the <strong>Inference</strong> tab, you can configure:</p>
-<ul>
-<li>
-<p><strong>Overlap</strong></p>
-</li>
-<li>
-<p><strong>Batch size</strong></p>
-</li>
-<li>
-<p><strong>Input XY size</strong></p>
-</li>
-<li>
-<p><strong>Device</strong> (single device selection for in-memory inference)</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>These settings define the default behavior for subsequent inference runs.</p>
+<h2 id="example-2-mitochondria-segmentation-image-to-label">Example 2: mitochondria segmentation (Image-to-Label)</h2>
+<p>Source: <code>omniem-train/examples/ME2-Beta</code> (FIB-SEM, part of the MitoEM 2.0
+benchmark). The head maps each EM image to a two-class mask, background (<code>0</code>) and
+mitochondria (<code>1</code>). Two configs share the data:</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th style="text-align: right;"><code>img_z</code></th>
+<th style="text-align: right;"><code>kernel3d_z</code></th>
+<th>Sample shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2D (<code>run_mito_2d</code>)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">null</td>
+<td>224 × 224 × 1</td>
+</tr>
+<tr>
+<td>3D (<code>run_mito_3d</code>)</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">3</td>
+<td>224 × 224 × 16</td>
+</tr>
+</tbody>
+</table>
+<p>The 2D <code>model.yaml</code>:</p>
+<pre><code class="language-yaml">arch: omniemv1
+encoder: emdinov1
+img_z: 1
+out_channels: 2          # background + mitochondria
+kernel3d_z: null
+task_type: image2label
+resize4emdino: false
+</code></pre>
+<p><strong>Import it:</strong></p>
+<ol>
+<li>Select (or create) an <strong>Image-to-Label</strong> task whose labels are <strong>Background</strong>
+   and <strong>Mitochondria</strong> (two labels, matching <code>out_channels: 2</code>).</li>
+<li>Click <strong>Add Solution</strong>, select the run's <code>model.yaml</code>, choose <strong>Head-only</strong>,
+   pick <code>weights/head_best.pt</code>, and pair it with <strong>EMDINOv1-ViTL</strong>.</li>
+<li>Confirm. Repeat with the 3D run's <code>model.yaml</code> + <code>head_best.pt</code> to add the 3D
+   variant as a second solution (it needs <code>z ≥ 16</code>).</li>
+</ol>
+<!-- 📷 CAPTURE: the Add Solution dialog for the ME2-Beta model.yaml -
+     Image-to-Label, Head-only strategy, head_best.pt selected -->
+<!-- ![Import the mitochondria head](imgs/import-mito-dialog.png) -->
+
+<p><strong>Use it:</strong> run it like any Image-to-Label solution. The output is a mask with the
+Background / Mitochondria labels.</p>
+<!-- 📷 CAPTURE: a segmentation result from the imported head - EM slice with the
+     predicted mitochondria mask overlaid -->
+<!-- ![Mitochondria result from the imported head](imgs/import-mito-result.png) -->
+
 <hr />
-<h2 id="notes">Notes</h2>
-<blockquote>
-<p>This page is under active development and will be updated with more information on memory usage under different parameter settings.</p>
-</blockquote></div>
+<h2 id="after-importing">After importing</h2>
+<p>Imported solutions behave exactly like the built-ins: they appear in the Task /
+Solution menus for in-memory and local inference, and you can
+<a href="../../user-guide/manage/">export or share</a> them. To manage the shared backbone
+they run on, see <a href="../../user-guide/custom-models/#backbones">Backbones</a>.</p>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>Wickramanayake, J. S., &amp; Czymmek, K. J. (2023). A conventional fixation volume
+  electron microscopy protocol for plants. <em>Methods in Cell Biology, 177</em>, 83-99.</li>
+<li>Liu, P. (2026). <em>MitoEM 2.0: A Benchmark for Challenging 3D Mitochondria Instance
+  Segmentation from EM Images</em> [Dataset]. Zenodo.</li>
+</ul></div>
             </div>
         </div>
 

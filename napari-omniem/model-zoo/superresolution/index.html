@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../../user-guide/sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -207,6 +215,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#example" class="nav-link">Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -216,23 +228,24 @@
 
 <h1 id="super-resolution">Super-resolution</h1>
 <h2 id="task-type">Task Type</h2>
-<p>Image Restoration</p>
+<p>Image-to-Image</p>
 <h2 id="description">Description</h2>
 <p>The Super-resolution model enhances spatial resolution of EM images.<br />
-It is trained for low-level structural restoration (from <a href="https://www.nature.com/articles/s41467-024-49125-z">EMDiffuse Dataset</a>) without post-processing.</p>
+It is trained for low-level structural restoration (from <a href="https://www.nature.com/articles/s41467-024-49125-z">EMDiffuse Dataset</a>).</p>
 <hr />
 <h2 id="configuration">Configuration</h2>
-<pre><code class="language-yaml">name: &quot;Super-resolution&quot;
-tasktype: 1
+<p>The model is a task <strong>head</strong> on the shared <code>4246a479</code> backbone (<em>EMDINOv1-ViTL</em>):</p>
+<pre><code class="language-yaml">name: Super-resolution
+tasktype: 1            # Image-to-Image
 solution:
-  - backbone_config: vitl.yaml
-    datatypes:
-      - 2
-      - 3
+  - name: emdiffuse-l
+    datatypes: [2, 3]
     img_z: 1
-    name: emdiffuse-l
-    note: trained on EMDiffuse dataset, Low-level, no post-processing, alpha=0.25, beta=0.25
-    weights: weights/superreso/981474_model_199.pt
+    weights_head: head_superreso-emdiffuse-l.pt
+    backbone_tag: 4246a479
+    head_tag: 616dfcbc
+    mean: 0.5333        # 136/255 - [0,1]-domain training stat
+    std: 0.2314         # 59/255  - [0,1]-domain training stat
 </code></pre>
 <h2 id="model-characteristics">Model Characteristics</h2>
 <ul>
@@ -246,9 +259,16 @@ solution:
 <p>3D input processed slice-wise</p>
 </li>
 <li>
-<p>No post-processing applied</p>
+<p>Trained on low-degradation data; may perform poorly at high super-resolution
+  factors. Keep the output <strong>resize scale below 3.0</strong>, and use the
+  <a href="../../user-guide/tools/">Image-to-Image post-processing</a> tool to rescale output
+  intensity if needed.</p>
 </li>
-</ul></div>
+</ul>
+<h2 id="example">Example</h2>
+<!-- 📷 CAPTURE: input vs super-resolved output on a bundled sample (e.g. a crop of
+     GlyMuscle(3D) at scale 2.0), shown side by side -->
+<!-- ![Super-resolution: input vs output](imgs/example-superreso.png) --></div>
             </div>
         </div>
 

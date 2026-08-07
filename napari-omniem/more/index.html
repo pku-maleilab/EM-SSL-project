@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="../user-guide/in-memory/" class="dropdown-item">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../user-guide/local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../user-guide/sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../user-guide/infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../user-guide/preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -132,7 +140,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../cases/multi-task/" class="nav-link">
+                                <a rel="prev" href="../cases/import-models/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -188,12 +196,56 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#more" class="nav-link">More</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#released-resources" class="nav-link">Released resources</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#future" class="nav-link">Future</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#project-information" class="nav-link">Project information</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#citation" class="nav-link">Citation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>This page is under active development and will be updated soon.</p></div>
+<h1 id="more">More</h1>
+<h2 id="released-resources">Released resources</h2>
+<ul>
+<li><strong><a href="https://github.com/pku-maleilab/napari-omniem">Napari-OmniEM</a></strong>. The plugin's source code; report bugs and track issues here.</li>
+<li><strong><a href="https://github.com/pku-maleilab/omniem-package">omniem</a></strong>. The core inference package for OmniEM models.</li>
+<li><strong><a href="https://github.com/pku-maleilab/omniem-train">omniem-train</a></strong>. Train or fine-tune your own OmniEM models; the trained head imports directly into the plugin.</li>
+<li><strong><a href="https://pku-maleilab.github.io/EM-SSL-project/napari-omniem/">User manual</a></strong>. The online version of this documentation.</li>
+</ul>
+<h2 id="future">Future</h2>
+<ul>
+<li>An <strong>online inference server</strong> (URL to be announced) for running OmniEM on
+  hosted GPU resources.</li>
+</ul>
+<h2 id="project-information">Project information</h2>
+<p>Napari-OmniEM is the graphical interface of the
+<strong><a href="https://github.com/pku-maleilab/EM-SSL-project">EM-SSL project</a></strong>, a
+foundation-model toolkit for large-scale, standardized electron-microscopy image
+analysis. See the project page for details.</p>
+<h2 id="citation">Citation</h2>
+<p>Please cite the following paper when using Napari-OmniEM (under review):</p>
+<blockquote>
+<p>Unifying the Electron Microscopy Multiverse through a Large-scale Foundation
+Model. Liuyuan He, Ruohua Shi, Wenyao Wang, Guanchen Fang, Yu Cai, Lei Ma.</p>
+</blockquote></div>
             </div>
         </div>
 

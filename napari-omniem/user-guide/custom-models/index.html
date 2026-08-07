@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>In-memory Inference - Napari-OmniEM</title>
+        <title>Importing Your Own Models - Napari-OmniEM</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -54,19 +54,23 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">In-memory Inference</a>
-</li>
-                                    
-<li>
-    <a href="../local/" class="dropdown-item">Local Inference</a>
-</li>
-                                    
-<li>
-    <a href="../sw/" class="dropdown-item">Parameters for Sliding Window</a>
+    <a href="../infer/" class="dropdown-item">Inference</a>
 </li>
                                     
 <li>
     <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Importing Your Own Models</a>
+</li>
+                                    
+<li>
+    <a href="../tools/" class="dropdown-item">Tools Workbench</a>
+</li>
+                                    
+<li>
+    <a href="../preferences/" class="dropdown-item">Preferences</a>
 </li>
                                 </ul>
                             </li>
@@ -98,6 +102,10 @@
 <li>
     <a href="../../cases/multi-task/" class="dropdown-item">Multi-task</a>
 </li>
+                                    
+<li>
+    <a href="../../cases/import-models/" class="dropdown-item">Import Models</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -118,7 +126,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/heliy/napari-omniem" class="nav-link">GitHub</a>
+                                <a href="https://github.com/pku-maleilab/napari-omniem" class="nav-link">GitHub</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/pku-maleilab/EM-SSL-project" class="nav-link">EM-SSL Project</a>
@@ -132,12 +140,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../installation/" class="nav-link">
+                                <a rel="prev" href="../manage/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../local/" class="nav-link">
+                                <a rel="next" href="../tools/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -189,33 +197,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#in-memory-inference" class="nav-link">In-memory inference</a>
+            <li class="nav-item" data-bs-level="1"><a href="#importing-your-own-models" class="nav-link">Importing Your Own Models</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#quick-start-minimal-steps" class="nav-link">Quick Start (Minimal Steps)</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-1-select-data" class="nav-link">Step 1: Select data</a>
+            <li class="nav-item" data-bs-level="2"><a href="#before-you-start" class="nav-link">Before you start</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-2-select-task-and-solution" class="nav-link">Step 2: Select task and solution</a>
+            <li class="nav-item" data-bs-level="2"><a href="#add-a-solution" class="nav-link">Add a solution</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-3-advanced-settings-for-sliding-window-inference" class="nav-link">Step 3 advanced settings for sliding window inference</a>
+            <li class="nav-item" data-bs-level="2"><a href="#sharing-and-exporting" class="nav-link">Sharing and exporting</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#step-4-run-inference" class="nav-link">Step 4: Run inference</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#tips-common-pitfalls" class="nav-link">Tips &amp; Common Pitfalls</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related Pages</a>
+            <li class="nav-item" data-bs-level="2"><a href="#backbones" class="nav-link">Backbones</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -226,195 +222,189 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="in-memory-inference">In-memory inference</h1>
-<p>In-memory inference is performed directly within the main <strong>Napari-OmniEM</strong> panel and operates on image data loaded as napari image layers. All computation is executed in memory, making this mode ideal for <strong>interactive exploration, debugging, and small-to-medium EM datasets</strong> that fit into GPU/CPU memory.</p>
-<h2 id="quick-start-minimal-steps">Quick Start (Minimal Steps)</h2>
+<h1 id="importing-your-own-models">Importing Your Own Models</h1>
+<p>Napari-OmniEM ships with built-in tasks, but you can add your own fine-tuned
+OmniEM models to any task through <strong>Preferences → Tasks and Models → Add
+Solution</strong>.</p>
+<p>Every model is stored as a small <strong>task head</strong> on top of a <strong>shared backbone</strong>
+(see <a href="#backbones">Backbones</a> below). When you import a model you tell the plugin
+which backbone it belongs to and which head to use; the plugin copies the head into
+its managed weights folder and records it.</p>
+<hr />
+<h2 id="before-you-start">Before you start</h2>
+<ul>
+<li>A <strong>model-config file</strong> (<code>.yaml</code>) that describes the model (architecture, task
+  type, number of output labels, normalization statistics). Use the config that
+  was <strong>shipped alongside the weights</strong>: see the warning below.</li>
+<li>A <strong>weights file</strong> (<code>.pt</code>), either a <strong>full checkpoint</strong> (backbone + head in one
+  file) or a <strong>head-only</strong> file that was split from one.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Match the config to the weights</p>
+<p>A model-config <code>.yaml</code> is <strong>not</strong> cryptographically tied to a checkpoint;
+nothing stops you pairing the wrong two. Always use the config file that was
+distributed <strong>with</strong> those weights. A mismatched config passes the file checks
+but produces wrong results or fails when the model loads.</p>
+</div>
+<hr />
+<h2 id="add-a-solution">Add a solution</h2>
 <ol>
-<li>
-<p>Open napari and load an EM image or volume.</p>
+<li>Open <strong>Preferences (⚙️) → Tasks and Models → Solutions</strong>, select the task the
+   model belongs to, and click <strong>Add Solution</strong>.</li>
+<li><strong>Select the model config (.yaml).</strong> Its contents appear read-only so you can
+   confirm the architecture, task type, label count, and normalization.</li>
+<li>Choose an <strong>import strategy</strong>:<ul>
+<li><strong>Full-scale (.pt)</strong>: a complete checkpoint. On import the plugin <strong>splits</strong>
+  it into the shared backbone plus a task head. If a matching backbone is
+  already registered, only the new head is kept and the existing backbone is
+  reused; if the backbone is new, you are offered a chance to name it.</li>
+<li><strong>Head-only (split .pt)</strong>: a head file produced by a previous split. This
+  option is available only when a <strong>matching backbone is already registered</strong>
+  (the head needs a donor backbone to run).</li>
+</ul>
 </li>
-<li>
-<p>Open <strong>Plugins → OmniEM</strong>.</p>
-</li>
-<li>
-<p>Click <strong>🔄 Refresh / Register</strong> to detect loaded data.</p>
-</li>
-<li>
-<p>Select <strong>Data</strong>, <strong>Task</strong>, and <strong>Solution</strong>.</p>
-</li>
-<li>
-<p>Click <strong>Run</strong> → confirm → view results in napari.</p>
-</li>
+<li>Pick the weights file, then confirm. The head is copied into the managed
+   weights folder as <code>head_&lt;task&gt;-&lt;solution&gt;.pt</code>.</li>
 </ol>
-<p>For more control and advanced settings, see the detailed steps below.</p>
-<h2 id="step-1-select-data">Step 1: Select data</h2>
+<!-- 📷 CAPTURE: the Add Solution dialog with a model config loaded (read-only
+     metadata visible), the Full-scale / Head-only strategy radios, and the weights picker -->
+<!-- ![Add Solution dialog](imgs/add-solution-dialog.png) -->
+
+<h3 id="if-the-import-is-rejected">If the import is rejected</h3>
+<p>The plugin validates the model <strong>before</strong> writing anything, so a rejected import
+leaves no files behind. Common messages and what they mean:</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unsupported model / encoder</td>
+<td>The config's architecture is not one this build supports.</td>
+</tr>
+<tr>
+<td>Task type mismatch</td>
+<td>The config's task type doesn't match the task you're adding to (Image-to-Image vs Image-to-Label).</td>
+</tr>
+<tr>
+<td>Label count mismatch</td>
+<td>An Image-to-Label config declares a different number of labels than the task.</td>
+</tr>
+<tr>
+<td>Backbone / encoder mismatch</td>
+<td>The head was trained for a different backbone than the one selected.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sharing-and-exporting">Sharing and exporting</h2>
+<p>Once a solution works you can package it for someone else, or repackage its
+weights:</p>
 <ul>
-<li>
-<p>Load image data into napari via <em>File → Open File(s)</em>.</p>
+<li><strong>Export Weights</strong> (Solutions tab) writes this solution's weights out as either a
+  <strong>Combined</strong> single <code>.pt</code> or a <strong>Split pair</strong> (backbone + head). Combined files
+  load anywhere; split pairs are smaller to share when the recipient already has
+  the backbone.</li>
+<li><strong>Dump Task</strong> / <strong>Import Task</strong> move a whole task (all its solutions) between
+  installs. See <a href="../manage/">Task &amp; Solution Management</a> for the full sharing
+  workflow. Note that Dump writes the task <strong>description only</strong>; the weights are
+  exported separately and must sit in the folder you point Import at.</li>
+<li>The <strong>File Management</strong> tool (🧰 → File Management) can split a combined
+  checkpoint or merge a backbone + head back into one file without adding a
+  solution. See <a href="../tools/">Tools Workbench</a>.</li>
+</ul>
+<hr />
+<h2 id="backbones">Backbones</h2>
+<p>Every model runs on a <strong>shared backbone</strong>: one large ViT-L encoder (EM-DINO, shown
+as <em>EMDINOv1-ViTL</em>). The backbone is loaded once and borrowed by every task that
+uses it, so keeping several models ready does not reload the encoder and keeps GPU
+memory low. Backbones are managed under <strong>Preferences (⚙️) → Tasks and Models →
+Backbones</strong>.</p>
+<h3 id="the-backbone-inventory">The backbone inventory</h3>
+<p>The Backbones table lists one row per registered backbone:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Display Name</td>
+<td>Friendly name (defaults to the tag).</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td>Short content fingerprint that identifies the weights.</td>
+</tr>
+<tr>
+<td>Arch</td>
+<td>Encoder architecture (e.g. <code>emdinov1</code>).</td>
+</tr>
+<tr>
+<td>Solutions</td>
+<td>How many task heads currently reference this backbone.</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td><strong>Rename</strong> and <strong>Remove</strong> for this backbone.</td>
+</tr>
+</tbody>
+</table>
+<p>The built-in backbone (<code>4246a479</code>, <em>EMDINOv1-ViTL</em>) is always present and its
+<strong>Remove</strong> action is disabled.</p>
+<!-- 📷 CAPTURE: the Backbones tab - the inventory table (Display Name / Tag / Arch
+     / Solutions / Actions) with the built-in EMDINOv1-ViTL row, and the + Add Backbone button -->
+<!-- ![Backbone inventory table](imgs/backbone-inventory.png) -->
+
+<h3 id="add-a-backbone">Add a backbone</h3>
+<p>Click <strong>+ Add Backbone</strong>. There are two ways to add one:</p>
 <ul>
-<li>The data will appear as one or more <strong>image layers</strong>.</li>
+<li><strong>Register split .pt</strong>: point at a standalone backbone file (already split out of
+  a checkpoint). It is copied into the managed weights folder and registered.</li>
+<li><strong>Extract from combined .pt</strong>: point at a full checkpoint; the backbone part is
+  extracted, stored, and registered, leaving the original file untouched.</li>
 </ul>
-</li>
-<li>
-<p>Click the 🔄 <strong>Refresh / Register</strong> button in the <em>Napari-OmniEM</em> panel to register the currently loaded image layers.</p>
-</li>
-<li>
-<p>Select the target image from the <strong>Data</strong> dropdown list.</p>
-</li>
-<li>
-<p>If the selected data is a <strong>3D volume</strong>, specify the <strong>z-dimension</strong>:</p>
+<!-- 📷 CAPTURE: the Add Backbone dialog showing its two tabs
+     (Register split .pt / Extract from combined .pt) -->
+<!-- ![Add Backbone dialog](imgs/add-backbone-dialog.png) -->
+
+<p><strong>Rename</strong> changes only the display name (up to 64 characters); the tag never
+changes.</p>
+<h3 id="remove-a-backbone">Remove a backbone</h3>
+<p>Selecting <strong>Remove</strong> does different things depending on the backbone, and it never
+silently deletes something another model needs:</p>
 <ul>
-<li>
-<p>By default, the axis with the <strong>minimum side length</strong> is automatically chosen.</p>
-</li>
-<li>
-<p>You can override this if your data uses a different axis convention.</p>
-</li>
+<li><strong>Built-in backbone</strong>: cannot be removed.</li>
+<li><strong>In use</strong>: if any model is currently loaded on it, or any solution references it,
+  removal is blocked. Unload the models (🧰 → Memory Management → Remove) or
+  remove/reassign the solutions first.</li>
+<li><strong>External file</strong> (stored outside the managed weights folder): removed from the
+  registry only; the physical file is left where it is.</li>
+<li><strong>Managed file</strong> (inside the weights folder, unreferenced): you are asked whether
+  to also delete the file or just deregister it.</li>
 </ul>
-</li>
-</ul>
-<h2 id="step-2-select-task-and-solution">Step 2: Select task and solution</h2>
+<div class="admonition note">
+<p class="admonition-title">Two different “remove”s</p>
+<p><strong>Preferences → Backbones → Remove</strong> takes a backbone out of the <strong>registry</strong>
+(and optionally deletes its file). <strong>🧰 → Memory Management → Remove backbone</strong>
+only frees it from <strong>memory</strong> for this session; it stays registered. See
+<a href="../tools/">Tools Workbench</a>.</p>
+</div>
+<h3 id="backbone-settings">Backbone settings</h3>
+<p>The <strong>weights storage folder</strong> and the <strong>backbone cache size</strong> are set in
+<strong>Preferences → Settings → General settings</strong>; see the
+<a href="../preferences/">Preferences reference</a>.</p>
 <ul>
-<li>
-<p>Choose a <strong>Task</strong> corresponding to the intended processing goal (e.g., segmentation, restoration).</p>
-</li>
-<li>
-<p>Select a compatible <strong>Solution</strong> from the <strong>Solution</strong> list.</p>
-<ul>
-<li>
-<p>Only solutions that are compatible with the selected data (dimensionality, modality, and task) will be shown.</p>
-</li>
-<li>
-<p>For detailed descriptions of available tasks and solutions, refer to the <a href="../../model-zoo/">Model Zoo</a>.</p>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>Terminology note
-- <strong>Task</strong>: defines <em>what</em> problem is being solved.
-- <strong>Solution</strong>: a concrete model + configuration that solves a task.</p>
-</blockquote>
-<p>This terminology is consistent across <strong>in-memory</strong> and <strong>local inference</strong> modes.</p>
-<h2 id="step-3-advanced-settings-for-sliding-window-inference">Step 3 advanced settings for sliding window inference</h2>
-<ul>
-<li>
-<p>In-memory inference uses the same sliding window mechanism as local inference.</p>
-</li>
-<li>
-<p>Adjust sliding window hyperparameters (e.g., input size, overlap, batch size) as needed.</p>
-</li>
-<li>For detailed explanations and recommended values, see:<ul>
-<li><a href="../sw/">Sliding Window Parameters</a></li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>If you are unsure, the default parameters are generally safe for first-time use.</p>
-</blockquote>
-<h2 id="step-4-run-inference">Step 4: Run inference</h2>
-<ul>
-<li>
-<p>Click the <strong>Run</strong> button to open the inference dialog.</p>
-</li>
-<li>
-<p>Review:</p>
-<ul>
-<li>
-<p>Estimated number of batches</p>
-</li>
-<li>
-<p>Region-of-interest (ROI) size</p>
-</li>
-</ul>
-</li>
-<li>
-<p>Click <strong>Run</strong> in the dialog to start inference.</p>
-</li>
-<li>
-<p>Once inference finishes, close the dialog to view results directly in napari as new layers.</p>
-</li>
-</ul>
-<h2 id="tips-common-pitfalls">Tips &amp; Common Pitfalls</h2>
-<h3 id="memory-usage">Memory usage</h3>
-<ul>
-<li>
-<p>In-memory inference loads data and intermediate results into memory.</p>
-</li>
-<li>
-<p>For large 3D volumes, GPU memory can be exhausted quickly.</p>
-</li>
-<li>
-<p>If you encounter out-of-memory errors:</p>
-<ul>
-<li>
-<p>Reduce batch size (even 1 is acceptable)</p>
-</li>
-<li>
-<p>Reduce input window size</p>
-</li>
-<li>
-<p>Consider using <strong>Local Inference</strong> instead</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="batch-size">Batch size</h3>
-<ul>
-<li>
-<p>Batch size primarily affects memory usage, not output quality.</p>
-</li>
-<li>
-<p>Small batch sizes are recommended for large EM data.</p>
-</li>
-</ul>
-<h3 id="refreshregister-button">Refresh/Register button</h3>
-<ul>
-<li>
-<p>Always click 🔄 Refresh / Register after:</p>
-<ul>
-<li>
-<p>Loading new data</p>
-</li>
-<li>
-<p>Removing image layers</p>
-</li>
-<li>
-<p>Renaming layers</p>
-</li>
-</ul>
-</li>
-<li>
-<p>Failure to do so may result in missing or outdated data selections.</p>
-</li>
-</ul>
-<h3 id="when-to-use-local-inference-instead">When to use Local Inference instead</h3>
-<p>Use <a href="../local/">Local Inference</a> if:</p>
-<ul>
-<li>
-<p>The dataset is too large to fit into memory</p>
-</li>
-<li>
-<p>You want multi-GPU parallel inference</p>
-</li>
-<li>
-<p>You want to save results directly to disk (e.g., TIFF, Zarr, Dask)</p>
-</li>
-</ul>
-<h2 id="related-pages">Related Pages</h2>
-<ul>
-<li>
-<p><a href="../local/">Local Inference</a></p>
-</li>
-<li>
-<p><a href="../sw/">Sliding Window Parameters</a></p>
-</li>
-<li>
-<p><a href="../manage/">Task and Solution Manage</a></p>
-</li>
-<li>
-<p><a href="../../model-zoo/">Model Zoo</a></p>
-</li>
+<li><strong>Weights storage folder</strong>: where the plugin keeps <code>backbone_&lt;tag&gt;.pt</code> and
+  <code>head_*.pt</code>. Changing it offers to move the existing managed files to the new
+  location.</li>
+<li><strong>Backbone cache size</strong>: how many distinct backbones may stay resident at once.
+  Sharing one backbone across tasks is what keeps multi-task GPU use low.</li>
 </ul></div>
             </div>
         </div>
