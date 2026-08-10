@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -215,11 +215,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#logs" class="nav-link">Logs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#more" class="nav-link">More</a>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related pages</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -239,10 +235,13 @@ that sit alongside the main inference panel. It has six tabs.</p>
 
 <hr />
 <h2 id="memory-management">Memory Management</h2>
-<p>Load, measure, and free models, and watch live GPU/host memory. A readout shows
-which backbone is resident and its reference count, which heads are loaded, and
-current GPU allocated / reserved / free and host RAM. Each action reports how much
-memory it freed.</p>
+<p>Memory Management operates only on <strong>active models loaded in the current napari
+session</strong>. Use it to load, measure, and unload runtime model objects while
+monitoring GPU and host memory. These actions do not remove saved tasks or
+solutions, deregister backbones, or delete model weight files.</p>
+<p>The readout shows the resident backbone and its reference count, the loaded
+heads, allocated, reserved, and free GPU memory, and host RAM use. Each unload
+action reports how much memory it freed.</p>
 <table>
 <thead>
 <tr>
@@ -253,23 +252,23 @@ memory it freed.</p>
 <tbody>
 <tr>
 <td><strong>Preload</strong></td>
-<td>Load the selected solution now so the first run is fast.</td>
+<td>Load the selected solution now to make the first run faster.</td>
 </tr>
 <tr>
 <td><strong>Profile this solution</strong></td>
-<td>Measure this solution's real memory use. <strong>Not a passive inspection</strong>: it may evict currently loaded models and run GPU forward passes to take the measurement.</td>
+<td>Measure the solution's actual memory use. <strong>This is not a passive inspection</strong>: profiling may evict loaded models and perform GPU forward passes.</td>
 </tr>
 <tr>
 <td><strong>Remove</strong></td>
-<td>Unload the selected solution's head from memory.</td>
+<td>Unload the selected active solution head from memory. Its saved solution and weights remain unchanged.</td>
 </tr>
 <tr>
 <td><strong>Remove backbone</strong></td>
-<td>Free a shared backbone from memory (only when nothing references it). It stays registered; see <a href="../custom-models/#backbones">Backbones</a>.</td>
+<td>Unload the active shared backbone when no loaded model references it. Its registration and weight file remain unchanged.</td>
 </tr>
 <tr>
 <td><strong>Clear all models</strong></td>
-<td>Unload every head and backbone.</td>
+<td>Unload every active head and backbone without changing saved model definitions or files.</td>
 </tr>
 <tr>
 <td><strong>Clear temporal data</strong></td>
@@ -293,9 +292,14 @@ still-open result layers unreadable. Save anything you need first.</p>
 </div>
 <hr />
 <h2 id="file-management">File Management</h2>
-<p>Split a combined checkpoint into a backbone + head pair, or merge a backbone and a
-head back into one combined file, without adding a solution. Useful for preparing
-weights to share. See also <a href="../custom-models/">Importing Your Own Models</a>.</p>
+<p>File Management is a standalone checkpoint-conversion tool:</p>
+<ul>
+<li><strong>Split</strong> converts one combined checkpoint into separate backbone and head
+  files.</li>
+<li><strong>Merge</strong> combines a backbone and head into one checkpoint.</li>
+</ul>
+<p>These operations work directly on the selected files. They do not add a
+solution or change the task, solution, or backbone registries.</p>
 <hr />
 <h2 id="pre-process">Pre-process</h2>
 <p>Reserved for input pre-processing tools. <em>Coming soon.</em></p>
@@ -304,7 +308,7 @@ weights to share. See also <a href="../custom-models/">Importing Your Own Models
 <ul>
 <li><strong>Image-to-Image</strong>: rescale a model output's intensity back to the input's
   range. Pick the original image (the intensity reference) and the model output;
-  optionally replace the output layer in place. This is the recommended finishing
+  optionally replace the output layer in place. This is the recommended final
   step after an Image-to-Image run.</li>
 <li><strong>Image-to-Label</strong>: reserved for label post-processing. <em>Coming soon.</em></li>
 </ul>
@@ -313,12 +317,13 @@ weights to share. See also <a href="../custom-models/">Importing Your Own Models
 <!-- ![Post-process Image-to-Image tab](imgs/tools-postprocess-i2i.png) -->
 
 <hr />
-<h2 id="logs">Logs</h2>
-<p>View the plugin log without leaving napari. Filter by number of lines, by date,
-and by keyword; <strong>Clear Log</strong> empties the log file after confirmation.</p>
-<hr />
-<h2 id="more">More</h2>
-<p>Documentation and project links, and how to cite the work.</p></div>
+<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="../infer/">Inference</a></li>
+<li><a href="../manage/">Persistent task, solution, and backbone management</a></li>
+<li><a href="../preferences/">Preferences</a></li>
+<li><a href="../custom-models/">Custom model requirements</a></li>
+</ul></div>
             </div>
         </div>
 

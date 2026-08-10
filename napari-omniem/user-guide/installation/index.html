@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -231,15 +231,17 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="installation">Installation</h1>
-<p>Napari-OmniEM is installed from source: clone the repository, create an environment, install the plugin, then download the pre-trained weights.</p>
+<p>Install Napari-OmniEM from source by cloning the repository, creating an
+environment, installing the plugin, and downloading the pretrained weights.</p>
 <hr />
 <h2 id="1-clone-the-repository">1. Clone the repository</h2>
-<p>The code, configs, and example data are on GitHub:</p>
+<p>The code, configuration files, and example data are on GitHub:</p>
 <pre><code class="language-bash">git clone https://github.com/pku-maleilab/napari-omniem.git
 cd napari-omniem
 </code></pre>
 <h2 id="2-create-the-environment-and-install-the-plugin">2. Create the environment and install the plugin</h2>
-<p>Run these from the repository root (the <code>napari-omniem/</code> directory you just cloned into):</p>
+<p>Run these commands from the repository root (the <code>napari-omniem/</code> directory you
+just cloned):</p>
 <pre><code class="language-bash"># Create a new conda environment (Python 3.11 required)
 conda create -n napari-omniem python=3.11
 conda activate napari-omniem
@@ -258,7 +260,11 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 pip install -e .
 </code></pre>
 <h2 id="3-download-the-pre-trained-weights">3. Download the pre-trained weights</h2>
-<p>The model weights are distributed separately. Download the <strong><code>weights_split</code></strong> folder from <a href="https://drive.google.com/drive/folders/1GE5dNh_Alb7046rQ8-6WN9_UWv_IF7U5?usp=sharing">Google Drive</a>. Place its contents into a <code>weights_split/</code> folder at the <strong>root of the cloned repository</strong>, so the layout is:</p>
+<p>The model weights are distributed separately. Download the <strong><code>weights_split</code></strong>
+folder from <a href="https://drive.google.com/drive/folders/1GE5dNh_Alb7046rQ8-6WN9_UWv_IF7U5?usp=sharing">Google
+Drive</a>.
+Place its contents in a <code>weights_split/</code> folder at the <strong>root of the cloned
+repository</strong>, producing this layout:</p>
 <pre><code>napari-omniem/            # the cloned repository root
 ├── pyproject.toml        # (already present) editable-install target
 ├── README.md             # (already present)
@@ -270,12 +276,17 @@ pip install -e .
     ├── head_mito-seg-ViT-L-2D.pt
     └── head_mito-seg-ViT-L-3D.pt
 </code></pre>
-<p><code>weights_split/</code> sits <strong>next to</strong> <code>pyproject.toml</code>, <code>src/</code>, and <code>README.md</code> at the repository root, not inside <code>src/</code>. If those files are its siblings, it is in the right place.</p>
-<p>You can change this folder later from <strong>Preferences → Settings → Weights storage folder</strong>: saving a new location offers to move your existing managed weights there. See the <a href="../preferences/">Preferences reference</a> and <a href="../custom-models/#backbones">Backbones</a>.</p>
+<p><code>weights_split/</code> belongs <strong>next to</strong> <code>pyproject.toml</code>, <code>src/</code>, and <code>README.md</code> at
+the repository root, not inside <code>src/</code>. If those files are its siblings, the
+folder is in the correct location.</p>
+<p>You can change this folder later under <strong>Preferences → Settings → Weights
+storage folder</strong>. When you save a new location, the plugin offers to move your
+existing managed weights there. See the <a href="../preferences/">Preferences reference</a>
+and <a href="../manage/#managing-backbones">Backbone management</a>.</p>
 <h2 id="4-launch">4. Launch</h2>
 <pre><code class="language-bash">napari
 </code></pre>
-<p>Once napari is running, open <strong>Plugins</strong> and select <strong>OmniEM</strong>.</p>
+<p>After napari starts, open <strong>Plugins</strong> and select <strong>OmniEM</strong>.</p>
 <p><img alt="Location of OmniEM in Plugins" src="../imgs/plugins-omniem.png" /></p>
 <hr />
 <h2 id="troubleshooting">Troubleshooting</h2>
@@ -285,8 +296,8 @@ error, remove it and reinstall:</p>
 <pre><code class="language-bash">pip uninstall -y PyQt6 PyQt6-Qt6 PyQt6-sip || true
 </code></pre>
 <p><strong>Linux / Wayland.</strong> If the napari window fails to open (blank window or an
-<code>xcb</code>/OpenGL platform error), pin the Qt platform once for this environment, then
-plain <code>napari</code> works:</p>
+<code>xcb</code> or OpenGL platform error), set the Qt platform for this environment. You
+can then start the application with the standard <code>napari</code> command:</p>
 <pre><code class="language-bash">conda env config vars set QT_API=pyqt5 QT_QPA_PLATFORM=xcb PYOPENGL_PLATFORM=glx
 conda activate napari-omniem   # re-activate to apply
 </code></pre>

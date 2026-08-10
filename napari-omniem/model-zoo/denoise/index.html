@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -199,7 +199,7 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#denoise" class="nav-link">Denoise</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#task-type" class="nav-link">Task Type</a>
+            <li class="nav-item" data-bs-level="2"><a href="#task-type" class="nav-link">Task type</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -211,7 +211,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#model-characteristics" class="nav-link">Model Characteristics</a>
+            <li class="nav-item" data-bs-level="2"><a href="#model-characteristics" class="nav-link">Model characteristics</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -227,11 +227,12 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="denoise">Denoise</h1>
-<h2 id="task-type">Task Type</h2>
+<h2 id="task-type">Task type</h2>
 <p>Image-to-Image</p>
 <h2 id="description">Description</h2>
-<p>The Denoise model reduces noise in EM images while preserving ultrastructural details.<br />
-It is trained for low-level noise restoration (from <a href="https://www.nature.com/articles/s41467-024-49125-z">EMDiffuse Dataset</a>).</p>
+<p>The Denoise model reduces noise in EM images while preserving ultrastructural
+detail. It was trained for low-level noise restoration on the <a href="https://www.nature.com/articles/s41467-024-49125-z">EMDiffuse
+dataset</a>.</p>
 <hr />
 <h2 id="configuration">Configuration</h2>
 <p>The model is a task <strong>head</strong> on the shared <code>4246a479</code> backbone (<em>EMDINOv1-ViTL</em>):</p>
@@ -247,19 +248,16 @@ solution:
     mean: 0.5333        # 136/255 - [0,1]-domain training stat
     std: 0.2314         # 59/255  - [0,1]-domain training stat
 </code></pre>
-<h2 id="model-characteristics">Model Characteristics</h2>
+<h2 id="model-characteristics">Model characteristics</h2>
 <ul>
+<li>2D model (<code>img_z = 1</code>)</li>
+<li>Accepts both 2D and 3D input</li>
 <li>
-<p>2D model (img_z = 1)</p>
+<p>Processes 3D input slice by slice</p>
 </li>
 <li>
-<p>Accepts both 2D and 3D input</p>
-</li>
-<li>
-<p>3D input processed slice-wise</p>
-</li>
-<li>
-<p>Trained on low-noise data; may perform poorly on very noisy images. Use the
+<p>Trained on low-noise data; it may perform poorly on images with very high noise.
+  Use the
   <a href="../../user-guide/tools/">Image-to-Image post-processing</a> tool to rescale output
   intensity if needed.</p>
 </li>

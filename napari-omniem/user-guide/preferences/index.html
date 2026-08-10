@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -211,6 +211,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related pages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -221,13 +225,16 @@
 <h1 id="preferences-reference">Preferences reference</h1>
 <p>The <strong>⚙️ Preferences</strong> button opens the settings dialog. It has two tabs:
 <strong>Settings</strong> (defaults and software-wide options, described here) and <strong>Tasks and
-Models</strong> (see <a href="../manage/">Task &amp; Solution Management</a>, <a href="../custom-models/">Importing Your Own
-Models</a>, and <a href="../custom-models/#backbones">Backbones</a>).</p>
-<p>Changes here need <strong>no restart</strong> (new <em>tasks</em> do, that is noted where it applies).</p>
+Models</strong> (see <a href="../manage/">Task, solution, and backbone management</a> and <a href="../custom-models/">Custom
+model requirements</a>).</p>
+<p>Changes made here do <strong>not</strong> require a restart. Creating a task does require one;
+the interface indicates this when applicable.</p>
 <hr />
 <h2 id="inference-defaults">Inference defaults</h2>
-<p>These set the starting values for every run; you can still override them per run
-in the Advanced settings (in-memory) or wizard (on-disk).</p>
+<p>Change and save these values to define your own default inference settings. The
+saved values become the starting settings for future runs, but you can still
+override them for an individual run in the in-memory <strong>Advanced</strong> settings or
+the on-disk wizard.</p>
 <table>
 <thead>
 <tr>
@@ -275,28 +282,28 @@ through the model, and merges the results. It is used by both in-memory (tiled) 
 on-disk inference. The values above are the defaults; each has a per-run override
 (the <strong>Advanced</strong> section in-memory, or the wizard on-disk).</p>
 <h3 id="input-xy-size">Input XY size</h3>
-<p>Spatial size (in pixels) of each window in the XY plane. Larger windows give more
-context and usually better quality; smaller windows use less GPU memory but can
-weaken boundary consistency. Default <strong>224</strong>; range <strong>112–896</strong> in steps of <strong>112</strong>.
-Use the largest size that fits in GPU memory.</p>
+<p>The spatial size, in pixels, of each window in the XY plane. Larger windows
+provide more context and usually better quality; smaller windows use less GPU
+memory but can weaken boundary consistency. The default is <strong>224</strong>, with a range
+of <strong>112–896</strong> in steps of <strong>112</strong>. Use the largest size that fits in GPU memory.</p>
 <h3 id="batch-size">Batch size</h3>
-<p>Number of windows processed together in one forward pass. Larger batches raise
-throughput; smaller batches use less GPU memory. Default <strong>4</strong>; set <strong>1</strong> when GPU
-memory is limited and increase gradually.</p>
+<p>The number of windows processed together in one forward pass. Larger batches
+increase throughput; smaller batches use less GPU memory. The default is <strong>4</strong>.
+Set it to <strong>1</strong> when GPU memory is limited, then increase it gradually.</p>
 <h3 id="overlap">Overlap</h3>
-<p>Fractional overlap between adjacent windows (<code>0.0</code> to <code>0.5</code>). Higher overlap smooths
-boundaries and reduces stitching artifacts but is slower. Default <strong>0.25</strong>; lower it
-toward <code>0.1</code> for speed on tolerant Image-to-Image runs, and keep it higher for
-boundary-sensitive Image-to-Label tasks.</p>
+<p>The fractional overlap between adjacent windows (<code>0.0</code> to <code>0.5</code>). Greater
+overlap smooths boundaries and reduces stitching artifacts but is slower. The
+default is <strong>0.25</strong>. Lower it toward <code>0.1</code> for speed on tolerant Image-to-Image
+runs, and keep it higher for boundary-sensitive Image-to-Label tasks.</p>
 <h3 id="blend-mode">Blend mode</h3>
-<p>How overlapping tiles are combined when merged: <strong>constant</strong> (uniform) or
+<p>The method used to merge overlapping tiles: <strong>constant</strong> (uniform) or
 <strong>gaussian</strong> (weighted toward tile centers, smoother seams).</p>
 <h3 id="practical-tips">Practical tips</h3>
 <ul>
 <li>Prefer <strong>larger XY sizes</strong> over larger batch sizes for better quality.</li>
 <li>Keep <strong>overlap ≥ 0.1</strong> to avoid visible stitching artifacts.</li>
-<li>On out-of-memory (OOM) errors, reduce batch size, then XY size, then overlap
-  (last resort).</li>
+<li>If an out-of-memory (OOM) error occurs, reduce the batch size first, then the
+  XY input size. Reduce the overlap only as a last resort.</li>
 </ul>
 <p>See <a href="../infer/">Inference Tips &amp; Common Pitfalls</a> for memory usage,
 out-of-memory recovery, and scratch-disk guidance.</p>
@@ -312,8 +319,8 @@ managed files to the new folder so your models keep working.</p>
 tasks share a backbone, a small cache is usually enough; raise it only if you
 switch between models that use <em>different</em> backbones.</p>
 <h3 id="gpu-and-cpu-memory-limits">GPU and CPU memory limits</h3>
-<p>Two rows, <strong>GPU (VRAM) limit</strong> and <strong>CPU (RAM) limit</strong>: let you cap how much a
-run may use. Each row has:</p>
+<p>The <strong>GPU (VRAM) limit</strong> and <strong>CPU (RAM) limit</strong> settings cap how much memory a
+run may use. Each setting has:</p>
 <ul>
 <li>A source: <strong>Auto</strong> (half of the device's total memory), <strong>Custom</strong> (the MB value
   in the spinbox), or <strong>Off</strong> (no limit).</li>
@@ -327,13 +334,22 @@ run may use. Each row has:</p>
 <div class="admonition note">
 <p class="admonition-title">“Proceed anyway”</p>
 <p>Before a run, the plugin estimates the memory it needs. If that estimate
-can't be guaranteed, because it exceeds a soft limit <strong>or</strong> because the
-actual free GPU memory or scratch disk is short, you'll see a <strong>Proceed
+cannot be guaranteed—because it exceeds a soft limit <strong>or</strong> because the
+available GPU memory or scratch space is insufficient—you see a <strong>Proceed
 anyway</strong> option. It lets you run at your own risk; the run may still hit an
 out-of-memory error.</p>
 </div>
 <hr />
-<p>Buttons at the bottom <strong>Save</strong> or <strong>Reset</strong> all controls, and <strong>Close</strong> the dialog.</p></div>
+<p>Use the buttons at the bottom to <strong>Save</strong> or <strong>Reset</strong> all settings, or to
+<strong>Close</strong> the dialog.</p>
+<hr />
+<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="../infer/">Inference</a></li>
+<li><a href="../manage/">Task, solution, and backbone management</a></li>
+<li><a href="../custom-models/">Custom model requirements</a></li>
+<li><a href="../tools/">Tools Workbench</a></li>
+</ul></div>
             </div>
         </div>
 

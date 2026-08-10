@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -219,7 +219,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#related-links" class="nav-link">Related Links</a>
+            <li class="nav-item" data-bs-level="2"><a href="#related-links" class="nav-link">Related links</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -235,48 +235,70 @@
 <p class="admonition-title">Screenshots</p>
 <p>Screenshots on this page show the v0.2 interface and are pending update.</p>
 </div>
-<p>One advantage of Napari-OmniEM is the ability to chain multiple models for analysis. This page demonstrates how applying super-resolution before segmentation can yield better mitochondria segmentation results compared to direct segmentation on the original data (Figure 5 in the manuscript).</p>
-<p>The experiment uses the downsampled glycolytic muscle EM dataset from <a href="">MitoLab</a>. The downsampled data is available as sample data in Napari-OmniEM. This page walks through two workflows:</p>
+<p>Napari-OmniEM lets you chain models in a single analysis workflow. This example
+shows how applying super-resolution before segmentation can improve mitochondria
+segmentation compared with segmenting the original data directly (Figure 5 in
+the manuscript).</p>
+<p>The experiment uses a downsampled glycolytic-muscle EM dataset from
+<a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(22)00494-X">CEM-MitoLab</a>.
+The dataset is included with Napari-OmniEM as sample data. This page compares
+two workflows:</p>
 <ol>
 <li><strong>Direct segmentation</strong>: segment mitochondria directly in the downsampled data.</li>
 <li><strong>Super-resolution + segmentation</strong>: upsample the data first, then segment.</li>
 </ol>
 <hr />
 <h2 id="data">Data</h2>
-<p>Click <strong>File → Open Sample → OmniEM → EM</strong> to load the bundled sample data (this loads three datasets; use the <strong>GlyMuscle (3D)</strong> layer here).</p>
+<p>Select <strong>File → Open Sample → OmniEM → EM</strong> to load the three bundled datasets.
+Use the <strong>GlyMuscle (3D)</strong> layer for this example.</p>
 <p><img alt="" src="../imgs/file-GlyMuscle.png" /></p>
-<p>Open the OmniEM panel and select the data in the <strong>Data</strong> dropdown. Set the z-dimension to <code>0</code>. Then open the <strong>Image Properties</strong> panel to verify the data size: <code>[302, 168, 336]</code>.</p>
+<p>Open the OmniEM panel and select the layer from the <strong>Data</strong> list. Set the
+z-dimension to <code>0</code>, then open the <strong>Image Properties</strong> panel and verify that the
+data shape is <code>[302, 168, 336]</code>.</p>
 <p><img alt="" src="../imgs/panel-GlyMuscle-default.png" /></p>
 <hr />
 <h2 id="direct-mitochondria-segmentation">Direct Mitochondria Segmentation</h2>
-<p>Select <strong>Mitochondria Segmentation</strong> in the <strong>Task</strong> dropdown. We recommend the <code>ViT-L-2D</code> solution for its better generalization. Adjust the hyperparameters as needed, for example, set the output name to <code>raw-seg</code> to identify the result, and reduce the batch size to <code>1</code> to reduce memory usage.</p>
+<p>Select <strong>Mitochondria Segmentation</strong> from the <strong>Task</strong> list. We recommend the
+<code>ViT-L-2D</code> solution for its stronger generalization. Adjust the settings as
+needed. For example, set the output name to <code>raw-seg</code> to identify the result and
+reduce the batch size to <code>1</code> to lower memory use.</p>
 <p><img alt="" src="../imgs/panel-GlyMuscle-rawseg.png" /></p>
 <p>Click <strong>Run model</strong> and wait for the results.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-raw-seg.png" /></p>
 <hr />
 <h2 id="super-resolution">Super-Resolution</h2>
-<p>Select <strong>Super-resolution</strong> in the <strong>Task</strong> dropdown. Set the <strong>Scale (×)</strong> control to <code>2.0</code>, this doubles both in-plane axes (168 → 336 and 336 → 672); the z-axis is never scaled. The panel shows the resulting output shape.</p>
+<p>Select <strong>Super-resolution</strong> from the <strong>Task</strong> list and set <strong>Scale (×)</strong> to <code>2.0</code>.
+This doubles both in-plane axes (168 → 336 and 336 → 672); the z-axis is not
+scaled. The panel displays the resulting output shape.</p>
 <!-- 📷 RESHOOT (v0.3): the Super-resolution panel using the single Scale (×)
      control set to 2.0 (the old per-axis "Upscaling to" fields are gone) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-superreso.png" /></p>
-<p>Click <strong>Run model</strong> to start super-resolution inference. After inference completes, we recommend removing unused data layers and switching to <strong>Grid</strong> view mode to compare results side by side.</p>
+<p>Click <strong>Run model</strong> to start super-resolution inference. When the run finishes,
+remove any unused data layers and switch to <strong>Grid</strong> view to compare the results
+side by side.</p>
 <p><img alt="" src="../imgs/action-grid-mode.png" /></p>
 <p><img alt="" src="../imgs/allview-GlyMucle-superreso.png" /></p>
 <hr />
 <h2 id="mitochondria-segmentation-on-super-resolved-data">Mitochondria Segmentation on Super-Resolved Data</h2>
-<p>Select the new super-resolution image in the <strong>Data</strong> dropdown (layers sync automatically; use <strong>🔄 Synchronize Data</strong> only if it is missing). Select <strong>Mitochondria Segmentation</strong> as the task. For better results, increase the <strong>XY Input size</strong> to a larger value (e.g., <code>448</code>) to better fit the increased data resolution.</p>
+<p>Select the new super-resolution image from the <strong>Data</strong> list. Layers synchronize
+automatically; use <strong>🔄 Synchronize Data</strong> only if the layer is missing. Select
+<strong>Mitochondria Segmentation</strong> as the task. To account for the higher input
+resolution, increase <strong>XY Input Size</strong> to a larger value, such as <code>448</code>.</p>
 <!-- 📷 RESHOOT (v0.3): segmenting the super-resolved layer - Task set to
      Mitochondria Segmentation, XY Input size 448 (no manual Refresh needed) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-segonsuper.png" /></p>
 <p>Click <strong>Run model</strong> and wait for the segmentation results.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-super-seg.png" /></p>
-<p>Switch to <strong>3D view</strong> mode to see the differences more clearly.</p>
+<p>Switch to <strong>3D view</strong> to compare the results more clearly.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-super-seg-3D.png" /></p>
 <hr />
 <h2 id="conclusion">Conclusion</h2>
-<p>Napari-OmniEM enables flexible chaining of multiple models within a single interactive workflow. By combining tasks such as super-resolution and segmentation, users can leverage complementary models to achieve better analysis outcomes than any single model alone. This composability is a core strength of the plugin, making it adaptable to diverse EM datasets and analysis goals.</p>
+<p>Napari-OmniEM can chain complementary models within one interactive workflow.
+Here, super-resolution provides a higher-resolution input for mitochondria
+segmentation and can improve the final result. The same approach can adapt model
+sequences to other EM datasets and analysis goals.</p>
 <hr />
-<h2 id="related-links">Related Links</h2>
+<h2 id="related-links">Related links</h2>
 <ul>
 <li><a href="../../user-guide/infer/#in-memory-inference">In-memory Inference</a></li>
 <li><a href="../../user-guide/preferences/#sliding-window-parameters">Sliding Window Parameters</a></li>

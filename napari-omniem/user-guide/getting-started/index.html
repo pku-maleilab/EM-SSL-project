@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -211,7 +211,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next Steps</a>
+            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next steps</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -223,10 +223,12 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="getting-started-with-napari-omniem">Getting Started with Napari-OmniEM</h1>
-<p>This guide provides a quick introduction to <strong>Napari-OmniEM</strong> and helps you get up and running with your first inference task.</p>
+<p>This guide introduces <strong>Napari-OmniEM</strong> and walks you through your first
+inference task.</p>
 <hr />
 <h2 id="installation">Installation</h2>
-<p>Napari-OmniEM is installed from source. Please follow the <a href="../installation/">Installation Guide</a>.</p>
+<p>Napari-OmniEM is installed from source. Follow the <a href="../installation/">installation
+guide</a> before continuing.</p>
 <hr />
 <h2 id="launch-napari-and-omniem">Launch Napari and OmniEM</h2>
 <pre><code class="language-bash">napari
@@ -235,9 +237,11 @@
 <p>In the napari menu bar, open <strong>Plugins</strong> and select <strong>OmniEM</strong>.</p>
 <p><img alt="select omniem" src="../imgs/plugins-omniem.png" /></p>
 <h3 id="load-sample-em-data">Load sample EM data</h3>
-<p>Napari-OmniEM bundles example electron microscopy datasets for quick testing. Open <strong>File → Open Sample → OmniEM → EM</strong>; this single command loads three datasets, including <strong>MitoEM (2D)</strong>, <strong>AxonEM (3D)</strong>, and <strong>GlyMuscle (3D)</strong>.</p>
+<p>Napari-OmniEM includes example electron microscopy datasets for quick testing.
+Open <strong>File → Open Sample → OmniEM → EM</strong> to load three datasets: <strong>MitoEM
+(2D)</strong>, <strong>AxonEM (3D)</strong>, and <strong>GlyMuscle (3D)</strong>.</p>
 <p><img alt="Open Sample menu" src="../imgs/file-sample.png" /></p>
-<p>Alternatively, load your own data via <strong>File → Open File(s)</strong>.</p>
+<p>Alternatively, load your own data by selecting <strong>File → Open File(s)</strong>.</p>
 <h3 id="interface-overview">Interface overview</h3>
 <p>The Napari-OmniEM panel has a toolbar with four buttons:</p>
 <ul>
@@ -248,7 +252,7 @@
 <li><strong>⚙️ Preferences</strong>: inference defaults and task/model management.</li>
 <li><strong>🧰 More Tools</strong>: the <a href="../tools/">Tools workbench</a>.</li>
 </ul>
-<p>Select a loaded image and the interface should appear similar to the following:</p>
+<p>Select a loaded image. The interface should look similar to this:</p>
 <!-- 📷 RESHOOT (v0.3): the Napari-OmniEM panel with a sample loaded, showing the
      four-button toolbar (🔄 📁 ⚙️ 🧰) at the top -->
 <p><img alt="Interface overview" src="../imgs/overview-inferface.png" /></p>
@@ -257,7 +261,9 @@
 <ol>
 <li>Select the <strong>MitoEM (2D)</strong> layer in the <strong>Data</strong> dropdown.</li>
 <li>
-<p>Set <strong>Task</strong> to <strong>Mitochondria Segmentation</strong> and <strong>Solution</strong> to <strong>ViT-L-2D</strong>. The panel shows the read-only Background / Mitochondria label mapping. There is nothing else to set.</p>
+<p>Set <strong>Task</strong> to <strong>Mitochondria Segmentation</strong> and <strong>Solution</strong> to
+   <strong>ViT-L-2D</strong>. The panel displays the read-only Background/Mitochondria label
+   mapping; no other settings are required.</p>
 <p><!-- 📷 CAPTURE: the panel with MitoEM(2D) selected, Task = Mitochondria
      Segmentation, Solution = ViT-L-2D, and the read-only label mapping -->
 <!-- <img alt="Task and solution selected" src="imgs/quickstart-mito-select.png" /> --></p>
@@ -268,20 +274,28 @@
 <!-- <img alt="Run dialog with memory estimate" src="imgs/quickstart-mito-run.png" /> --></p>
 </li>
 <li>
-<p>The result appears as a new <strong>Labels</strong> layer, with <code>0</code> = Background and <code>1</code> = Mitochondria.</p>
+<p>The result appears as a new <strong>Labels</strong> layer, where <code>0</code> represents Background
+   and <code>1</code> represents Mitochondria.</p>
 <p><!-- 📷 CAPTURE: the MitoEM(2D) sample with the predicted mitochondria mask overlaid -->
 <!-- <img alt="Mitochondria segmentation result" src="imgs/quickstart-mito-result.png" /> --></p>
 </li>
 </ol>
-<h2 id="next-steps">Next Steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>Continue with the detailed user guides:</p>
 <ul>
-<li><a href="../infer/#in-memory-inference">In-memory Inference</a>. The full workflow, output options, and Full Volume mode.</li>
-<li><a href="../infer/#local-on-disk-inference">Local Inference</a>. On-disk, multi-GPU inference for large volumes.</li>
-<li><a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>. Tune tile size, overlap, batch size, and blending.</li>
-<li><a href="../manage/">Task &amp; Solution Management</a>. Create, share, and manage tasks; add your <a href="../custom-models/">own models</a>.</li>
-<li><a href="../../model-zoo/">Model Zoo</a>. The built-in models.</li>
-<li>Worked examples: <a href="../../cases/multi-task/">Multi-task</a> and <a href="../../cases/import-models/">Importing Fine-tuned Models</a>.</li>
+<li><a href="../infer/#in-memory-inference">In-memory inference</a>: learn the full workflow,
+  output options, and Full Volume mode.</li>
+<li><a href="../infer/#local-on-disk-inference">Local inference</a>: run large-volume,
+  multi-GPU inference from disk.</li>
+<li><a href="../preferences/#sliding-window-parameters">Sliding-window parameters</a>: tune
+  tile size, overlap, batch size, and blending.</li>
+<li><a href="../manage/">Task, solution, and backbone management</a>: create, share, and
+  manage model resources.</li>
+<li><a href="../custom-models/">Custom model requirements</a>: prepare compatible configs and
+  weights for import.</li>
+<li><a href="../../model-zoo/">Model Zoo</a>: explore the built-in models.</li>
+<li>Worked examples: <a href="../../cases/multi-task/">Multi-task inference</a> and
+  <a href="../../cases/import-models/">importing fine-tuned models</a>.</li>
 </ul></div>
             </div>
         </div>

@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -199,6 +199,10 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#inference" class="nav-link">Inference</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#choose-an-inference-mode" class="nav-link">Choose an inference mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#in-memory-inference" class="nav-link">In-memory inference</a>
               <ul class="nav flex-column">
               </ul>
@@ -223,16 +227,33 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="inference">Inference</h1>
-<p>Napari-OmniEM offers two ways to run a model:</p>
+<p>Napari-OmniEM offers two inference workflows:</p>
 <ul>
 <li><strong>In-memory</strong> (main panel): the quickest way to run a model, best for
   interactive exploration and small-to-medium data that fits in memory.</li>
 <li><strong>Local (on-disk)</strong> (📁 wizard): streams large volumes from disk with bounded
   memory and multi-GPU support.</li>
 </ul>
-<p>Task and solution selection and the sliding-window parameters are the same in
-both. Memory and scratch-disk guidance for either mode is in
+<p>Task and solution selection and the sliding-window parameters work the same way
+in both workflows. See
 <a href="#tips-common-pitfalls">Tips &amp; common pitfalls</a> below.</p>
+<hr />
+<h2 id="choose-an-inference-mode">Choose an inference mode</h2>
+<p>Use the size of your data and the required output quality to choose a mode:</p>
+<pre><code class="language-text">Choose data
+    ├─ Too large to fit in memory or requires multiple GPUs
+    │      └─ Local (on-disk)
+    └─ Fits in memory
+           ├─ Seam-free output needed and sufficient GPU memory available
+           │      └─ Full Volume
+           └─ Otherwise
+                  └─ In-memory (tiled)
+
+Select task and solution → Configure → Run → View or save
+</code></pre>
+<p>Continue with <a href="#in-memory-inference">in-memory tiled inference</a>, <a href="#full-volume-mode">Full Volume
+mode</a>, or <a href="#local-on-disk-inference">local on-disk
+inference</a>.</p>
 <hr />
 <h2 id="in-memory-inference">In-memory inference</h2>
 <p>In-memory inference runs directly in the main <strong>Napari-OmniEM</strong> panel on data
@@ -240,16 +261,16 @@ loaded as napari image layers. It is the quickest way to run a model and is best
 for <strong>interactive exploration, debugging, and small-to-medium EM datasets</strong>.</p>
 <div class="admonition info">
 <p class="admonition-title">Everything stays in memory</p>
-<p>The input volume, the intermediate tiles, and the result all live in GPU/CPU
-memory at once, so this mode is bounded by how much memory you have. For
+<p>The input volume, intermediate tiles, and result all occupy GPU or CPU memory
+during the run, so the available memory limits this mode. For
 volumes too large to hold in memory, use <a href="#local-on-disk-inference">Local inference</a>
 instead.</p>
 </div>
 <p>You can run in one of <strong>two modes</strong>:</p>
 <ul>
-<li><strong>Sliding window</strong> (default): the volume is split into overlapping tiles, each
-  is run through the model, and the tiles are stitched back together. Uses less
-  GPU memory and handles larger inputs.</li>
+<li><strong>Sliding window</strong> (default): splits the volume into overlapping tiles, runs
+  each tile through the model, and stitches the results together. It uses less
+  GPU memory and can handle larger inputs.</li>
 <li><strong>Full Volume</strong>: the whole image is fed to the model in a single forward pass.
   Avoids stitching seams but needs more GPU memory. See
   <a href="#full-volume-mode">Full Volume mode</a> below.</li>
@@ -257,9 +278,9 @@ instead.</p>
 <h3 id="select-data">Select data</h3>
 <ul>
 <li>
-<p>Load image data into napari via <em>File → Open File(s)</em>.</p>
+<p>Load image data into napari by selecting <strong>File → Open File(s)</strong>.</p>
 <ul>
-<li>The data will appear as one or more <strong>image layers</strong>.</li>
+<li>The data appear as one or more <strong>Image</strong> layers.</li>
 </ul>
 </li>
 <li>
@@ -270,13 +291,13 @@ instead.</p>
 <p>Select the target image from the <strong>Data</strong> dropdown list.</p>
 </li>
 <li>
-<p>If the selected data is a <strong>3D volume</strong>, specify the <strong>z-dimension</strong>:</p>
+<p>If the selected input is a <strong>3D volume</strong>, specify the <strong>z-dimension</strong>:</p>
 <ul>
 <li>
-<p>By default, the axis with the <strong>minimum side length</strong> is automatically chosen.</p>
+<p>By default, Napari-OmniEM selects the axis with the <strong>shortest length</strong>.</p>
 </li>
 <li>
-<p>You can override this if your data uses a different axis convention.</p>
+<p>Change the selection if your data use a different axis convention.</p>
 </li>
 </ul>
 </li>
@@ -284,7 +305,7 @@ instead.</p>
 <h3 id="select-task-and-solution">Select task and solution</h3>
 <ul>
 <li>
-<p>Choose a <strong>Task</strong> corresponding to the intended processing goal, an
+<p>Choose the <strong>Task</strong> that corresponds to your processing goal: an
   <strong>Image-to-Image</strong> task (e.g. denoising, super-resolution) or an
   <strong>Image-to-Label</strong> task (e.g. mitochondria segmentation).</p>
 </li>
@@ -292,21 +313,21 @@ instead.</p>
 <p>Select a compatible <strong>Solution</strong> from the <strong>Solution</strong> list.</p>
 <ul>
 <li>The list is <strong>filtered automatically</strong> by the selected data: only solutions
-  whose dimensionality and modality match the chosen layer appear, so you
-  cannot pick a model that does not fit your data.</li>
+  whose dimensionality and modality match the chosen layer are enabled, so
+  you cannot select an incompatible model.</li>
 </ul>
 </li>
 <li>
 <p>Not sure which to choose? Click the <strong>💡</strong> button next to the <strong>Task</strong> or
-  <strong>Solution</strong> dropdown to show its details. For fuller descriptions of the
+  <strong>Solution</strong> dropdown to show its details. For more detailed descriptions of the
   built-in models, see the <a href="../../model-zoo/">Model Zoo</a>.</p>
 </li>
 </ul>
-<blockquote>
-<p>Terminology note
-- <strong>Task</strong>: defines <em>what</em> problem is being solved.
-- <strong>Solution</strong>: a concrete model + configuration that solves a task.</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Terminology</p>
+<p>A <strong>Task</strong> defines the problem to solve. A <strong>Solution</strong> is a specific model
+and configuration that solves that task.</p>
+</div>
 <p>This terminology is consistent across in-memory and local inference.</p>
 <!-- 📷 CAPTURE: the Napari-OmniEM panel with a sample loaded (e.g. MitoEM(2D)),
      showing the Data / Task / Solution dropdowns filled in and the Run model button -->
@@ -318,23 +339,24 @@ instead.</p>
 <li><strong>Image-to-Image</strong>: a single <strong>Scale (×)</strong> control (range 1.0–8.0, step 0.5).
   The ratio is applied to the in-plane (X/Y) axes together; the Z axis is never
   scaled. <code>1.0</code> keeps the size; restoration never downscales. The panel shows the
-  resulting output shape live. (Some models are trained for modest scaling, the
-  super-resolution model recommends staying <strong>below 3.0×</strong>.)</li>
-<li><strong>Image-to-Label</strong>: a read-only table of the label → value mapping that the
-  output mask will use. Nothing to set here.</li>
+  resulting output shape as you adjust the value. Some models are trained for
+  modest scaling.</li>
+<li><strong>Image-to-Label</strong>: a read-only table showing the label → value mapping used in
+  the output mask. No additional configuration is required.</li>
 </ul>
 <!-- 📷 CAPTURE: the Image-to-Image Scale (×) control (e.g. Super-resolution on the
      GlyMuscle(3D) sample, scale 2.0) with the live output-shape readout -->
 <!-- ![Scale control for Image-to-Image](imgs/inmem-scale-control.png) -->
 
 <h3 id="advanced-settings">Advanced settings</h3>
-<p>The <strong>Advanced</strong> section holds per-run overrides. Defaults come from
-<a href="../preferences/">Preferences</a>; if unsure, the defaults are safe for a first run.</p>
+<p>The <strong>Advanced</strong> section contains settings for the current run. Their defaults
+come from <a href="../preferences/">Preferences</a>. If you are unsure which values to use,
+keep the defaults for your first run.</p>
 <ul>
-<li><strong>Full Volume</strong>: switches to Full Volume mode; see the <a href="#full-volume-mode">next
+<li><strong>Full Volume</strong>: enables Full Volume mode; see the <a href="#full-volume-mode">next
   section</a>.</li>
 </ul>
-<p><strong>Sliding-window only</strong> (these grey out under Full Volume):</p>
+<p><strong>Sliding-window only</strong> (disabled in Full Volume mode):</p>
 <ul>
 <li><strong>Overlap</strong>, <strong>Batch Size</strong>, <strong>XY Input Size</strong>: tiling controls; see
   <a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>.</li>
@@ -350,24 +372,19 @@ instead.</p>
 <p>Tick <strong>Full Volume</strong> to feed the whole image to the model in a single forward pass
 instead of tiling. This <strong>avoids sliding-window stitching seams</strong> and works for
 both Image-to-Image and Image-to-Label tasks, but it uses more GPU memory. The
-sliding-window controls (overlap, batch, XY, blend) grey out; the normalization
-selector still applies.</p>
+  sliding-window controls (overlap, batch size, XY input size, and blend mode)
+  are disabled; the normalization setting still applies.</p>
 <!-- 📷 CAPTURE: the Advanced section expanded with Full Volume ticked (note the
      greyed-out overlap/batch/XY/blend controls); Blend mode + Normalization source visible -->
 <!-- ![Advanced settings with Full Volume enabled](imgs/inmem-advanced-fullvolume.png) -->
 
-<p>If the input is not square, you'll be asked to run at the height or the width as
-the square size; the original aspect ratio is restored and output-scaled
-afterward, the image is <strong>not</strong> cropped.</p>
-<div class="admonition warning">
-<p class="admonition-title">Full Volume with the 3D mitochondria model</p>
-<p>The ViT-L-3D model may produce boundary gaps between blocks under Full Volume;
-prefer sliding-window mode for it. See the <a href="../../model-zoo/mito/">model card</a>.</p>
-</div>
+<p>If the input is not square, you are asked whether to use its height or width as
+the square input size. Napari-OmniEM restores the original aspect ratio and
+applies the requested output scale afterward; it does <strong>not</strong> crop the image.</p>
 <h3 id="run-inference">Run inference</h3>
 <ul>
-<li>Click <strong>Run model</strong> to open the inference dialog. It shows the device, the work
-  to be done (batch count or the padded input/output shape), and the <strong>estimated
+<li>Click <strong>Run model</strong> to open the inference dialog. It shows the device, the
+  planned work (either the batch count or padded input and output shapes), and the <strong>estimated
   GPU memory range</strong> for the run.</li>
 </ul>
 <!-- 📷 CAPTURE: the pre-inference Run dialog showing the device, batch/shape info,
@@ -377,7 +394,7 @@ prefer sliding-window mode for it. See the <a href="../../model-zoo/mito/">model
 <ul>
 <li>
 <p>Start the run from the dialog. When it finishes, the <strong>OK</strong> button becomes
-  <strong>Redo</strong> so you can re-run with changed settings; the result appears in napari as
+  <strong>Redo</strong> so you can rerun with different settings. The result appears in napari as
   a new layer.</p>
 </li>
 <li>
@@ -387,8 +404,9 @@ prefer sliding-window mode for it. See the <a href="../../model-zoo/mito/">model
 </ul>
 <hr />
 <h2 id="local-on-disk-inference">Local (on-disk) inference</h2>
-<p>Local (on-disk) inference is activated by clicking the 📁 button in the main
-<strong>Napari-OmniEM</strong> panel. Data are loaded from local files using <code>dask.array</code>, and
+<p>Open local (on-disk) inference by clicking the 📁 button in the main
+<strong>Napari-OmniEM</strong> panel. Napari-OmniEM loads data from local files using
+<code>dask.array</code> and stores
 intermediate results are stored as temporary <strong>HDF5</strong> files (more efficient
 backends are planned). It is a step-by-step wizard: Input Data → Task → Advanced
 settings → Run → Output.</p>
@@ -405,7 +423,7 @@ settings → Run → Output.</p>
 <ul>
 <li>Click <strong>Browse File</strong> to select a local image or volume. Common image formats
   read by <a href="https://image.dask.org/">dask-image</a> are supported, such as <strong>TIFF</strong>
-  (including multi-page stacks, which load as a 3D volume), <strong>PNG</strong>, and <strong>JPEG</strong>.
+  (including multipage stacks, which load as 3D volumes), <strong>PNG</strong>, and <strong>JPEG</strong>.
   The data must be <strong>2D</strong> <code>(H, W)</code>, <strong>3D</strong> <code>(Z, H, W)</code>, or a colour variant
   <code>(H, W, C)</code> / <code>(Z, H, W, C)</code>; other shapes are rejected.</li>
 <li>The model works on <strong>single-channel</strong> data. If you load a <strong>colour or
@@ -418,20 +436,21 @@ settings → Run → Output.</p>
 </ul>
 </li>
 <li>If the data are 3D, specify the <strong>z-dimension</strong>:<ul>
-<li>By default, the axis with the <strong>minimum side length</strong> is selected.</li>
+<li>By default, the axis with the <strong>shortest length</strong> is selected.</li>
 <li>Override this if your data use a different axis convention.</li>
 </ul>
 </li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Everything streams from disk</p>
-<p>Every input (2D, colour, or 3D) is processed as a streamed 3D volume with
-bounded memory, so even large 2D images run here without loading whole.</p>
+<p>Every input—2D, colour, or 3D—is processed as a streamed 3D volume with
+bounded memory use. Even large 2D images can therefore run without being
+loaded into memory in full.</p>
 </div>
 <h3 id="step-2-select-task-and-solution">Step 2: Select task and solution</h3>
 <ul>
 <li>Task and solution selection is the same as in in-memory inference.</li>
-<li>Only solutions compatible with the selected data will be shown.</li>
+<li>Incompatible tasks and solutions are shown but disabled.</li>
 </ul>
 <h3 id="step-3-advanced-settings-sliding-window-devices">Step 3: Advanced settings (sliding window &amp; devices)</h3>
 <p>In addition to the standard sliding-window parameters, local inference provides:</p>
@@ -440,9 +459,10 @@ bounded memory, so even large 2D images run here without loading whole.</p>
 <p><strong>Device selection</strong></p>
 <ul>
 <li>GPU-only inference; at least one GPU must be chosen.</li>
-<li>Multiple GPUs can be selected for parallel inference. <strong>Each selected GPU
-  holds a full model replica</strong> (backbone + head), the shared backbone is not
-  deduplicated across GPUs, so more GPUs means proportionally more VRAM.</li>
+<li>You can select multiple GPUs for parallel inference. <strong>Each selected GPU
+  holds a complete model replica</strong> (backbone and head). The shared backbone
+  is not deduplicated across GPUs, so total VRAM use increases in proportion
+  to the number of GPUs.</li>
 </ul>
 </li>
 <li>
@@ -462,8 +482,8 @@ bounded memory, so even large 2D images run here without loading whole.</p>
 <p>For details on sliding-window parameters, see the
 <a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a> page.</p>
 <h3 id="step-4-run-inference">Step 4: Run inference</h3>
-<p>A persistent banner shows the <strong>estimated GPU memory</strong> for the run (with the
-multi-GPU note above). Then:</p>
+<p>A persistent banner displays the run's <strong>estimated GPU memory</strong> requirement and
+the multi-GPU caveat described above.</p>
 <!-- 📷 CAPTURE: the wizard Step 4 (Inference) - the persistent required-memory
      banner with the multi-GPU caveat, and the run / stop / clear buttons -->
 <!-- ![Local wizard: Inference page with memory banner](imgs/local-step4-run.png) -->
@@ -480,10 +500,10 @@ multi-GPU note above). Then:</p>
 <p><strong>Open in napari</strong></p>
 </li>
 <li>
-<p>Both input data and results can be loaded</p>
+<p>Load the input data, the results, or both.</p>
 </li>
 <li>
-<p>Use with caution for very large datasets</p>
+<p>Use this option cautiously with very large datasets.</p>
 </li>
 <li>
 <p><strong>Standard file formats</strong></p>
@@ -491,9 +511,7 @@ multi-GPU note above). Then:</p>
 <li>
 <p>TIFF</p>
 </li>
-<li>
-<p>PNG (2D results only)</p>
-</li>
+<li>PNG (2D results only)</li>
 <li>
 <p>NumPy (<code>.npy</code>)</p>
 </li>
@@ -503,9 +521,7 @@ multi-GPU note above). Then:</p>
 <li>
 <p>Zarr</p>
 </li>
-<li>
-<p>NumPyStack</p>
-</li>
+<li>NumPyStack</li>
 </ol>
 <!-- 📷 CAPTURE: the wizard Output page - the Results / Image open buttons and the
      TIF / PNG / NumPy / Zarr / NumPyStack save buttons -->
@@ -527,8 +543,8 @@ multi-GPU note above). Then:</p>
   napari.</p>
 </li>
 <li>
-<p>Does <strong>not</strong> chain an Image-to-Image result into an Image-to-Label run in a
-  single pass, save the first result and reload it for the second.</p>
+<p>Cannot chain an Image-to-Image result into an Image-to-Label run in a single
+  pass. Save the first result, then reload it for the second run.</p>
 </li>
 <li>
 <p>Does <strong>not</strong> offer Full Volume mode (that is an in-memory option).</p>
@@ -539,17 +555,18 @@ multi-GPU note above). Then:</p>
 <p>Shared guidance for both modes. For what each tiling control does, see
 <a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a>.</p>
 <h3 id="what-uses-memory">What uses memory</h3>
-<p>The input volume, the model, the intermediate tiles, and the result are held at
-once. In-memory mode keeps all of it in RAM/VRAM; local mode streams the volume
-from disk and holds only a bounded working set. A higher <strong>Scale (×)</strong>, a larger
-<strong>XY input size</strong>, or <strong>Full Volume</strong> mode all raise the peak.</p>
+<p>The input volume, model, intermediate tiles, and result all require storage
+during inference. In-memory mode keeps them in RAM or VRAM; local mode streams
+the volume from disk and holds only a bounded working set. A higher <strong>Scale (×)</strong>,
+a larger <strong>XY input size</strong>, or <strong>Full Volume</strong> mode all raise the peak.</p>
 <h3 id="if-you-run-out-of-memory">If you run out of memory</h3>
 <p>Try these in order:</p>
 <ul>
 <li>Reduce <strong>Batch Size</strong> (even <code>1</code> is acceptable).</li>
 <li>Reduce the <strong>XY input size</strong>.</li>
 <li>Lower the <strong>Scale (×)</strong>, or turn <strong>Full Volume</strong> off (in-memory).</li>
-<li>Switch to <a href="#local-on-disk-inference">local inference</a>, which streams from disk.</li>
+<li>Switch to <a href="#local-on-disk-inference">local inference</a>, which streams data from
+  disk.</li>
 </ul>
 <h3 id="balancing-performance-and-memory">Balancing performance and memory</h3>
 <p>Most controls trade memory for speed or quality, so pick the largest settings your
@@ -567,11 +584,12 @@ memory limit.</p>
 <h3 id="shared-backbone">Shared backbone</h3>
 <p>Models that use the same backbone keep one resident copy of it, so switching
 between such solutions does not reload the encoder and keeps GPU use low. See
-<a href="../manage/">Task &amp; Solution Management</a>.</p>
+<a href="../manage/">Task, solution, and backbone management</a>.</p>
 <h3 id="memory-warnings">Memory warnings</h3>
-<p>Before each run the plugin estimates the memory it will need and checks it against
-the free GPU/CPU memory and your configured limits. If the run may not fit you are
-warned and can adjust settings or <strong>Proceed anyway</strong> at your own risk; see the
+<p>Before each run, the plugin estimates the required memory and compares it with
+the available GPU and CPU memory and your configured limits. If the run may not
+fit, the plugin warns you. You can adjust the settings or select <strong>Proceed
+anyway</strong> at your own risk. See
 memory limits in <a href="../preferences/#gpu-and-cpu-memory-limits">Preferences</a>.</p>
 <h3 id="scratch-disk-local-inference">Scratch disk (local inference)</h3>
 <p>On-disk inference writes an output-sized scratch HDF5 file. Size the disk from the
@@ -589,7 +607,7 @@ leftovers from an interrupted run.</p>
 <h2 id="related-pages">Related Pages</h2>
 <ul>
 <li><a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a></li>
-<li><a href="../manage/">Task &amp; Solution Management</a></li>
+<li><a href="../manage/">Task, solution, and backbone management</a></li>
 <li><a href="../tools/">Tools Workbench</a></li>
 <li><a href="../../model-zoo/">Model Zoo</a></li>
 </ul></div>

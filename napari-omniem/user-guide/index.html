@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -223,23 +223,26 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="user-guide">User Guide</h1>
-<p>Welcome to the <strong>Napari-OmniEM User Guide</strong>. This guide provides step-by-step instructions for installation, inference workflows, and task/solution management.</p>
+<p>This guide provides step-by-step instructions for installing Napari-OmniEM,
+running inference, and managing tasks and solutions.</p>
 <hr />
 <h2 id="quick-start">Quick Start</h2>
 <ul>
 <li>
-<p><a href="installation/">Installation</a><br />
-  Environment setup, dependency requirements, and plugin installation steps.</p>
+<p><a href="installation/">Installation</a>: set up the environment, install the
+  dependencies, and install the plugin.</p>
 </li>
 <li>
-<p><a href="getting-started/">Getting Started</a><br />
-  Basic concepts, GUI overview, and first-time usage workflow.</p>
+<p><a href="getting-started/">Getting Started</a>: learn the basic concepts, explore the
+  interface, and run your first model.</p>
 </li>
 </ul>
 <hr />
 <h2 id="models-and-inference">Models and Inference</h2>
-<p>See the <a href="../model-zoo/">Model Zoo</a> for the built-in models; this section covers how to run them.</p>
-<p>Napari-OmniEM offers three inference modes. The table compares them; follow the links for step-by-step guides.</p>
+<p>See the <a href="../model-zoo/">Model Zoo</a> for details about the built-in models.
+This section explains how to run them.</p>
+<p>Napari-OmniEM offers three inference modes. Use this comparison to choose a mode,
+then follow its link for step-by-step instructions.</p>
 <table>
 <thead>
 <tr>
@@ -251,46 +254,46 @@
 </thead>
 <tbody>
 <tr>
-<td><strong><a href="infer/#in-memory-inference">In-memory (tiled)</a></strong></td>
-<td>Small-to-medium volumes that fit in RAM</td>
-<td>Whole volume in memory</td>
-<td>Sliding-window tiles; the default.</td>
-</tr>
-<tr>
 <td><strong><a href="infer/#full-volume-mode">Full Volume</a></strong></td>
 <td>Small volumes, or avoiding tile seams</td>
 <td>Highest GPU use</td>
 <td>Single pass; avoids sliding-window stitching seams.</td>
 </tr>
 <tr>
+<td><strong><a href="infer/#in-memory-inference">In-memory (tiled)</a></strong></td>
+<td>Small-to-medium volumes that fit in RAM</td>
+<td>Entire volume in memory</td>
+<td>Uses sliding-window tiles; this is the default.</td>
+</tr>
+<tr>
 <td><strong><a href="infer/#local-on-disk-inference">On-disk (local)</a></strong></td>
-<td>Large volumes, multi-GPU</td>
-<td>Bounded RAM + scratch disk</td>
-<td>Streams via a temporary file; requires a CUDA GPU.</td>
+<td>Large volumes or multi-GPU inference</td>
+<td>Bounded RAM use plus scratch disk</td>
+<td>Streams through a temporary file; requires a CUDA GPU.</td>
 </tr>
 </tbody>
 </table>
-<p>See also <a href="preferences/#sliding-window-parameters">Sliding Window Parameters</a> for tile size, overlap, batch size,
-and blending.</p>
+<p>See also <a href="preferences/#sliding-window-parameters">Sliding Window Parameters</a>
+for tile size, overlap, batch size, and blending.</p>
 <hr />
 <h2 id="task-and-solution-management">Task and Solution Management</h2>
 <ul>
-<li><a href="manage/">Task &amp; Solution Management</a><br />
-  Create, enable/disable, delete, and share tasks; manage solutions.</li>
-<li><a href="custom-models/">Importing Your Own Models</a><br />
-  Add fine-tuned OmniEM models to a task; inspect and manage shared backbones.</li>
-<li><a href="preferences/">Preferences</a><br />
-  Inference defaults, weights folder, memory limits.</li>
-<li><a href="tools/">Tools Workbench</a><br />
-  Memory management, weight split/merge, post-processing, logs.</li>
+<li><a href="manage/">Task, solution, and backbone management</a>: create, import, export,
+  share, and manage model resources.</li>
+<li><a href="custom-models/">Custom model requirements</a>: prepare compatible model
+  configs, weights, tasks, and backbones for import.</li>
+<li><a href="preferences/">Preferences</a>: configure inference defaults, the weights
+  folder, and memory limits.</li>
+<li><a href="tools/">Tools Workbench</a>: manage memory, split or merge weights,
+  post-process results, and view logs.</li>
 </ul>
 <hr />
 <h2 id="worked-examples">Worked Examples</h2>
 <ul>
-<li><a href="../cases/multi-task/">Multi-task</a><br />
-  Chain super-resolution and mitochondria segmentation on one sample.</li>
-<li><a href="../cases/import-models/">Importing Fine-tuned Models</a><br />
-  Load your own trained OmniEM heads into a task.</li>
+<li><a href="../cases/multi-task/">Multi-task inference</a>: chain super-resolution and
+  mitochondria segmentation on one sample.</li>
+<li><a href="../cases/import-models/">Importing Fine-tuned Models</a>: load your trained
+  OmniEM heads into a task.</li>
 </ul></div>
             </div>
         </div>

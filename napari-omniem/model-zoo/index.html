@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -207,23 +207,23 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#task-types" class="nav-link">Task Types</a>
+            <li class="nav-item" data-bs-level="2"><a href="#task-types" class="nav-link">Task types</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#dimensionality-support" class="nav-link">Dimensionality Support</a>
+            <li class="nav-item" data-bs-level="2"><a href="#dimensionality-support" class="nav-link">Dimensionality support</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#data-type-configuration" class="nav-link">Data Type Configuration</a>
+            <li class="nav-item" data-bs-level="2"><a href="#data-type-configuration" class="nav-link">Data type configuration</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#available-models" class="nav-link">Available Models</a>
+            <li class="nav-item" data-bs-level="2"><a href="#available-models" class="nav-link">Available models</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#training-and-fine-tuning-omniem" class="nav-link">Training and Fine-tuning OmniEM</a>
+            <li class="nav-item" data-bs-level="2"><a href="#training-and-fine-tuning-omniem" class="nav-link">Training and fine-tuning OmniEM</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -235,79 +235,141 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="model-zoo">Model Zoo</h1>
-<p>All models in <strong>Napari-OmniEM</strong> share the same core architecture: <strong>OmniEM</strong>.</p>
+<p>All models in <strong>Napari-OmniEM</strong> use the <strong>OmniEM</strong> core architecture.</p>
 <h2 id="omniem-architecture">OmniEM Architecture</h2>
 <p><img alt="OmniEM Architecture" src="imgs/omniem_architecture.png" /></p>
-<p>OmniEM is a unified framework designed to support multiple electron microscopy (EM) tasks within a consistent architectural paradigm.</p>
-<p>Model behavior is determined by:</p>
+<p>OmniEM is a unified framework for applying a consistent model architecture to
+multiple electron microscopy (EM) tasks.</p>
+<p>Model behavior depends on:</p>
 <ul>
 <li><strong>Task type</strong></li>
-<li><strong>Input dimensionality configuration</strong></li>
+<li><strong>Input dimensionality</strong></li>
 </ul>
 <hr />
 <h2 id="shared-backbone-per-task-heads">Shared backbone, per-task heads</h2>
 <p>Every model reuses <strong>one shared ViT-L backbone</strong>: the EM-DINO encoder (tag
 <code>4246a479</code>, shown in the GUI as <em>EMDINOv1-ViTL</em>), plus a small <strong>per-task head</strong>.
-The backbone is loaded once and borrowed by every task that uses it, so running
-several models together does not reload the encoder and keeps GPU memory low.</p>
+The backbone is loaded once and reused by every task that needs it. Running
+several models therefore does not reload the encoder, which reduces GPU memory
+use.</p>
 <p>Weights are stored in a managed folder as one shared <code>backbone_&lt;tag&gt;.pt</code> plus a
-<code>head_*.pt</code> per solution. See <a href="../user-guide/custom-models/#backbones">Backbones</a> and
-<a href="../user-guide/custom-models/">Importing Your Own Models</a>.</p>
+<code>head_*.pt</code> per solution. See
+<a href="../user-guide/manage/#managing-backbones">Backbone management</a> and <a href="../user-guide/custom-models/">Custom
+model requirements</a>.</p>
 <hr />
-<h2 id="task-types">Task Types</h2>
+<h2 id="task-types">Task types</h2>
 <p>Models are grouped by the GUI <strong>Task Type</strong>:</p>
 <ul>
 <li>
 <p><strong>Image-to-Image</strong>: the output is an image of the same kind as the input
-  (e.g. super-resolution, denoising).</p>
+  (for example, super-resolution or denoising).</p>
 </li>
 <li>
 <p><strong>Image-to-Label</strong>: the output is a labeled mask (e.g. mitochondria).</p>
 </li>
 </ul>
 <hr />
-<h2 id="dimensionality-support">Dimensionality Support</h2>
+<h2 id="dimensionality-support">Dimensionality support</h2>
 <p>OmniEM models can operate in either <strong>2D</strong> or <strong>3D</strong> mode.</p>
-<h3 id="2d-models">2D Models</h3>
-<ul>
-<li><code>img_z = 1</code></li>
-<li>Accept:</li>
-<li>2D input</li>
-<li>3D input (automatically reshaped into slice-wise 2D inference)</li>
-<li>3D reshaping can be disabled by the user if inter-slice consistency is a concern.</li>
-</ul>
-<h3 id="3d-models">3D Models</h3>
-<ul>
-<li><code>img_z &gt; 1</code></li>
-<li>Accept:</li>
-<li>3D input only</li>
-<li>Require minimum Z-dimension ≥ <code>img_z</code></li>
-<li>No 2D inference allowed</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Model mode</th>
+<th style="text-align: right;"><code>img_z</code></th>
+<th style="text-align: center;">Accept 2D Image</th>
+<th style="text-align: center;">Accept 3D Volume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2D</strong></td>
+<td style="text-align: right;"><code>1</code></td>
+<td style="text-align: center;">Yes</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr>
+<td><strong>3D</strong></td>
+<td style="text-align: right;"><code>&gt; 1</code></td>
+<td style="text-align: center;">No</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h2 id="data-type-configuration">Data Type Configuration</h2>
-<p>The <code>datatypes</code> field defines acceptable input dimensionality:</p>
+<h2 id="data-type-configuration">Data type configuration</h2>
+<p>The <code>datatypes</code> field defines the accepted input dimensionality:</p>
 <ul>
 <li>2D data</li>
 <li>3D data</li>
 </ul>
 <hr />
-<h2 id="available-models">Available Models</h2>
-<h3 id="image-to-image">Image-to-Image</h3>
-<ul>
-<li><a href="superresolution/">Super-resolution</a></li>
-<li><a href="denoise/">Denoise</a></li>
-</ul>
-<h3 id="image-to-label">Image-to-Label</h3>
-<ul>
-<li><a href="mito/">Mitochondria Segmentation</a> (2D &amp; 3D variants)</li>
-</ul>
-<h2 id="training-and-fine-tuning-omniem">Training and Fine-tuning OmniEM</h2>
-<p>If you would like to train or fine-tune <strong>OmniEM</strong> on your own dataset, please refer to the official training repository.</p>
-<p>👉 <em>The training repository will be publicly released soon.</em></p>
-<blockquote>
-<p>Note: Models trained externally must export compatible weight files and configuration metadata to be imported into Napari-OmniEM.</p>
-</blockquote></div>
+<h2 id="available-models">Available models</h2>
+<p>Every built-in model is a small task-specific head on the shared EM-DINO
+ViT-L/14 backbone:</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Type</th>
+<th>Model</th>
+<th>Model context</th>
+<th style="text-align: right;">Required Z</th>
+<th>Trained on</th>
+<th>Backbone tag</th>
+<th>Head tag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="denoise/">Denoising</a></td>
+<td>Image-to-Image</td>
+<td><strong>emdiffuse-l</strong></td>
+<td>2D (slice-wise)</td>
+<td style="text-align: right;">≥1</td>
+<td>EMDiffuse (low-noise)</td>
+<td><code>4246a479</code></td>
+<td><code>e9638f8f</code></td>
+</tr>
+<tr>
+<td><a href="superresolution/">Super-resolution</a></td>
+<td>Image-to-Image</td>
+<td><strong>emdiffuse-l</strong></td>
+<td>2D (slice-wise)</td>
+<td style="text-align: right;">≥1</td>
+<td>EMDiffuse (low-level degradation)</td>
+<td><code>4246a479</code></td>
+<td><code>616dfcbc</code></td>
+</tr>
+<tr>
+<td><a href="mito/">Mitochondria segmentation</a></td>
+<td>Image-to-Label</td>
+<td><strong>ViT-L-2D</strong></td>
+<td>2D (slice-wise)</td>
+<td style="text-align: right;">≥1</td>
+<td>CEM-MitoLab</td>
+<td><code>4246a479</code></td>
+<td><code>7c18ec1e</code></td>
+</tr>
+<tr>
+<td><a href="mito/">Mitochondria segmentation</a></td>
+<td>Image-to-Label</td>
+<td><strong>ViT-L-3D</strong></td>
+<td>3D</td>
+<td style="text-align: right;">≥16</td>
+<td>MitoEM-R</td>
+<td><code>4246a479</code></td>
+<td><code>2c5f8505</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="training-and-fine-tuning-omniem">Training and fine-tuning OmniEM</h2>
+<p>To train or fine-tune <strong>OmniEM</strong> on your own dataset, use the
+<a href="https://github.com/pku-maleilab/omniem-train">omniem-train</a> repository.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To import an externally trained model into Napari-OmniEM, export compatible
+weights and configuration metadata.</p>
+</div></div>
             </div>
         </div>
 

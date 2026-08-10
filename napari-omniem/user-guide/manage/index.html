@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Task/solution Management - Napari-OmniEM</title>
+        <title>Task, Solution & Backbone Management - Napari-OmniEM</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Task/solution Management</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -197,7 +197,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#task-solution-management" class="nav-link">Task &amp; Solution Management</a>
+            <li class="nav-item" data-bs-level="1"><a href="#task-solution-and-backbone-management" class="nav-link">Task, solution, and backbone management</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#concepts" class="nav-link">Concepts</a>
               <ul class="nav flex-column">
@@ -211,7 +211,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#managing-backbones" class="nav-link">Managing backbones</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#best-practices" class="nav-link">Best practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#related-pages" class="nav-link">Related pages</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -222,29 +230,45 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="task-solution-management">Task &amp; Solution Management</h1>
-<p>Napari-OmniEM lets you manage tasks and solutions (models + configurations) from
-the GUI. Open <strong>⚙️ Preferences → Tasks and Models → Solutions</strong>.</p>
+<h1 id="task-solution-and-backbone-management">Task, solution, and backbone management</h1>
+<p>Napari-OmniEM lets you manage tasks, solutions, and shared model backbones from
+the GUI. Open <strong>⚙️ Preferences → Tasks and Models</strong>, then select <strong>Solutions</strong> or
+<strong>Backbones</strong>.</p>
+<p>This page covers <strong>persistent model management</strong>: saved task configurations,
+solution registrations, backbone registrations, and managed weight files. It is
+separate from unloading active models from GPU or CPU memory in the current
+napari session.</p>
 <div class="admonition note">
 <p class="admonition-title">Screenshots</p>
 <p>Some screenshots on this page show the v0.2 interface and are pending update.</p>
 </div>
 <hr />
 <h2 id="concepts">Concepts</h2>
+<div class="admonition info">
+<p class="admonition-title">Relationship to the <code>omniem</code> package</p>
+<p><a href="https://github.com/pku-maleilab/omniem-package"><code>omniem</code></a> is the core Python
+package that defines the OmniEM model architecture, shared-backbone and
+task-head structure, model loading, and model-config schema. Napari-OmniEM
+builds its task and solution management interface on these concepts. The
+model configuration YAML selected in <strong>Add Solution</strong> follows
+<code>omniem.config.ModelConfig</code> and is parsed by the <code>omniem</code> package; the plugin
+then adds its own task registration, persistence, and GUI metadata.</p>
+</div>
 <ul>
-<li>A <strong>Task</strong> defines the problem type, <strong>Image-to-Image</strong> (e.g. denoising,
-  super-resolution) or <strong>Image-to-Label</strong> (e.g. mitochondria segmentation).</li>
-<li>A <strong>Solution</strong> is a concrete model + configuration that solves a task. A task may
-  hold several solutions; each solution belongs to exactly one task.</li>
+<li>A <strong>Task</strong> defines the problem type: <strong>Image-to-Image</strong> (for example, denoising
+  or super-resolution) or <strong>Image-to-Label</strong> (for example, mitochondria
+  segmentation).</li>
+<li>A <strong>Solution</strong> is a specific model and configuration that solves a task. A task
+  may hold several solutions; each solution belongs to exactly one task.</li>
+<li>A <strong>Backbone</strong> is the shared encoder used by one or more solutions. Each
+  solution also has a smaller, task-specific head.</li>
 </ul>
 <!-- 📷 RESHOOT (v0.3): the Tasks and Models > Solutions tab, showing the action
      buttons (New Task / Import Task / Add Solution / Remove Solution / Dump Task /
      Export Weights / Delete Task) and the solution list -->
 <p><img alt="Tasks and Models panel" src="../imgs/manage-panel.png" /></p>
-<p>Adding your own solutions and managing shared backbones has its own page:</p>
-<ul>
-<li><a href="../custom-models/">Importing Your Own Models</a>: the Add Solution flow and the shared backbones behind every model.</li>
-</ul>
+<p>Before importing a solution, prepare its config and weights according to the
+<a href="../custom-models/">custom model requirements</a>.</p>
 <hr />
 <h2 id="managing-tasks">Managing tasks</h2>
 <h3 id="new-task">New Task</h3>
@@ -255,33 +279,34 @@ the GUI. Open <strong>⚙️ Preferences → Tasks and Models → Solutions</str
 <li><strong>Short Name</strong>: a concise identifier used to store the task's config file (must
   be unique).</li>
 </ul>
-<p>For an <strong>Image-to-Label</strong> task, also define each output <strong>label</strong> and its meaning;
-each label is one output class of the model.</p>
+<p>For an <strong>Image-to-Label</strong> task, also define each output <strong>label</strong> and its meaning.
+Each label corresponds to one model output class.</p>
 <!-- 📷 RESHOOT (v0.3): the New Task dialog with Task Type set to Image-to-Label and
      the per-label semantic rows filled in -->
 <p><img alt="New task dialog" src="../imgs/new-task-example.png" /></p>
 <h3 id="enable-disable-task">Enable / Disable Task</h3>
 <p>Select a task, then use <strong>Enable Task</strong> / <strong>Disable Task</strong> (only the applicable one
 is active). A <strong>disabled</strong> task does not appear in the in-memory or local inference
-menus; its solutions stay stored and return when you re-enable it.</p>
+menus. Its solutions remain saved and reappear when you re-enable the task.</p>
 <h3 id="delete-task">Delete Task</h3>
-<p><strong>Delete Task</strong> removes a task and its config permanently. If the task's solutions
-have head files inside the managed weights folder, you're asked whether to delete
-those files too or keep them. The shared backbone is never deleted here.</p>
+<p><strong>Delete Task</strong> permanently removes a task and its config. If the task's
+solutions have head files in the managed weights folder, the plugin asks whether
+to delete or keep those files. This action never deletes the shared backbone.</p>
 <h3 id="dump-task-import-task-sharing">Dump Task / Import Task (sharing)</h3>
-<p>Move a whole task between installs:</p>
+<p>To move an entire task between installations:</p>
 <ul>
-<li><strong>Dump Task</strong> writes the task <strong>description only</strong>: a <code>.yaml</code> listing its
+<li><strong>Dump Task</strong> writes only the task <strong>description</strong>: a <code>.yaml</code> file listing its
   solutions. It does <strong>not</strong> copy weights.</li>
-<li><strong>Import Task</strong> reads such a <code>.yaml</code> back and registers the task under a <strong>unique
-  short name</strong> you provide, pointing it at a folder that holds the weight files.</li>
+<li><strong>Import Task</strong> reads that <code>.yaml</code> file and registers the task under a <strong>unique
+  short name</strong> that you provide. You also select the folder containing the weight
+  files.</li>
 </ul>
-<p>Because Dump writes only the description, sharing a task means sending <strong>both</strong> the
-dumped YAML <strong>and</strong> the weight files:</p>
+<p>Because <strong>Dump Task</strong> writes only the description, sharing a task requires
+<strong>both</strong> the dumped YAML <strong>and</strong> the weight files:</p>
 <ol>
 <li><strong>Dump Task</strong> → get <code>mytask.yaml</code>.</li>
-<li><strong>Export Weights</strong> for each solution (see <a href="../custom-models/">Importing Your Own
-   Models</a>) into a folder.</li>
+<li><strong>Export Weights</strong> for each solution into a folder; see
+   <a href="#export-weights">Export Weights</a>.</li>
 <li>Send the YAML + the weights folder.</li>
 <li>The recipient uses <strong>Import Task</strong>, selects the YAML, points at the weights
    folder, and gives a unique short name.</li>
@@ -289,32 +314,180 @@ dumped YAML <strong>and</strong> the weight files:</p>
 <div class="admonition warning">
 <p class="admonition-title">Head files must match the YAML</p>
 <p>Every solution's head file must be present in the selected weights folder and
-its filename must match the one recorded in the dumped YAML. If you renamed a
+its filename must match the name recorded in the dumped YAML. If you renamed a
 Split export, update the YAML (or re-export) so the names line up, otherwise
-the import can't find the weights.</p>
+the importer cannot find the weights.</p>
 </div>
 <hr />
 <h2 id="managing-solutions">Managing solutions</h2>
 <h3 id="add-solution">Add Solution</h3>
-<p>Click <strong>Add Solution</strong> to import a fine-tuned OmniEM model into the selected task.
-The full flow, model-config file, full-scale vs head-only strategy, and what the
-validation messages mean, is documented in
-<a href="../custom-models/">Importing Your Own Models</a>.</p>
-<p>Solution metadata cannot be changed after a solution is added; to change it, remove
-the solution and add it again.</p>
+<p>Use <strong>Add Solution</strong> to import a compatible, fine-tuned OmniEM model into the
+selected task. Before continuing, prepare the model-config and weight files
+described in <a href="../custom-models/">Custom model requirements</a>.</p>
+<ol>
+<li>Open <strong>Preferences (⚙️) → Tasks and Models → Solutions</strong>.</li>
+<li>Select the task that the model belongs to, then click <strong>Add Solution</strong>.</li>
+<li>Select the model config (<code>.yaml</code>). Its parsed contents are displayed as
+   read-only so that you can confirm the architecture, task type, output-channel
+   count, and normalization settings.</li>
+<li>Choose an import strategy:<ul>
+<li><strong>Full-scale (.pt)</strong> imports a complete checkpoint. The plugin splits it
+  into a shared backbone and task head. It reuses an already registered
+  matching backbone; otherwise, you can assign the new backbone a display
+  name.</li>
+<li><strong>Head-only (split .pt)</strong> imports a compatible head file. Select the
+  matching registered backbone that the head requires.</li>
+</ul>
+</li>
+<li>Select the weights file and confirm. The plugin validates the artifacts,
+   copies the head into the managed weights folder, and registers the solution.</li>
+</ol>
+<!-- 📷 CAPTURE: the Add Solution dialog with a model config loaded (read-only
+     metadata visible), the Full-scale / Head-only strategy radios, and the weights picker -->
+<!-- ![Add Solution dialog](imgs/add-solution-dialog.png) -->
+
+<h4 id="if-the-import-is-rejected">If the import is rejected</h4>
+<p>The plugin validates the model before committing the solution. Common messages
+include:</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unsupported model or encoder</td>
+<td>The config uses an architecture or encoder that this Napari-OmniEM version does not support.</td>
+</tr>
+<tr>
+<td>Task type mismatch</td>
+<td>The config's task type does not match the selected task.</td>
+</tr>
+<tr>
+<td>Label count mismatch</td>
+<td>An Image-to-Label model's output-channel count does not match the task's labels.</td>
+</tr>
+<tr>
+<td>Backbone or encoder mismatch</td>
+<td>The head and selected backbone are incompatible.</td>
+</tr>
+<tr>
+<td>Head file validation failed</td>
+<td>The head lacks the required metadata or was created for a different backbone.</td>
+</tr>
+</tbody>
+</table>
+<p>Solution metadata cannot be changed after a solution is added. To change it,
+remove the solution and add it again.</p>
 <h3 id="remove-solution">Remove Solution</h3>
-<p>Select a solution and click <strong>Remove Solution</strong>. If the solution's head file lives
-in the managed weights folder, you're offered a choice: <strong>delete the file too</strong>,
-<strong>keep it</strong>, or <strong>cancel</strong>. Removing a solution deletes it from the task config; a
+<p>Select a solution and click <strong>Remove Solution</strong>. If the solution's head file is
+in the managed weights folder, you can <strong>delete the file</strong>, <strong>keep it</strong>, or
+<strong>cancel</strong>. Removing a solution deletes it from the task config; a
 shared backbone is never removed by this action.</p>
 <!-- 📷 CAPTURE: the Remove Solution confirmation dialog listing the head file with
      the delete-file / keep-file / cancel choices -->
 <!-- ![Remove Solution confirmation](imgs/remove-solution-confirm.png) -->
 
 <h3 id="export-weights">Export Weights</h3>
-<p><strong>Export Weights</strong> writes a solution's weights out as a <strong>Combined</strong> single <code>.pt</code>
-or a <strong>Split pair</strong> (backbone + head); see <a href="../custom-models/#sharing-and-exporting">Importing Your Own
-Models</a>.</p>
+<p>Select a solution and click <strong>Export Weights</strong>, then choose an output format:</p>
+<ul>
+<li><strong>Combined</strong> writes one self-contained <code>.pt</code> file containing the backbone and
+  head.</li>
+<li><strong>Split</strong> writes separate backbone and head files. This format avoids sharing
+  another copy of a backbone that the recipient already has.</li>
+</ul>
+<p>To share a complete task, export the weights for each solution and use the
+<a href="#dump-task-import-task-sharing">Dump Task / Import Task</a> procedure.</p>
+<hr />
+<h2 id="managing-backbones">Managing backbones</h2>
+<p>Every solution uses a <strong>shared backbone</strong>, a large encoder such as EM-DINO
+(<em>EMDINOv1-ViTL</em>), plus a smaller task-specific head. A backbone is loaded once
+and reused by every solution that references it, reducing GPU memory use.</p>
+<p>Open <strong>Preferences (⚙️) → Tasks and Models → Backbones</strong> to manage the backbone
+registry.</p>
+<h3 id="backbone-inventory">Backbone inventory</h3>
+<p>The Backbones table lists one row per registered backbone:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Display Name</td>
+<td>A friendly name, which defaults to the tag.</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td>A short content fingerprint that identifies the weights.</td>
+</tr>
+<tr>
+<td>Arch</td>
+<td>The encoder architecture, such as <code>emdinov1</code>.</td>
+</tr>
+<tr>
+<td>Solutions</td>
+<td>The number of task heads that reference the backbone.</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td><strong>Rename</strong> and <strong>Remove</strong> actions for the backbone.</td>
+</tr>
+</tbody>
+</table>
+<p>The built-in backbone (<code>4246a479</code>, <em>EMDINOv1-ViTL</em>) is always registered, and
+its <strong>Remove</strong> action is disabled.</p>
+<!-- 📷 CAPTURE: the Backbones tab - the inventory table (Display Name / Tag / Arch
+     / Solutions / Actions) with the built-in EMDINOv1-ViTL row, and the + Add Backbone button -->
+<!-- ![Backbone inventory table](imgs/backbone-inventory.png) -->
+
+<h3 id="add-a-backbone">Add a backbone</h3>
+<p>Click <strong>+ Add Backbone</strong>, then choose one of these methods:</p>
+<ul>
+<li><strong>Register split .pt</strong> selects a standalone backbone that has already been
+  split from a checkpoint. The file is copied into the managed weights folder
+  and registered.</li>
+<li><strong>Extract from combined .pt</strong> selects a full checkpoint. The backbone is
+  extracted, stored, and registered without modifying the original file.</li>
+</ul>
+<!-- 📷 CAPTURE: the Add Backbone dialog showing its two tabs
+     (Register split .pt / Extract from combined .pt) -->
+<!-- ![Add Backbone dialog](imgs/add-backbone-dialog.png) -->
+
+<p><strong>Rename</strong> changes only the display name, up to 64 characters. It does not
+change the backbone tag.</p>
+<h3 id="remove-a-backbone">Remove a backbone</h3>
+<p>The effect of <strong>Remove</strong> depends on the backbone:</p>
+<ul>
+<li>A <strong>built-in backbone</strong> cannot be removed.</li>
+<li>Removal is blocked while a model is loaded on the backbone or a solution
+  references it. Unload the model or remove the referencing solutions first.</li>
+<li>An <strong>external file</strong>, stored outside the managed weights folder, is removed
+  from the registry without deleting the physical file.</li>
+<li>For an unreferenced <strong>managed file</strong>, you can delete the file or remove only
+  its registry entry.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">This is persistent removal</p>
+<p><strong>Preferences → Backbones → Remove</strong> changes the persistent backbone
+registry and can optionally delete the weight file. Unloading an active
+backbone from session memory is a separate operation and does not change the
+registry or its files.</p>
+</div>
+<h3 id="backbone-settings">Backbone settings</h3>
+<p>Configure these options under <strong>Preferences → Settings → General settings</strong>; see
+the <a href="../preferences/">Preferences reference</a>:</p>
+<ul>
+<li><strong>Weights storage folder</strong> controls where the plugin stores managed
+  <code>backbone_&lt;tag&gt;.pt</code> and <code>head_*.pt</code> files. When you change the folder, the
+  plugin offers to move the existing managed files.</li>
+<li><strong>Backbone cache size</strong> controls how many distinct backbones may remain loaded
+  at once.</li>
+</ul>
 <hr />
 <h2 id="best-practices">Best practices</h2>
 <ul>
@@ -322,6 +495,15 @@ Models</a>.</p>
 <li>Dump a task (and export its weights) before major changes.</li>
 <li>Keep your weights in the managed <a href="../preferences/">weights storage folder</a> so the
   plugin can find and move them for you.</li>
+</ul>
+<hr />
+<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="../custom-models/">Custom model requirements</a></li>
+<li><a href="../preferences/">Preferences</a></li>
+<li><a href="../infer/">Inference</a></li>
+<li><a href="../tools/#memory-management">Active model memory management</a></li>
+<li><a href="../../cases/import-models/">Importing Fine-tuned Models</a></li>
 </ul></div>
             </div>
         </div>

@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -199,6 +199,10 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#release-notes" class="nav-link">Release Notes</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#0301" class="nav-link">0.3.0.1</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#030" class="nav-link">0.3.0</a>
               <ul class="nav flex-column">
               </ul>
@@ -219,35 +223,42 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="release-notes">Release Notes</h1>
+<h2 id="0301">0.3.0.1</h2>
+<ul>
+<li><strong>On-disk inference streams every input.</strong> 2D, colour, and singleton-axis
+  images now stream on-disk (bounded RAM, multi-GPU) instead of loading whole
+  into memory.</li>
+</ul>
 <h2 id="030">0.3.0</h2>
 <ul>
 <li><strong>Foundation-model core.</strong> The model lives in the published
   <a href="https://github.com/pku-maleilab/omniem-package"><code>omniem</code></a> package (EM-DINO ViT-L
-  backbone); the plugin is a thin, parity-verified bridge around it.</li>
+  backbone). The plugin provides a lightweight, parity-verified interface to it.</li>
 <li><strong>Custom tasks and models.</strong> Add your own <strong>Image-to-Image</strong> and
   <strong>Image-to-Label</strong> tasks through Preferences (⚙️) and import fine-tuned OmniEM
   checkpoints (full or head-only).</li>
-<li><strong>Shared backbone + per-task heads.</strong> Weights are stored as one shared ViT-L
+<li><strong>Shared backbone and per-task heads.</strong> Weights are stored as one shared ViT-L
   backbone plus small per-task head files; full checkpoints are split
   automatically on import, and a backbone-management panel lets you inspect,
   rename, add, and remove backbones.</li>
 <li><strong>Multi-GPU sliding-window inference</strong> with pre-inference GPU-memory estimates
   and out-of-memory-safe execution.</li>
-<li><strong>Full Volume mode, expanded.</strong> The single-pass, seam-free mode introduced in
+<li><strong>Expanded Full Volume mode.</strong> The single-pass, seam-free mode introduced in
   0.2.0 now covers both task types and integrates the pre-inference memory
   estimates.</li>
-<li><strong>On-disk (large-volume) inference</strong> that streams to disk with bounded RAM.</li>
-<li><strong>Image-to-Image post-processing</strong>: rescale model output to the input's
+<li><strong>On-disk inference for large volumes</strong> that streams data with bounded RAM use.</li>
+<li><strong>Image-to-Image post-processing.</strong> Rescale model output to the input's
   intensity range.</li>
-<li><strong>GUI improvements</strong>: reorganized Preferences and Tools dialogs, a single resize
+<li><strong>GUI improvements.</strong> Reorganized Preferences and Tools dialogs, a single resize
   <strong>Scale (×)</strong> control for Image-to-Image output, and friendlier window sizing.</li>
 </ul>
 <h2 id="020">0.2.0</h2>
 <ul>
-<li><strong>Full Volume inference</strong>: single-pass, tile-artifact-free mode for in-memory
+<li><strong>Full Volume inference.</strong> Single-pass, tile-artifact-free mode for in-memory
   data.</li>
-<li><strong>Post-processing tools (🧰)</strong> with intensity rescaling.</li>
-<li><strong>Logging</strong> to <code>~/.napari-omniem/napari_omniem.log</code> and a View Logs button.</li>
+<li><strong>Post-processing tools (🧰).</strong> Rescale output intensity.</li>
+<li><strong>Logging.</strong> Write logs to <code>~/.napari-omniem/napari_omniem.log</code> and open them
+  with <strong>View Logs</strong>.</li>
 <li>Config-schema validation, atomic config writes, and tooltips throughout.</li>
 </ul>
 <h2 id="010">0.1.0</h2>

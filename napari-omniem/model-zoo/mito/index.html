@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -199,7 +199,7 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#mitochondria-segmentation" class="nav-link">Mitochondria Segmentation</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#task-type" class="nav-link">Task Type</a>
+            <li class="nav-item" data-bs-level="2"><a href="#task-type" class="nav-link">Task type</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -207,7 +207,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#available-solutions" class="nav-link">Available Solutions</a>
+            <li class="nav-item" data-bs-level="2"><a href="#available-solutions" class="nav-link">Available solutions</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -215,11 +215,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#model-selection-guidance" class="nav-link">Model Selection Guidance</a>
+            <li class="nav-item" data-bs-level="2"><a href="#model-selection-guidance" class="nav-link">Model selection guidance</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#upcoming-updates" class="nav-link">Upcoming Updates</a>
+            <li class="nav-item" data-bs-level="2"><a href="#upcoming-updates" class="nav-link">Upcoming updates</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -231,21 +231,23 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="mitochondria-segmentation">Mitochondria Segmentation</h1>
-<h2 id="task-type">Task Type</h2>
+<h2 id="task-type">Task type</h2>
 <p>Image-to-Label</p>
 <h2 id="overview">Overview</h2>
-<p>The <strong>Mitochondria Segmentation</strong> model performs pixel-wise classification of mitochondria in electron microscopy (EM) images.<br />
-It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(22)00494-X">CEM-Mitolab dataset</a>) and 3D volumetric-input model (trained on <a href="https://mitoem.grand-challenge.org/">MitoEM dataset</a>).</p>
+<p>The <strong>Mitochondria Segmentation</strong> task classifies each pixel in an electron
+microscopy (EM) image. It provides a 2D slice-wise model trained on the
+<a href="https://www.cell.com/cell-systems/fulltext/S2405-4712(22)00494-X">CEM-MitoLab dataset</a>
+and a volumetric 3D model trained on the <a href="https://mitoem.grand-challenge.org/">MitoEM
+dataset</a>.</p>
 <p>This task outputs a labeled mask with the following classes:</p>
 <ul>
 <li><strong>Background</strong></li>
 <li><strong>Mitochondria</strong></li>
 </ul>
 <hr />
-<h2 id="available-solutions">Available Solutions</h2>
+<h2 id="available-solutions">Available solutions</h2>
 <h3 id="1-vit-l-2d">1. ViT-L-2D</h3>
 <h4 id="configuration">Configuration</h4>
-<p>The task heads run on the shared <code>4246a479</code> backbone (<em>EMDINOv1-ViTL</em>):</p>
 <pre><code class="language-yaml">- name: ViT-L-2D
   datatypes: [2, 3]
   img_z: 1
@@ -258,19 +260,19 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 <li><code>img_z = 1</code> (2D model)</li>
 <li>
 <p>Accepts:</p>
-</li>
-<li>
-<p>2D input</p>
-</li>
-<li>3D input (processed slice-wise)</li>
+<ul>
+<li>2D input</li>
+<li>3D input (processed slice by slice)</li>
 <li>No inter-slice fusion</li>
 <li>Suitable for fast inference and datasets without strong Z-continuity</li>
 </ul>
-<h4 id="recommended-use-cases">Recommended Use Cases</h4>
+</li>
+</ul>
+<h4 id="recommended-use-cases">Recommended use cases</h4>
 <ul>
 <li>2D EM slice segmentation</li>
 <li>Large-scale screening</li>
-<li>When Z-alignment consistency is uncertain</li>
+<li>Datasets with uncertain Z-alignment consistency</li>
 </ul>
 <hr />
 <h3 id="2-vit-l-3d">2. ViT-L-3D</h3>
@@ -286,8 +288,7 @@ It supports both 2D slice-wise model (trained on <a href="https://www.cell.com/c
 <ul>
 <li><code>img_z = 16</code> (3D model)</li>
 <li>Accepts 3D input only</li>
-<li>Requires:</li>
-<li>Z-dimension ≥ 16</li>
+<li>Requires a Z-dimension of at least 16</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Full Volume and the 3D model</p>
@@ -320,7 +321,7 @@ between input blocks. Use sliding-window (tiled) mode to largely avoid this.</p>
 <!-- ![Mitochondria segmentation overlay](imgs/example-mito.png) -->
 
 <hr />
-<h2 id="model-selection-guidance">Model Selection Guidance</h2>
+<h2 id="model-selection-guidance">Model selection guidance</h2>
 <table>
 <thead>
 <tr>
@@ -343,24 +344,27 @@ between input blocks. Use sliding-window (tiled) mode to largely avoid this.</p>
 </tr>
 </tbody>
 </table>
-<p>Choose the 3D model when volumetric coherence is critical and sufficient Z-depth is available.
-Use the 2D model for flexibility, speed, or limited Z-resolution datasets.</p>
-<h2 id="upcoming-updates">Upcoming Updates</h2>
+<p>Choose the 3D model when volumetric coherence is important and sufficient Z-depth
+is available. Choose the 2D model for flexibility, speed, or datasets with
+limited Z-resolution.</p>
+<h2 id="upcoming-updates">Upcoming updates</h2>
 <p>We are actively improving the mitochondria segmentation models. Planned updates include:</p>
 <ol>
 <li>
-<p><strong>Training on MitoEM 2.0 (3D Model)</strong><br />
-   A new 3D segmentation model will be trained on the MitoEM 2.0 dataset to enhance volumetric accuracy, robustness, and generalization across diverse EM imaging conditions.</p>
+<p><strong>Training on MitoEM 2.0 (3D model)</strong>
+   We plan to train a new 3D segmentation model on the MitoEM 2.0 dataset to
+   improve volumetric accuracy, robustness, and generalization across diverse EM
+   imaging conditions.</p>
 </li>
 <li>
-<p><strong>Post-processing for Cross-Dimensional Consistency</strong><br />
-   We will introduce post-processing techniques to improve consistency between:</p>
+<p><strong>Post-processing for cross-dimensional consistency</strong>
+   We plan to introduce post-processing techniques that improve consistency
+   between slice-wise 2D and volumetric 3D segmentation outputs.</p>
 </li>
-<li>Slice-wise 2D segmentation outputs  </li>
-<li>Volumetric 3D segmentation outputs  </li>
 </ol>
-<p>These enhancements aim to reduce inter-slice discontinuities and improve structural coherence in reconstructed 3D volumes.</p>
-<p>These updates will be released in future versions of Napari-OmniEM.</p></div>
+<p>These enhancements are intended to reduce inter-slice discontinuities and improve
+   structural coherence in reconstructed 3D volumes.</p>
+<p>These updates are planned for future versions of Napari-OmniEM.</p></div>
             </div>
         </div>
 

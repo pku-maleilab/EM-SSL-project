@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -214,11 +214,16 @@
 <p>Interactive electron microscopy analysis powered by foundation models.</p>
 <div class="admonition note">
 <p class="admonition-title">This manual is under active development</p>
-<p>Some screenshots still show an earlier interface and do not yet match v0.3.0,
-and we are reorganizing the manual to be more user friendly. Content may change.</p>
+<p>Some screenshots still show an earlier interface and do not yet match v0.3.0.
+We are also reorganizing the manual to make it easier to use, so its content
+may change.</p>
 </div>
 <hr />
-<p><strong>Napari-OmniEM</strong> is a <a href="https://napari.org">Napari</a> plugin that provides a unified, GPU-accelerated interface for electron microscopy (EM) image processing. Built on top of <strong>EM-DINO</strong> and <strong>OmniEM</strong>, it enables scalable, high-quality inference across heterogeneous 2D and 3D EM datasets, bridging foundation models with practical, interactive EM workflows.</p>
+<p><strong>Napari-OmniEM</strong> is a <a href="https://napari.org">napari</a> plugin that provides a
+unified, GPU-accelerated interface for electron microscopy (EM) image
+processing. Built on <strong>EM-DINO</strong> and <strong>OmniEM</strong>, it brings foundation-model
+inference to practical, interactive workflows for diverse 2D and 3D EM
+datasets.</p>
 <div class="text-center">
 <a href="user-guide/installation" class="btn btn-primary" role="button">Installation</a>
 <a href="user-guide/getting-started" class="btn btn-primary" role="button">Getting Started</a>
@@ -229,19 +234,32 @@ and we are reorganizing the manual to be more user friendly. Content may change.
 <h3 id="highlights">Highlights</h3>
 <p>Napari-OmniEM covers the full workflow, from inference to model management:</p>
 <ul>
-<li><strong>In-memory inference</strong>: tiled, or single-pass <strong><a href="user-guide/infer/#full-volume-mode">Full Volume</a></strong> that avoids sliding-window stitching seams.</li>
-<li><strong><a href="user-guide/infer/#local-on-disk-inference">On-disk (multi-GPU) inference</a></strong>: for volumes too large to fit in memory.</li>
-<li><strong>Shared backbone across tasks</strong>: one ViT-L backbone is cached and reused by every loaded model, keeping GPU memory low.</li>
-<li><strong><a href="user-guide/manage/">Task-aware model management</a></strong>: add, import, and share your own tasks and models.</li>
-<li><strong><a href="user-guide/tools/">Tools workbench (🧰)</a></strong>: memory management, weight split/merge, post-processing, and logs in one place.</li>
+<li><strong><a href="user-guide/#models-and-inference">Flexible inference</a></strong> with three
+  modes:<ul>
+<li><strong>In-memory (tiled)</strong> for interactive work on data that fit in memory.</li>
+<li><strong>Full Volume</strong> for single-pass inference without stitching seams.</li>
+<li><strong>On-disk (local)</strong> for large volumes and multi-GPU inference.</li>
+</ul>
+</li>
+<li><strong><a href="user-guide/manage/">Task-aware model management</a></strong>: add, import, and share
+  your own tasks and models.</li>
+<li><strong>Shared backbone across tasks</strong>: one backbone is cached and reused by every
+  loaded model, reducing GPU memory use.</li>
+<li><strong><a href="user-guide/tools/">Tools workbench (🧰)</a></strong>: manage model memory,
+  post-process Image-to-Image results, and view logs.</li>
 </ul>
 <p>It suits exploratory analysis, large-volume processing, and downstream quantitative studies.</p>
-<h3 id="related-projects">Related Projects</h3>
+<h3 id="feedback-and-support">Feedback and support</h3>
+<p>We welcome feature requests, workflow requirements, and bug reports. Visit the
+<a href="https://github.com/pku-maleilab/napari-omniem">Napari-OmniEM repository</a> to
+explore the source code, or <a href="https://github.com/pku-maleilab/napari-omniem/issues">open a GitHub
+issue</a> to share feedback or
+report a problem.</p>
+<h3 id="related-projects">Related projects</h3>
 <ul>
-<li><strong>EM-SSL Project</strong>: https://github.com/pku-maleilab/EM-SSL-project</li>
-<li><strong>Napari-OmniEM</strong>: https://github.com/pku-maleilab/napari-omniem</li>
-<li><strong>OmniEM</strong>: https://github.com/pku-maleilab/omniem-package</li>
-<li><strong>omniem-train</strong>: https://github.com/pku-maleilab/omniem-train</li>
+<li><a href="https://github.com/pku-maleilab/EM-SSL-project">EM-SSL project</a></li>
+<li><a href="https://github.com/pku-maleilab/omniem-package">OmniEM</a></li>
+<li><a href="https://github.com/pku-maleilab/omniem-train">omniem-train</a></li>
 </ul></div>
             </div>
         </div>
@@ -324,5 +342,5 @@ and we are reorganizing the manual to be more user friendly. Content may change.
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-08-07 10:59:07.305897+00:00
+Build Date UTC : 2026-08-10 15:30:34.885048+00:00
 -->

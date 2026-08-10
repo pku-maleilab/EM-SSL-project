@@ -58,11 +58,11 @@
 </li>
                                     
 <li>
-    <a href="../../user-guide/manage/" class="dropdown-item">Task/solution Management</a>
+    <a href="../../user-guide/manage/" class="dropdown-item">Task, Solution & Backbone Management</a>
 </li>
                                     
 <li>
-    <a href="../../user-guide/custom-models/" class="dropdown-item">Importing Your Own Models</a>
+    <a href="../../user-guide/custom-models/" class="dropdown-item">Custom Model Requirements</a>
 </li>
                                     
 <li>
@@ -199,7 +199,7 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#importing-fine-tuned-models" class="nav-link">Importing Fine-tuned Models</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#what-training-produces" class="nav-link">What training produces</a>
+            <li class="nav-item" data-bs-level="2"><a href="#models-and-required-files" class="nav-link">Models and required files</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -227,38 +227,63 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="importing-fine-tuned-models">Importing Fine-tuned Models</h1>
-<p>You can train your own OmniEM heads with the
-<a href="https://github.com/pku-maleilab/omniem-train">omniem-train</a> repository and load them
-into Napari-OmniEM through <strong>Add Solution</strong>. This page walks through two worked
-examples from that repository's <code>examples/</code> folder:</p>
-<ul>
-<li><strong>EMPIAR-11831</strong>: a 4× super-resolution head (<strong>Image-to-Image</strong>).</li>
-<li><strong>ME2-Beta</strong>: a mitochondria segmentation head (<strong>Image-to-Label</strong>), in 2D and
-  3D variants.</li>
-</ul>
-<p>For the general Add Solution reference, see
-<a href="../../user-guide/custom-models/">Importing Your Own Models</a>.</p>
-<hr />
-<h2 id="what-training-produces">What training produces</h2>
-<p>After you run a training example (<code>omniem-train train … infer</code>), the run's
-<code>output_dir</code> holds everything you need to import:</p>
-<pre><code class="language-text">outputs/&lt;run&gt;/
-  model.yaml              # the model-config file you select in Add Solution
-  weights/
-    backbone.pt           # the shared EM-DINO ViT-L backbone
-    head_best.pt          # the trained head (best validation score)
-    head_e&lt;NNN&gt;.pt        # per-epoch heads
-</code></pre>
-<p>Both examples <strong>freeze the backbone</strong> (<code>train.train_encoder: false</code>), so the
-backbone is the same EM-DINO ViT-L that Napari-OmniEM already ships as
-<strong>EMDINOv1-ViTL</strong> (tag <code>4246a479</code>). That means you import only the head, using the
-<strong>Head-only</strong> strategy, and pair it with the existing backbone.</p>
-<div class="admonition tip">
-<p class="admonition-title">If the head-only importer doesn't recognize the backbone</p>
-<p>Use the <strong>Full-scale</strong> strategy on the run's combined checkpoint instead, it
-splits the file into a backbone + head and registers the backbone for you. See
-<a href="../../user-guide/custom-models/">Importing Your Own Models</a>.</p>
-</div>
+<p>Napari-OmniEM can import <a href="../../user-guide/custom-models/">compatible fine-tuned OmniEM
+heads</a> through <strong>Add Solution</strong>. This page uses
+two example model families to show which artifacts you need and how to register
+them with the plugin.</p>
+<h2 id="models-and-required-files">Models and required files</h2>
+<p>This page demonstrates two model families from the
+<a href="https://github.com/pku-maleilab/omniem-train"><code>omniem-train</code></a> <code>examples/</code>
+folder:</p>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Model purpose</th>
+<th>Task type</th>
+<th>Variants</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EMPIAR-11831</strong></td>
+<td>4× super-resolution</td>
+<td>Image-to-Image</td>
+<td>2D</td>
+</tr>
+<tr>
+<td><strong>ME2-Beta</strong></td>
+<td>Mitochondria segmentation</td>
+<td>Image-to-Label</td>
+<td>2D and 3D</td>
+</tr>
+</tbody>
+</table>
+<p>Prepare these items for each model variant:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model.yaml</code></td>
+<td>Defines the OmniEM model and is selected as the model config in <strong>Add Solution</strong>.</td>
+</tr>
+<tr>
+<td><code>weights/head_best.pt</code></td>
+<td>Contains the task head selected for a <strong>Head-only</strong> import.</td>
+</tr>
+</tbody>
+</table>
+<p>Use each variant's config and head from the same model run. For ME2-Beta, the 2D
+and 3D variants require their own <code>model.yaml</code> and <code>head_best.pt</code> files.</p>
+<p>These examples use the default <strong>EMDINOv1-ViTL</strong> backbone (<code>4246a479</code>), which is
+already registered in Napari-OmniEM; no backbone weights are required. If a
+model uses a different backbone, follow <a href="../../user-guide/manage/#add-a-backbone">Add a
+backbone</a> before importing its head.</p>
 <hr />
 <h2 id="example-1-4-super-resolution-image-to-image">Example 1: 4× super-resolution (Image-to-Image)</h2>
 <p>Source: <code>omniem-train/examples/EMPIAR-11831</code> (SBF-SEM tobacco tissue). The head
@@ -273,8 +298,9 @@ resize4emdino: true
 </code></pre>
 <p><strong>Import it:</strong></p>
 <ol>
-<li>Open <strong>Preferences (⚙️) → Tasks and Models → Solutions</strong> and select (or create)
-   an <strong>Image-to-Image</strong> task.</li>
+<li>Open <strong>Preferences (⚙️) → Tasks and Models → Solutions</strong>, then select the
+   existing <strong>Super-resolution</strong> task or create a compatible
+   <strong>Image-to-Image</strong> task.</li>
 <li>Click <strong>Add Solution</strong>, then <strong>Select model config</strong> and pick the run's
    <code>model.yaml</code>.</li>
 <li>Choose the <strong>Head-only</strong> strategy, select <code>weights/head_best.pt</code>, and pair it
@@ -286,18 +312,19 @@ resize4emdino: true
      Image-to-Image, Head-only strategy, head_best.pt selected -->
 <!-- ![Import the super-resolution head](imgs/import-sr-dialog.png) -->
 
-<p><strong>Use it:</strong> run it like any Image-to-Image solution (see
-<a href="../../user-guide/infer/#in-memory-inference">In-memory Inference</a>). This head is trained for 4×, so
-set the <strong>Scale (×)</strong> control to <code>4.0</code> for its intended factor.</p>
+<p><strong>Use it:</strong> run the imported model like any Image-to-Image solution; see
+<a href="../../user-guide/infer/#in-memory-inference">In-memory inference</a>. This head was
+trained for 4× super-resolution, so set <strong>Scale (×)</strong> &lt;= <code>4.0</code> to use its intended
+factor.</p>
 <!-- 📷 CAPTURE: a result from the imported SR head - low-res input vs restored
      output on an EMPIAR-11831 test tile -->
 <!-- ![Super-resolution result from the imported head](imgs/import-sr-result.png) -->
 
 <hr />
 <h2 id="example-2-mitochondria-segmentation-image-to-label">Example 2: mitochondria segmentation (Image-to-Label)</h2>
-<p>Source: <code>omniem-train/examples/ME2-Beta</code> (FIB-SEM, part of the MitoEM 2.0
-benchmark). The head maps each EM image to a two-class mask, background (<code>0</code>) and
-mitochondria (<code>1</code>). Two configs share the data:</p>
+<p>Source: <code>omniem-train/examples/ME2-Beta</code> (FIB-SEM data from the MitoEM 2.0
+benchmark). The head maps each EM image to a two-class mask: background (<code>0</code>) and
+mitochondria (<code>1</code>). The example provides two configurations for the same data:</p>
 <table>
 <thead>
 <tr>
@@ -333,8 +360,8 @@ resize4emdino: false
 </code></pre>
 <p><strong>Import it:</strong></p>
 <ol>
-<li>Select (or create) an <strong>Image-to-Label</strong> task whose labels are <strong>Background</strong>
-   and <strong>Mitochondria</strong> (two labels, matching <code>out_channels: 2</code>).</li>
+<li>Select the existing <strong>Mitochondria Segmentation</strong> task. Its <strong>Background</strong> and
+   <strong>Mitochondria</strong> labels match <code>out_channels: 2</code>.</li>
 <li>Click <strong>Add Solution</strong>, select the run's <code>model.yaml</code>, choose <strong>Head-only</strong>,
    pick <code>weights/head_best.pt</code>, and pair it with <strong>EMDINOv1-ViTL</strong>.</li>
 <li>Confirm. Repeat with the 3D run's <code>model.yaml</code> + <code>head_best.pt</code> to add the 3D
@@ -344,18 +371,19 @@ resize4emdino: false
      Image-to-Label, Head-only strategy, head_best.pt selected -->
 <!-- ![Import the mitochondria head](imgs/import-mito-dialog.png) -->
 
-<p><strong>Use it:</strong> run it like any Image-to-Label solution. The output is a mask with the
-Background / Mitochondria labels.</p>
+<p><strong>Use it:</strong> run the imported model like any Image-to-Label solution. Its output is
+a mask with Background and Mitochondria labels.</p>
 <!-- 📷 CAPTURE: a segmentation result from the imported head - EM slice with the
      predicted mitochondria mask overlaid -->
 <!-- ![Mitochondria result from the imported head](imgs/import-mito-result.png) -->
 
 <hr />
 <h2 id="after-importing">After importing</h2>
-<p>Imported solutions behave exactly like the built-ins: they appear in the Task /
-Solution menus for in-memory and local inference, and you can
+<p>Imported solutions behave like the built-in solutions: they appear in the Task
+and Solution menus for both in-memory and local inference, and you can
 <a href="../../user-guide/manage/">export or share</a> them. To manage the shared backbone
-they run on, see <a href="../../user-guide/custom-models/#backbones">Backbones</a>.</p>
+they run on, see <a href="../../user-guide/manage/#managing-backbones">Backbone
+management</a>.</p>
 <hr />
 <h2 id="references">References</h2>
 <ul>
