@@ -270,8 +270,6 @@ reduce the batch size to <code>1</code> to lower memory use.</p>
 <p>Select <strong>Super-resolution</strong> from the <strong>Task</strong> list and set <strong>Scale (×)</strong> to <code>2.0</code>.
 This doubles both in-plane axes (168 → 336 and 336 → 672); the z-axis is not
 scaled. The panel displays the resulting output shape.</p>
-<!-- 📷 RESHOOT (v0.3): the Super-resolution panel using the single Scale (×)
-     control set to 2.0 (the old per-axis "Upscaling to" fields are gone) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-superreso.png" /></p>
 <p>Click <strong>Run model</strong> to start super-resolution inference. When the run finishes,
 remove any unused data layers and switch to <strong>Grid</strong> view to compare the results
@@ -284,8 +282,6 @@ side by side.</p>
 automatically; use <strong>🔄 Synchronize Data</strong> only if the layer is missing. Select
 <strong>Mitochondria Segmentation</strong> as the task. To account for the higher input
 resolution, increase <strong>XY Input Size</strong> to a larger value, such as <code>448</code>.</p>
-<!-- 📷 RESHOOT (v0.3): segmenting the super-resolved layer - Task set to
-     Mitochondria Segmentation, XY Input size 448 (no manual Refresh needed) -->
 <p><img alt="" src="../imgs/panel-GlyMuscle-segonsuper.png" /></p>
 <p>Click <strong>Run model</strong> and wait for the segmentation results.</p>
 <p><img alt="" src="../imgs/allview-GlyMucle-super-seg.png" /></p>

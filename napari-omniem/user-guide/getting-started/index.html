@@ -263,21 +263,21 @@ Open <strong>File → Open Sample → OmniEM → EM</strong> to load three datas
 <li>
 <p>Set <strong>Task</strong> to <strong>Mitochondria Segmentation</strong> and <strong>Solution</strong> to
    <strong>ViT-L-2D</strong>. The panel displays the read-only Background/Mitochondria label
-   mapping; no other settings are required.</p>
+   mapping; select avaiable device (example uses cuda:0).</p>
 <p><!-- 📷 CAPTURE: the panel with MitoEM(2D) selected, Task = Mitochondria
      Segmentation, Solution = ViT-L-2D, and the read-only label mapping -->
-<!-- <img alt="Task and solution selected" src="imgs/quickstart-mito-select.png" /> --></p>
+<img alt="Task and solution selected" src="../imgs/quickstart-mito-select.png" /></p>
 </li>
 <li>
-<p>Click <strong>Run model</strong>, review the estimated GPU memory, and start the run.</p>
+<p>Click <strong>Run model</strong>, review the estimated GPU memory, and start the run though clicking the <strong>OK</strong> button.</p>
 <p><!-- 📷 CAPTURE: the pre-inference Run dialog showing the estimated GPU-memory range -->
-<!-- <img alt="Run dialog with memory estimate" src="imgs/quickstart-mito-run.png" /> --></p>
+<img alt="Run dialog with memory estimate" src="../imgs/quickstart-mito-run.png" /></p>
 </li>
 <li>
 <p>The result appears as a new <strong>Labels</strong> layer, where <code>0</code> represents Background
    and <code>1</code> represents Mitochondria.</p>
 <p><!-- 📷 CAPTURE: the MitoEM(2D) sample with the predicted mitochondria mask overlaid -->
-<!-- <img alt="Mitochondria segmentation result" src="imgs/quickstart-mito-result.png" /> --></p>
+<img alt="Mitochondria segmentation result" src="../imgs/quickstart-mito-result.png" /></p>
 </li>
 </ol>
 <h2 id="next-steps">Next steps</h2>

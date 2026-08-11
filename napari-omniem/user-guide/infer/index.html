@@ -331,8 +331,7 @@ and configuration that solves that task.</p>
 <p>This terminology is consistent across in-memory and local inference.</p>
 <!-- 📷 CAPTURE: the Napari-OmniEM panel with a sample loaded (e.g. MitoEM(2D)),
      showing the Data / Task / Solution dropdowns filled in and the Run model button -->
-<!-- ![Panel with data, task, and solution selected](imgs/panel-inmem-selected.png) -->
-
+<p><img alt="Panel with data, task, and solution selected" src="../imgs/panel-inmem-selected.png" /></p>
 <h4 id="output-options-by-task-type">Output options by task type</h4>
 <p>The panel shows different output controls depending on the task type:</p>
 <ul>
@@ -346,8 +345,7 @@ and configuration that solves that task.</p>
 </ul>
 <!-- 📷 CAPTURE: the Image-to-Image Scale (×) control (e.g. Super-resolution on the
      GlyMuscle(3D) sample, scale 2.0) with the live output-shape readout -->
-<!-- ![Scale control for Image-to-Image](imgs/inmem-scale-control.png) -->
-
+<p><img alt="Scale control for Image-to-Image" src="../imgs/inmem-scale-control.png" /></p>
 <h3 id="advanced-settings">Advanced settings</h3>
 <p>The <strong>Advanced</strong> section contains settings for the current run. Their defaults
 come from <a href="../preferences/">Preferences</a>. If you are unsure which values to use,
@@ -376,8 +374,7 @@ both Image-to-Image and Image-to-Label tasks, but it uses more GPU memory. The
   are disabled; the normalization setting still applies.</p>
 <!-- 📷 CAPTURE: the Advanced section expanded with Full Volume ticked (note the
      greyed-out overlap/batch/XY/blend controls); Blend mode + Normalization source visible -->
-<!-- ![Advanced settings with Full Volume enabled](imgs/inmem-advanced-fullvolume.png) -->
-
+<p><img alt="Advanced settings with Full Volume enabled" src="../imgs/inmem-advanced-fullvolume.png" /></p>
 <p>If the input is not square, you are asked whether to use its height or width as
 the square input size. Napari-OmniEM restores the original aspect ratio and
 applies the requested output scale afterward; it does <strong>not</strong> crop the image.</p>
@@ -389,8 +386,7 @@ applies the requested output scale afterward; it does <strong>not</strong> crop 
 </ul>
 <!-- 📷 CAPTURE: the pre-inference Run dialog showing the device, batch/shape info,
      and the estimated GPU-memory range (before starting the run) -->
-<!-- ![Pre-inference memory-estimate dialog](imgs/inmem-run-dialog.png) -->
-
+<p><img alt="Pre-inference memory-estimate dialog" src="../imgs/inmem-run-dialog.png" /></p>
 <ul>
 <li>
 <p>Start the run from the dialog. When it finishes, the <strong>OK</strong> button becomes
@@ -416,10 +412,6 @@ settings → Run → Output.</p>
 <li>This option is enabled only when a compatible GPU is available.</li>
 </ul>
 <h3 id="step-1-select-data">Step 1: Select data</h3>
-<!-- 📷 CAPTURE: the Local Inference wizard, Step 1 (Input Data) - Browse File +
-     Show Image, channel-mode and z-dimension selectors (e.g. the AxonEM(3D) sample) -->
-<!-- ![Local wizard: Input Data page](imgs/local-step1-data.png) -->
-
 <ul>
 <li>Click <strong>Browse File</strong> to select a local image or volume. Common image formats
   read by <a href="https://image.dask.org/">dask-image</a> are supported, such as <strong>TIFF</strong>
@@ -441,6 +433,9 @@ settings → Run → Output.</p>
 </ul>
 </li>
 </ul>
+<!-- 📷 CAPTURE: the Local Inference wizard, Step 1 (Input Data) - Browse File +
+     Show Image, channel-mode and z-dimension selectors (e.g. the AxonEM(3D) sample) -->
+<p><img alt="Local wizard: Input Data page" src="../imgs/local-step1-data.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Everything streams from disk</p>
 <p>Every input—2D, colour, or 3D—is processed as a streamed 3D volume with
@@ -477,17 +472,13 @@ loaded into memory in full.</p>
 <!-- 📷 CAPTURE: the wizard Step 3 (Advanced computation settings) - device
      checkboxes (multi-GPU), batch/overlap/XY, blend, the Normalization source radios
      including manual, and the temp-folder Change button -->
-<!-- ![Local wizard: Advanced settings page](imgs/local-step3-settings.png) -->
-
-<p>For details on sliding-window parameters, see the
-<a href="../preferences/#sliding-window-parameters">Sliding Window Parameters</a> page.</p>
+<p><img alt="Local wizard: Advanced settings page" src="../imgs/local-step3-settings.png" /></p>
 <h3 id="step-4-run-inference">Step 4: Run inference</h3>
 <p>A persistent banner displays the run's <strong>estimated GPU memory</strong> requirement and
 the multi-GPU caveat described above.</p>
 <!-- 📷 CAPTURE: the wizard Step 4 (Inference) - the persistent required-memory
      banner with the multi-GPU caveat, and the run / stop / clear buttons -->
-<!-- ![Local wizard: Inference page with memory banner](imgs/local-step4-run.png) -->
-
+<p><img alt="Local wizard: Inference page with memory banner" src="../imgs/local-step4-run.png" /></p>
 <ul>
 <li>Click <strong>Run</strong> to start inference.</li>
 <li>When inference finishes, <strong>Run</strong> changes to <strong>Redo</strong>, so you can rerun with
@@ -523,10 +514,6 @@ the multi-GPU caveat described above.</p>
 </li>
 <li>NumPyStack</li>
 </ol>
-<!-- 📷 CAPTURE: the wizard Output page - the Results / Image open buttons and the
-     TIF / PNG / NumPy / Zarr / NumPyStack save buttons -->
-<!-- ![Local wizard: Output page save options](imgs/local-step5-output.png) -->
-
 <h3 id="how-local-inference-differs">How local inference differs</h3>
 <p>Compared with in-memory inference, local inference:</p>
 <ul>

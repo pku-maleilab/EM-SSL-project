@@ -238,10 +238,6 @@ the GUI. Open <strong>⚙️ Preferences → Tasks and Models</strong>, then sel
 solution registrations, backbone registrations, and managed weight files. It is
 separate from unloading active models from GPU or CPU memory in the current
 napari session.</p>
-<div class="admonition note">
-<p class="admonition-title">Screenshots</p>
-<p>Some screenshots on this page show the v0.2 interface and are pending update.</p>
-</div>
 <hr />
 <h2 id="concepts">Concepts</h2>
 <div class="admonition info">
@@ -267,8 +263,6 @@ then adds its own task registration, persistence, and GUI metadata.</p>
      buttons (New Task / Import Task / Add Solution / Remove Solution / Dump Task /
      Export Weights / Delete Task) and the solution list -->
 <p><img alt="Tasks and Models panel" src="../imgs/manage-panel.png" /></p>
-<p>Before importing a solution, prepare its config and weights according to the
-<a href="../custom-models/">custom model requirements</a>.</p>
 <hr />
 <h2 id="managing-tasks">Managing tasks</h2>
 <h3 id="new-task">New Task</h3>
@@ -344,8 +338,7 @@ described in <a href="../custom-models/">Custom model requirements</a>.</p>
 </ol>
 <!-- 📷 CAPTURE: the Add Solution dialog with a model config loaded (read-only
      metadata visible), the Full-scale / Head-only strategy radios, and the weights picker -->
-<!-- ![Add Solution dialog](imgs/add-solution-dialog.png) -->
-
+<p><img alt="Add Solution dialog" src="../imgs/add-solution-dialog.png" /></p>
 <h4 id="if-the-import-is-rejected">If the import is rejected</h4>
 <p>The plugin validates the model before committing the solution. Common messages
 include:</p>
@@ -388,8 +381,7 @@ in the managed weights folder, you can <strong>delete the file</strong>, <strong
 shared backbone is never removed by this action.</p>
 <!-- 📷 CAPTURE: the Remove Solution confirmation dialog listing the head file with
      the delete-file / keep-file / cancel choices -->
-<!-- ![Remove Solution confirmation](imgs/remove-solution-confirm.png) -->
-
+<p><img alt="Remove Solution confirmation" src="../imgs/remove-solution-confirm.png" /></p>
 <h3 id="export-weights">Export Weights</h3>
 <p>Select a solution and click <strong>Export Weights</strong>, then choose an output format:</p>
 <ul>
@@ -441,10 +433,11 @@ registry.</p>
 </table>
 <p>The built-in backbone (<code>4246a479</code>, <em>EMDINOv1-ViTL</em>) is always registered, and
 its <strong>Remove</strong> action is disabled.</p>
+<p><strong>Rename</strong> changes only the display name, up to 64 characters. It does not
+change the backbone tag.</p>
 <!-- 📷 CAPTURE: the Backbones tab - the inventory table (Display Name / Tag / Arch
      / Solutions / Actions) with the built-in EMDINOv1-ViTL row, and the + Add Backbone button -->
-<!-- ![Backbone inventory table](imgs/backbone-inventory.png) -->
-
+<p><img alt="Backbone inventory table" src="../imgs/backbone-inventory.png" /></p>
 <h3 id="add-a-backbone">Add a backbone</h3>
 <p>Click <strong>+ Add Backbone</strong>, then choose one of these methods:</p>
 <ul>
@@ -456,10 +449,7 @@ its <strong>Remove</strong> action is disabled.</p>
 </ul>
 <!-- 📷 CAPTURE: the Add Backbone dialog showing its two tabs
      (Register split .pt / Extract from combined .pt) -->
-<!-- ![Add Backbone dialog](imgs/add-backbone-dialog.png) -->
-
-<p><strong>Rename</strong> changes only the display name, up to 64 characters. It does not
-change the backbone tag.</p>
+<p><img alt="Add Backbone dialog" src="../imgs/add-backbone-dialog.png" /></p>
 <h3 id="remove-a-backbone">Remove a backbone</h3>
 <p>The effect of <strong>Remove</strong> depends on the backbone:</p>
 <ul>

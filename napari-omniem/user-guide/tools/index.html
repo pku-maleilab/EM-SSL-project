@@ -229,10 +229,6 @@
 <h1 id="tools-workbench">Tools Workbench (🧰)</h1>
 <p>The <strong>🧰 More Tools</strong> button on the OmniEM toolbar opens a workbench of utilities
 that sit alongside the main inference panel. It has six tabs.</p>
-<!-- 📷 CAPTURE: the Tools dialog showing the six tab headers (Memory Management,
-     File Management, Pre-process, Post-process, Logs, More) -->
-<!-- ![Tools workbench tabs](imgs/tools-tabs.png) -->
-
 <hr />
 <h2 id="memory-management">Memory Management</h2>
 <p>Memory Management operates only on <strong>active models loaded in the current napari
@@ -282,8 +278,7 @@ action reports how much memory it freed.</p>
 </table>
 <!-- 📷 CAPTURE: the Memory Management tab - the live readout (backbone/refcount,
      heads loaded, GPU alloc/reserved/free, host RAM) and the action buttons -->
-<!-- ![Memory Management tab](imgs/tools-memory.png) -->
-
+<p><img alt="Memory Management tab" src="../imgs/tools-memory.png" /></p>
 <div class="admonition warning">
 <p class="admonition-title">Clear temporal data affects open results</p>
 <p>On-disk inference results stay backed by their scratch file while you view
@@ -300,6 +295,7 @@ still-open result layers unreadable. Save anything you need first.</p>
 </ul>
 <p>These operations work directly on the selected files. They do not add a
 solution or change the task, solution, or backbone registries.</p>
+<p><img alt="File Management tab" src="../imgs/tools-file.png" /></p>
 <hr />
 <h2 id="pre-process">Pre-process</h2>
 <p>Reserved for input pre-processing tools. <em>Coming soon.</em></p>
@@ -314,8 +310,7 @@ solution or change the task, solution, or backbone registries.</p>
 </ul>
 <!-- 📷 CAPTURE: the Post-process > Image-to-Image tab - original-image and
      model-output dropdowns, "Replace output layer" checkbox, Restore original intensity button -->
-<!-- ![Post-process Image-to-Image tab](imgs/tools-postprocess-i2i.png) -->
-
+<p><img alt="Post-process Image-to-Image tab" src="../imgs/tools-postprocess-i2i.png" /></p>
 <hr />
 <h2 id="related-pages">Related pages</h2>
 <ul>

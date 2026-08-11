@@ -286,7 +286,7 @@ model uses a different backbone, follow <a href="../../user-guide/manage/#add-a-
 backbone</a> before importing its head.</p>
 <hr />
 <h2 id="example-1-4-super-resolution-image-to-image">Example 1: 4× super-resolution (Image-to-Image)</h2>
-<p>Source: <code>omniem-train/examples/EMPIAR-11831</code> (SBF-SEM tobacco tissue). The head
+<p>Source: <code>omniem-train/examples/EMPIAR-11831/ouputs/empair11931_sr4x/</code> (SBF-SEM tobacco tissue). The head
 restores detail lost to 4× downsampling. Its <code>model.yaml</code>:</p>
 <pre><code class="language-yaml">arch: omniemv1
 encoder: emdinov1
@@ -310,16 +310,11 @@ resize4emdino: true
 </ol>
 <!-- 📷 CAPTURE: the Add Solution dialog for the EMPIAR-11831 model.yaml -
      Image-to-Image, Head-only strategy, head_best.pt selected -->
-<!-- ![Import the super-resolution head](imgs/import-sr-dialog.png) -->
-
+<p><img alt="Import the super-resolution head" src="../imgs/import-sr-dialog.png" /></p>
 <p><strong>Use it:</strong> run the imported model like any Image-to-Image solution; see
 <a href="../../user-guide/infer/#in-memory-inference">In-memory inference</a>. This head was
 trained for 4× super-resolution, so set <strong>Scale (×)</strong> &lt;= <code>4.0</code> to use its intended
 factor.</p>
-<!-- 📷 CAPTURE: a result from the imported SR head - low-res input vs restored
-     output on an EMPIAR-11831 test tile -->
-<!-- ![Super-resolution result from the imported head](imgs/import-sr-result.png) -->
-
 <hr />
 <h2 id="example-2-mitochondria-segmentation-image-to-label">Example 2: mitochondria segmentation (Image-to-Label)</h2>
 <p>Source: <code>omniem-train/examples/ME2-Beta</code> (FIB-SEM data from the MitoEM 2.0
@@ -369,14 +364,9 @@ resize4emdino: false
 </ol>
 <!-- 📷 CAPTURE: the Add Solution dialog for the ME2-Beta model.yaml -
      Image-to-Label, Head-only strategy, head_best.pt selected -->
-<!-- ![Import the mitochondria head](imgs/import-mito-dialog.png) -->
-
+<p><img alt="Import the mitochondria head" src="../imgs/import-mito-dialog.png" /></p>
 <p><strong>Use it:</strong> run the imported model like any Image-to-Label solution. Its output is
 a mask with Background and Mitochondria labels.</p>
-<!-- 📷 CAPTURE: a segmentation result from the imported head - EM slice with the
-     predicted mitochondria mask overlaid -->
-<!-- ![Mitochondria result from the imported head](imgs/import-mito-result.png) -->
-
 <hr />
 <h2 id="after-importing">After importing</h2>
 <p>Imported solutions behave like the built-in solutions: they appear in the Task
