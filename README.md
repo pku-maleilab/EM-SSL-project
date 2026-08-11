@@ -24,16 +24,18 @@ What ties these components together is one shared interface: the `omniem` packag
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Project Components](#project-components)
-  - [Dataset](#dataset)
-  - [Models](#models)
-  - [Packages](#packages)
-  - [GUI Software](#gui-software)
-- [Core API](#core-api)
-- [Release History](#release-history)
-- [Citation](#citation)
-- [Acknowledgements](#acknowledgements)
+- [Electron Microscopy Image Self-Supervised Learning (EM-SSL)](#electron-microscopy-image-self-supervised-learning-em-ssl)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Project Components](#project-components)
+    - [Dataset](#dataset)
+    - [Models](#models)
+    - [Packages](#packages)
+    - [GUI Software](#gui-software)
+  - [Core API](#core-api)
+  - [Release History](#release-history)
+  - [Citation](#citation)
+  - [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -89,7 +91,7 @@ EM-SSL ships its functionality as focused Python packages:
 - Deploy user-trained / fine-tuned OmniEM models
 
 **Status**
-- [ ] [Online documentation](https://pku-maleilab.github.io/EM-SSL-project/napari-omniem/) under active development.
+- [x] [Online documentation](https://pku-maleilab.github.io/EM-SSL-project/napari-omniem/).
 - [x] GitHub repository
 - [ ] Napari plugin page
 - [ ] Web-based inference server
@@ -124,6 +126,7 @@ See the [`omniem` documentation](https://github.com/pku-maleilab/omniem-package)
 
 ## Release History
 
+- [x] **2026-08-11**: Napari-OmniEM manual website opened
 - [x] **2026-07-19**: Napari-OmniEM repository opened
 - [x] **2026-06-24**: Released EM-DINO / OmniEM models, the `omniem` core API and packages, and refactored this README
 - [x] **2026-01-28**: Main repository opened
